@@ -1,1 +1,206 @@
-vjl
+****Demonstrate  basic DDL and DML statements********
+
+show datbases;
+
+create database xyzdb;
+
+use xyzdb;
+
+#####creating table
+
+create table customer(ID int primary key,Name varchar(50) not null,age int not null);
+
+
+#######shows the property of the columns and tables
+desc customer; 
+
+##### for inserting 
+insert into customer values(123 ,"vidit",54);
+
+
+
+###to show the table 
+
+select*from customer;
+
+#####to select particular columns 
+select Id, Name from customer;
+
+
+###using condition
+
+select*from customer where age=53;
+
+#####alter table (change modoify the columns characteristics)
+
+alter table customer modify column age numeric(4);
+
+
+*****Practical No 2*********
+
+Aim: Demonstrate DML statements, Aggregate functions, OrderBy and Group By Operations
+
+ create table studnet(Stud_id char(5) primary key, first_name varchar(
+40) not null, last_name varchar(20) ,DOB date, Gender Varchar(1), Email_Id varchar(100));
+
+create table teacher(Teach_id char(5) primary key, first_name varchar(40) not null, last_name varchar(20) ,DOB date, Gender Varchar(1), Email_Id varchar(100));
+
+##Fees where receipt_no is primary key and stud_id is foreign key
+ create table fees(Reciept_no int(6) primary key , Stud_id char(5) , amount char(18),foreign key (Stud_id) references Studnet(Stud_id));
+
+
+1. Write a query to insert record of a new student ‘Cathy’ in student table
+
+insert into student values(1,"Rahul","Khan","2001-09-13","M","rahul@gmail.com");
+
+
+4. Write a query to update last name of teacher ‘Carol’ to ‘Pereira’ in the teacher
+table
+
+update teacher SET Lastname="pereira" where Firstname="carol";
+
+5. Write a query to delete the record for the fee receipt ‘R3’
+
+delete from fees where Reciept_no="R3";
+
+6. Create a table StudCopy from the table Student, with student name and email id
+
+create table StudentCopy AS select Firstname,Last name , email_id from Student;
+
+7. Delete the table Fees from database
+
+drop table fees;
+
+*****************ORDERBY*******************(alphabetical Order)
+
+select*from student order by DOB DESC;
+
+select*from student order by DOB ASC;
+
+***********GROUPBY***************
+
+● Write a query to count how many employees work in each
+department
+
+select department , count(*) from employeetb group by department;
+
+● Write a query to find maximum salary of employees in
+each department
+
+select department , max(salary) from employeetb groupby department;
+
+● Write a query to find minimum salary of employees in
+each department
+
+select department , min(salary) from employeetb groupby department;
+
+● Write a query to get total salary budget of every
+department
+
+select department , sum(salary) as total_salary_budget from employeetb groupby department;
+
+**********AGGREGATE FUCTIONS***************
+
+create table employees(Emp_Id int(9), emp_name varchar(20) , emp_sal
+int(20));
+
+insert into employees values(123 ,"Vidit",3987);
+
+select*from employees;
+
+1. Write a query to count total Employees in your table
+
+select count(*)
+Select count(*) from employees;
+
+2. Write a query to count the employees having salary greater than 15000
+
+Select count(*) from employees where empsalary>5000;
+
+
+3. Write a query to count the unique names of your employees
+
+Select count(distinct empname ) from employees;
+
+
+4. Write a query to find maximum salary
+
+select max(empsalary) from employees;
+
+5. Write a query to find minimum salary
+
+select min(empsalary) from employees;
+
+
+6. Write a query to find average salary
+
+select avg(empsalary) from employees;
+
+
+7. Write a query to find total salary paid
+
+select sum(empsalary) from employees;
+
+
+
+
+
+**********JOINS*************
+
+Employee table
+
+Eid:int primary key,
+Ename: varchar(25) not null ,
+DOB: date not null
+Address: varchar(50)
+Salary: int default=1500
+Dept_id: integer not null foreign key references Department(Did)
+Eid Ename DOB Address Salary Dept_id
+1 Thomas 1995-02-05 Andheri 48800 11
+2 Steve 1990-08-16 Kandivali Default
+value
+13
+3 Daisy 1992-12-25 churchgate 50000 11
+4 Lawrence 1991-10-15 Mahim 28000 13
+
+
+
+Department:
+Did: int primary key
+Dname: Varchar(10) not null
+Did Dname
+11 CS
+13 IT
+
+create table departmenttb(Did int primary key, Dname Varchar(10) not null);
+insert into department values(11, 'cs), (13,'IT');
+Perform the following Join queries:
+1. Demonstrate join operation
+
+SELECt*from employeetable join departments on deptId=Did;
+
+2. Demonstrate left outer join operation
+
+SELECt*from employeetable left outer join departments on deptId=Did;
+
+3. Demonstrate right outer join operation
+
+SELECt*from employeetable right outer join departments on deptId=Did;
+
+4. Demonstrate full join operation
+
+SELECt*from employeetable full join departments on deptId=Did;
+
+5. Demonstrate cross join operation
+
+SELECt*from employeetable cross join departments on deptId=Did;
+
+
+6. Write a query to display names of Employees who work in ‘IT’ Department
+
+select enames from employeestable join departments on deptID where Dname="IT";
+
+
+
+
+*************subqueries***********************
