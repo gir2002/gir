@@ -204,3 +204,124 @@ select enames from employeestable join departments on deptID where Dname="IT";
 
 
 *************subqueries***********************
+
+b) Create the given 3 tables:
+1. Sailors1 table:
+SID SNAME
+
+RATING AGE
+1 Prathamesh 8 48
+2 Rohit 9 39
+3 ADAMS 10 29
+4 Deb 6 30
+
+
+2. Boats table:
+BID BNAME COLOR
+11 ABC red
+12 PQR yellow
+13 ZMR green
+14 MRF black
+
+
+3. Reserves table:
+SID BID DAY
+1 11 wednesday
+2 12 thursday
+3 13 friday
+4 14 Saturday
+
+1. Find the names of sailors who have reserved boat 13?
+
+select S.sname FROM Sailors1 S where S.sid IN(select R.sid FROM Resrves R R.bid=13);
+
+2. Find the names of sailors who have not reserved boat 13?
+
+select S.sname FROM Sailors1 S where S.sid NOT IN(select R.sid FROM Resrves R R.bid=13);
+
+3. Find the names of sailors who have reserved a red boat?
+
+select S.sname FROM Sailors1 S where S.sid  IN(select R.sid FROM Resrves R where R.bid IN (SELECT B.bid FROM BOATS B WHERE B.color='red'));
+
+4. Find the names of sailors who have not reserved a red boat?
+
+select S.sname FROM Sailors1 S where S.sid IN(select R.sid FROM Resrves R where R.bid NOT IN (SELECT B.bid FROM BOATS B WHERE B.color='red'));
+
+5. Find the names of sailors who are older than the oldest sailor with the
+rating of 10?
+
+select S.sname FROM Sailors1 S where S.age>(select max(s.age) FROM Sailors S where rating=10);
+
+
+
+
+
+#############################HBASE###################################
+
+
+
+Open terminal in cloudera
+
+to work in hdfs environment 
+0Query:ls 
+hdfs dfs -ls
+or 
+hadoop fs
+
+1. To open HBase shell
+Query:hbase shell
+
+2. To list the tables currently present
+Query:list
+
+3. Create table customer in HBase
+Query: create ‘customer’, ‘Customer_info’, ‘Customer_contact_details’
+
+4. Display description of table
+Query: describe ‘customer’
+
+5. Insert data in table
+Query:put ‘customers’, ‘1’, ‘cust_info:first_name’,’Vidit’
+put ‘customers’, ‘1’, ‘cust_info:last_name’, ‘Kaloya’
+put ‘customers’, ‘1’, ‘cust_info:address’, ‘Vidit’
+
+put ‘customers’, ‘1’, ‘cust_contact_details:mobile’, ‘93748947333’
+put ‘customers’, ‘1’, ‘cust_contact_details:email’, vidit.k@gmail.com’
+
+get
+6. Display the data
+
+Query: scan ‘customer’
+
+7. Display first row id
+Query: get ‘customer’, ‘1’
+
+8. Upsert - will update the data and if missing it will insert the new value UPDATE
+Query: put ‘customers’, ‘1’, ‘cust_contact_details:email’, ‘vk@gmail.com’
+
+9. Delete a column
+Query: delete ‘customers’, ‘1’, ‘cust_info:address’
+
+10.Deleting all columns corresponding to an ID 
+
+Query:deleteall 'customer','2'
+
+11. Truncate table
+
+Query:truncate 'customer'
+
+12. Disable the table
+
+disable 'customer'
+
+13. To enable
+
+enable 'customer'
+
+14. To delete table permanently from hbase
+
+disable 'customer'
+drop 'customer'
+
+
+##################################HIVE####################################
