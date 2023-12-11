@@ -1,3 +1,6 @@
+************SQL*********************
+
+
 ****Demonstrate  basic DDL and DML statements********
 
 show datbases;
@@ -325,3 +328,204 @@ drop 'customer'
 
 
 ##################################HIVE####################################
+cat employee 
+
+data(in the file ) and load data
+
+hadoop fs- put employee /user/cloudera
+ to load hive shell 
+hadoop fs -ls /user/cloudera
+hadoop fs -cat/user/clodera/employee
+
+###loading data 
+load data inpath '/user/cloudera/employee' overwrite into table employee;
+
+hive
+
+
+show databses;
+
+create databse organization;
+
+use organization;
+
+show tables;
+
+create table employee(id int,city string)
+> row format delimited 
+>feilds terminated by '~';
+
+
+
+insert into employee(id ,city) values (1,"Thane");
+
+specific column 
+desc employee;
+
+select name,city from employee;
+
+
+
+*********************MONGO DB**************************
+
+Creating Database employees
+use employees
+
+Inserting records in “Cities” Collection
+
+Code
+
+db.cities.insertMany([{Name:"Mumbai",Country:"India",Continent:"Asia",Population:25000},{Name:"Seoul",Country:"South Korea",Continent:"Asia",Population:4500},{Name:"Beijing",Country:"China",Continent:"Asia",Population:150000},{Name:"Shanghai",Country:"China",Continent:"Asia",Population:5500},{Name:"Pune",Country:"India",Continent:"Asia",Population:250},{Name:"cairo",Country:"Egypt",Continent:"Africa",Population:2563},{Name:"New York",Country:"United States",Continent:"North America",Population:25984},{Name:"Mumbai",Country:"India",Continent:"Asia",Population:25000}])
+
+
+
+
+Using Sort
+Descending
+db.cities.find().sort({Population:-1})
+
+
+Ascending
+db.cities.find().sort({Population:1})
+ 
+Match
+
+db.cities.aggregate([{$match:{continent:”North America”}}])
+
+db.cities.aggregate([{$match:{continent:{$in:[”North America”,"Asia"]}}}])
+
+
+
+Distinct
+db.cities.distinct("Continent")
+
+
+6)Using Add Field
+
+db.cities.aggregate([{$match:{name:mumbai}},{$addFields:{state:Maharsahtra}}]).pretty()
+7)Project
+db.cities.aggregate([{$project:{Country:1,Name:1}}]).pretty()
+
+db.cities.aggregate([{$project:{Country:1,Name:1,_id:0}}]).pretty()
+
+db.cities.aggregate([
+{
+$project: {
+_id: 0,
+location: {
+Country: &quot;$Country&quot;,
+Continent: &quot;$Continent&quot;
+},
+Name: &quot;$Name&quot;,
+Population: &quot;$Population&quot;
+}
+}
+])
+
+8)Group
+db.cities.aggregate([{$group:{&quot;_id&quot;: &quot;$Continent&quot;,totaldocs:{$sum:1}}}])
+
+db.cities.aggregate([{$group:{&quot;_id&quot;: {&quot;Continent&quot;: &quot;$Continent&quot;,&quot;Country&quot;:&quot;$Country&quot;}}}])
+
+9) Out
+db.cities.aggregate([{$group:{&quot;_id&quot;: &quot;$Continent&quot;,totaldocs:{$sum:1}
+}},{$out:&quot;Continent_det&quot;}])
+db.Continent_det.find()
+
+10) Count
+db.cities.aggregate([{$match:{Country:&quot;India&quot;}},{$count:&quot;MyCountry&quot;}}).pretty()
+11) Sort By Count
+db.cities.aggregate([{$sortByCount:&quot;$Country&quot;}}).pretty()
+12) Avg
+db.cities.aggregate([{$group:{_id:&quot;$Country&quot;,avg_population:{$avg:&quot;$Population&quot;}}}]).pretty()
+
+13) Min
+db.cities.aggregate([{$group:{_id:&quot;$Country&quot;,min_population:{$min:&quot;$Population&quot;}}}]).pretty()
+
+14)Last
+db.cities.aggregate([{$group:{_id:&quot;$Country&quot;,last_population:{$last:&quot;$Population&quot;}}}]).pretty()
+
+15)Skip
+db.cities.aggregate([{$project:{Country:1,name:1,_id:0}},{$skip:2}]).pretty()
+
+16)Limit
+db.cities.aggregate([{$project:{Country:1,name:1,_id:0}},{$limit:2}]).pretty()
+
+
+db.cities.find({"Population": {$gt:19000}})
+
+
+db.cities.find({"Population": {$gt:19000}}).explain("executionStats")
+
+
+INDEXES 
+
+CREATE INDEX 
+
+db.cities.createIndex(("Population":1))
+
+db.cities.createIndex((name:1),country:1)
+
+
+GET INDEX
+
+db.cities.getIndexes()
+
+######PyMongo Installation########
+
+print("Hello world")
+
+pip install pymongo
+
+import pymongo
+print("welcome to pymongo")
+
+pip install pymongo
+
+##1) List all database and find the collections in a specific database
+from pymongo import MongoClient
+client = MongoClient(host="localhost",port=27017)
+allDatabases=client.list_database_names()
+print(allDatabases)
+
+collection=client['employees']
+print(collection.list_collection_names())
+
+
+2)Inserting and viewing the document
+
+mydb=client['CollegeDb'] #Database name
+mycollection=mydb["Student"] #Collection name
+record={'name':'Vidit','stream':'Science','course':'MSC BDA','Total':70}
+mycollection.insert_one(record)
+
+for i in mycollection.find({'name':'Vidit'}):
+    print("Name Found")
+    
+#viewing the data
+cursor=mycollection.find()
+for i in cursor:
+    print(i)
+
+
+
+
+3)Take a user input and create a document
+
+from pymongo import MongoClient
+client = MongoClient(host = "localhost", port = 27017)
+
+db = client.CollegeDb.Student
+
+flag = True
+while(flag):
+    name, stream , course, total = input("Enter name, stream, course and total seperated by comma: ").split(",")
+    db.insert_one({'name':name,'stream':stream,'course':course,'total':total})
+    flag = input("Enter another record?")
+    if(flag.upper()=="N"):
+        flag=False
+    for record in db.find():
+        print(record)
+    client.close()
+
+
