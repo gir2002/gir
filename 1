@@ -1,3056 +1,780 @@
-***************************NUMPY*****************************
-import numpy as np
-x=np.array([1,2,3])
-print(x)
+# Prac1 Practical 1.a Generate Adjacency List
 
+from collections import defaultdict
 
-import numpy
+n = int(input("Enter Number of Vertices: "))
+e = int(input("Enter Number of Edges: "))
 
-print(type(x))
+graph = defaultdict(list)
 
-b=np.array([[1,2,3],[4,5,6]])
-print(b)
-
-
-import numpy as np
-b2=np.array([[1,2,3],[4,5,6]])
-x=np.array([1,2,3])
-b2,x
-
-
-b=np.array([[1.0,2.0,3.0],[4.0,5.0,6.0]])
-b
-
-b=np.array([[1.1,2.2,3.5],[4.2,5.3,6.4]])
-print(b)
-
-import numpy as np
-x=np.array([1,2,3])
-y=np.array([1,2,3])
-print(x*y)
-
-#Get Dimension(axes)
-x.ndim
-
-b.ndim
-
-
-#Get Shape
-print(x.shape)
-
-# Printing size (total number of elements) of array
-x.size
-
-print(b.shape)
-
-print(b.size)
-
-#Get type
-x.dtype
-
-b.dtype
-
-b1=np.array([[1,2,3],[4,5,6]])
-print(b1.dtype)
-b1
-
-# Creating array from list with type float
-b1=np.array([[1,2,3],[4,5,6]],dtype='float')
-print(b1.dtype)
-b1
-
-# Creating array from tuple
-y1=np.array((1,3,2))
-print("\nArray created using passed tuple:\n",y)
-print(y1.dtype)
-print(y1.shape)
-
-print(y1.size)
-y1
-
-#Creating a 3-D array
-arr=np.array([[[1,2,3], [4,5,6]], [[8,9,10], [4,5,6]]])
-print(arr)
-print(arr.ndim)
-
-
-arr1=np.array([[[1,2,3], [4,5,6], [7,8,9]]])
-print(arr1)
-print(arr1.ndim)
-
-arr2=np.array([[[[1,2,3], [4,5,6], [7,8,9]]]])
-print(arr2)
-print(arr2.ndim)
-
-arr3=np.array([1,2,3],ndmin=10)
-print(arr3)
-print(arr3.ndim)
-
-#INITIALIZING DIFFERENT TYPES OF ARRAYS
-#All 0s matrix i.e Array filled with O's
-import numpy as np
-az=np.zeros(4)
-az
-
-az1=np.zeros((2,3))
-print(az1)
-
-
-#All 1s matrix
-a1=np.ones(4)
-a1
-
-a1=np.ones((4),dtype='int32')
-print(a1)
-
-#empty array
-ae=np.empty(4)
-print(ae)
-
-import numpy as np
-ar_rn=np.arange(3)
-print(ar_rn)
-
-
-#Creating an identity matrix ie diagonal element
-ar_di=np.eye(3)
-ar_di
-
-ar_di=np.eye(3,5)
-ar_di
-
-ar_di=np.identity(3)
-ar_di
-
-ar_di=np.identity(5)
-ar_di
-
-#linespace
-import numpy as np
-ar_lin=np.linspace(0,10,10)
-ar_lin
-
-#Any other number
-np.full((2,2),99)
-
-np.full_like(ae,4)
-
-#Random decimal numbers using rand() values would be in range of 0 to 1
-var=np.random.rand(4)
-var
-
-var=np.random.rand(4,2)
-var
-
-#Random integer values by specifying a given range eg:7
-np.random.randint(7,size=(3,3))
-
-#Random integer values by specifying a range eg -1,15
-np.random.randint(-1,15,size=(2,2,3))
-
-np.random.randint(-1,10,5)
-
-#randn() may return positive or negative numbers as well
-var=np.random.randn(4,2)
-var
-
-#ranf() in the half open interval [0.0, 1.0]
-var3=np.random.ranf(4)
-var3
-
-#Random decimal numbers from an existing shape of an array
-np.random.random_sample(ar_lin.shape)
-
-#data types
-import numpy as np
-var=np.array([1,2,3,4])
-var.dtype
-
-import numpy as np
-var=np.array([1.1,2.1,3.2,4.2])
-var.dtype
-
-import numpy as np
-var=np.array(["a","b","c","d"])
-var.dtype
-
-import numpy as np
-var=np.array(["abc","b1","ca","dedwa"])
-var.dtype
-
-import numpy as np
-var=np.array([1,2,3,4], dtype=np.int8)
-var.dtype
-
-import numpy as np
-var=np.array([1,2,3,4], dtype=np.float16)
-var.dtype
-
-import numpy as np
-var=np.array(["a","b","c","d"], dtype=np.float16)
-var.dtype
-
-import numpy as np
-var=np.array([1,2,3,4], dtype="f")
-var.dtype
-
-#using data type as function
-var=np.array([1,2,3,4])
-new=np.float32(var)
-print(var.dtype)
-print(new.dtype)
-new1=np.int64(new)
-print(new1.dtype)
-print(new1)
-
-#Arithemtic Operations
-import numpy as np
-a=np.array([1,2,3,4])
-a1=a+2
-print(a1)
-a-2
-
-a*2
-
-a/2
-
-a%2
-
-a**2
-
-import numpy as np
-a=np.array([1,2,3,4])
-b=np.array([4,3,2,1])
-print("Add", a+b)
-print("sub",a-b)
-
-import numpy as np
-a=np.array([1,2,3,4])
-b=np.array([4,3,2,1])
-c=np.multiply(a,b)
-print(c)
-c=np.divide(a,b)
-print(c)
-
-
-import numpy as np
-a=np.array([[1,2,3,4],[1,2,3,4]])
-a1=a+2
-print(a1)
-
-a=np.array([[1,2,3,4],[1,2,3,4]])
-a1=np.array([[11,12,13,14],[21,22,23,24]])
-a2=a+a1
-print(a2)
-
-#Arithmetic Functions
-import numpy as np
-a=np.array([1,2,3,4])
-print("min: ",np.min(a))
-print("max: ",np.max(a))
-
-import numpy as np
-a=np.array([1,2,3,4])
-print("min: ",np.min(a),np.argmin(a))
-print("max: ",np.max(a),np.argmax(a))
-
-a1=np.array([[11,12,13,14],[21,22,11,24]])
-print("min: ",np.min(a1),np.argmin(a1))
-print("max: ",np.max(a1),np.argmax(a1))
-
-#axis 0= cols, axis 1= rows
-import numpy as np
-a1=np.array([[[0,12,13,14],[21,22,11,24]],[[1,2,14,20],[25,26,11,2]]])
-print(a1)
-print()
-print("min: ",np.min(a1,axis=0))
-print()
-print("max: ",np.max(a1,axis=1))
-print("min: ",np.min(a1,axis=2))
-
-#axis 0= cols, axis 1= rows
-import numpy as np
-a1=np.array([[[0,12,13,14],[21,22,11,24],[25,26,11,2]]])
-print(a1)
-print()
-print("min: ",np.min(a1,axis=0))
-print()
-print("max: ",np.max(a1,axis=1))
-print("min: ",np.min(a1,axis=2))
-
-a1=np.array([[11,12,13,14],[21,22,11,24]])
-print("min: ",np.min(a1,axis=0),np.argmin(a1, axis=0))
-print("max: ",np.max(a1,axis=1),np.argmax(a1, axis=1))
-
-a1=np.array([[4,12,13,16],[25,22,11,24]])
-print("Square root: ",np.sqrt(a1))
-
-a1=np.array([[11,12,13,14],[21,22,11,24]])
-print("Sin: ",np.sin(a1))
-
-a1=np.array([[11,12,13,14],[21,22,11,24]])
-print("Cos: ",np.cos(a1))
-
-a=np.array([1,2,3,4])
-print("Cumulative Sum", np.cumsum(a))
-
-a1=np.array([[11,12,13,14],[21,22,11,24]])
-print("Cumulative Sum", np.cumsum(a1))
-
-**Linear Algebra**
-
-#Matrix multiplication
-a=np.ones((2,3))
-print(a)
-b=np.full((3,2),2)
-print(b)
-np.matmul(a,b)
-
-#Calculating the determinant of a matrix
-c=np.identity(3)
-print(c)
-np.linalg.det(c)
-
-
-#Calculating the determinant of a matrix
-c=np.array([[1,2,3],[3,2,1],[2,1,3]])
-print(c)
-np.linalg.det(c)
-
-
-#Compute the eigenvalues of a general matrix
-np.linalg.eigvals(c)
-
-
-#https://docs.scipy.org/doc//numpy-1.9.2/reference/routines.linalg.html
-# Determinant
-# Trace
-# Singular Vector Decomposition
-# Eigenvalues
-# Matrix Norm
-# Inverse
-# Etc...
-
-
-**Statistics**
-
-stats = np.array([[1,2,3],[4,5,6]])
-stats
-
-
-np.max(stats)
-
-#0=column, 1=row(3,6)
-np.max(stats, axis=0)
-
-
-np.sum(stats, axis=1)
-
-
-# 3D array
-import numpy as np
-array_3d = np.array([[[1, 2, 3], [4, 5, 6], [7, 8, 9]]])
-print(array_3d)
-print()
-# Sum over axis 0
-sum_axis0 = np.sum(array_3d, axis=0)
-print(sum_axis0)
-print()
-# Sum over axis 1
-sum_axis1 = np.sum(array_3d, axis=1)
-print(sum_axis1)
-print()
-# Sum over axis 2
-sum_axis2 = np.sum(array_3d, axis=2)
-print(sum_axis2)
-
-# 3D array
-import numpy as np
-array_3d = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9],[0,0,0]]])
-print(array_3d,"\n")
-
-# Sum over axis 0
-sum_axis0 = np.sum(array_3d, axis=0)
-print("sum",sum_axis0)
-print()
-# Sum over axis 1
-sum_axis1 = np.sum(array_3d, axis=1)
-print(sum_axis1)
-print()
-# Sum over axis 2
-sum_axis2 = np.sum(array_3d, axis=2)
-print(sum_axis2)
-
-**Shape &** **Reshape**
-
-import numpy as np
-var=np.array([[1,2,3,4],[1,2,3,4]])
-print(var,"\n")
-print(var.shape)
-
-var=np.array([1,2,3,4],ndmin=4)
-print(var,"\n")
-print(var.shape)
-
-var=np.array([1,2,3,4,5,6,7,8,9,10,11,12])
-print(var,"\n")
-print(var.shape)
-x=var.reshape(6,2)  #no of rows & cols
-print(x)
-x=var.reshape(4,2)
-print(x)
-
-var=np.array([1,2,3,4,5,6,7,8,9,10,11,12])
-print(var,"\n")
-x=var.reshape(2,6)
-print(x,"\n")
-x=var.reshape(2,3,2)
-print(x,"\n")
-var1=np.array([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18])
-x=var1.reshape(18,1)
-print(x)
-
-var2=np.array([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])
-x=var2.reshape(2,2,2,2)
-print(x)
-
-print(x,"\n")
-print("onedim",x.reshape(-1))
-
-
-
-
-#Vertically stacking vectors
-v1 = np.array([1,2,3,4])
-v2 = np.array([5,6,7,8])
-np.vstack([v1,v2,v2,v2])
-
-#Vertically stacking vectors
-v1 = np.array([1,2,3,4])
-v2 = np.array([5,6,7])
-np.vstack([v1,v2,v2,v2])
-
-# Horizontal stack
-h1 = np.ones((2,4))
-h2 = np.zeros((2,2))
-print(h1)
-print(h2)
-np.hstack((h1,h2))
-
-v1 = np.array([[1,2,3],[4,5,6]])
-v2 = np.array([[5,6],[7,8]])
-np.hstack([v1,v2])
-
-**Indexing and Slicing**
-
-import numpy as np
-y1=np.array([1,2,3])
-print(y1[1])
-print(y1[-2])
-
-import numpy as np
-y1=np.array([[1,2,3],[4,5,6]])
-#Get a specific element [r,c],python indexing starts from 0
-y1[1,1]
-
-
-import numpy as np
-a5=np.array([[1,2,3,4,5,6,7],[8,9,10,11,12,13,14]])
-print(a5)
-#Get a specific element [r,c],python indexing starts from 0
-a5[0,3]
-
-a6=np.array([[[1,2,3],[4,5,6]]])
-print(a6[0,1,1])
-
-#Slicing start:stop:step
-#Get a specific row
-a5[0,:]
-
-a5[1,:]
-
-var=np.array([1,2,3,4,5])
-print(var[:7])
-
-print(var[:4])
-
-
-print(var[::2])
-
-print(var[2::2])
-
-a7=np.array([[[1,2,3],[4,5,6],[7,8,9]]])
-print(a7[0,2,2])
-
-**Iterating Numpy Arrays**
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7])
-print(var,"\n")
-
-for i in var:
-  print(i)
-
-import numpy as np
-var=np.array([[1,2,3,4],[8,9,10,11]])
-print(var,"\n")
-
-for i in var:
-  print(i)
-
-import numpy as np
-var=np.array([[1,2,3,4],[8,9,10,11]])
-print(var,"\n")
-
-for i in var:
-  for k in i:
-    print(k)
-
-import numpy as np
-var=np.array([[[1,2,3,4],[8,9,10,11]]])
-print(var,"\n")
-
-for i in var:
-  for k in i:
-    for j in k:
-      print(j)
-
-import numpy as np
-var=np.array([[[1,2,3,4],[8,9,10,11]]])
-print(var,"\n")
-
-for i in np.nditer(var):
-  print(i)
-
-import numpy as np
-var=np.array([[1,2,3,4],[8,9,10,11]])
-print(var,"\n")
-
-for i in np.nditer(var):
-  print(i)
-
-import numpy as np
-var=np.array([[[1,2,3,4],[8,9,10,11]]])
-print(var,"\n")
-
-for i,d in np.ndenumerate(var):
-  print(i,d)
-
-import numpy as np
-var=np.array([[[1,2,3,4],[8,9,10,11]]])
-print(var,"\n")
-
-for i,d in np.ndenumerate(var):
-  print(i,d)
-
-import numpy as np
-var=np.array([[1,2,3,4],[8,9,10,11]])
-print(var,"\n")
-
-for i,d in np.ndenumerate(var):
-  print(i,d)
-
-**Copy & View**
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7])
-print(var,"\n")
-
-co=var.copy()
-print(co,"\n")
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7])
-print(var,"\n")
-
-vi=var.view()
-print(vi,"\n")
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7])
-
-co=var.copy()
-var[1]=40
-print(var,"\n")
-print(co,"\n")
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7])
-
-vi=var.view()
-var[1]=40
-print(var,"\n")
-print(vi,"\n")
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7])
-
-co=var.copy()
-co[2]=30
-print(var,"\n")
-print(co,"\n")
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7])
-
-vi=var.view()
-vi[2]=40
-print(var,"\n")
-print(vi,"\n")
-
-**Join & Split Functions**
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7])
-var1=np.array([11,12,13,14,15,16,17])
-
-ar=np.concatenate((var,var1))
-print(ar)
-
-import numpy as np
-var=np.array([[1,2],[3,4],[5,6]])
-var1=np.array([[11,12],[13,14],[15,16]])
-ar=np.concatenate((var,var1))
-print(ar)
-
-import numpy as np
-var=np.array([[1,2],[3,4],[5,6]])
-var1=np.array([[11,12],[13,14],[15,16]])
-ar=np.concatenate((var,var1),axis=0)
-print(ar)
-
-import numpy as np
-var=np.array([[1,2],[3,4],[5,6]])
-var1=np.array([[11,12],[13,14],[15,16]])
-ar=np.concatenate((var,var1),axis=1)
-print(ar)
-
-import numpy as np
-var=np.array([[[1,2],[3,4],[5,6]]])
-var1=np.array([[[11,12],[13,14],[15,16]]])
-ar=np.concatenate((var,var1),axis=0)
-print(ar)
-
-import numpy as np
-var=np.array([[[1,2],[3,4],[5,6]]])
-var1=np.array([[[11,12],[13,14],[15,16]]])
-ar=np.concatenate((var,var1),axis=1)
-print(ar)
-
-import numpy as np
-var=np.array([[[1,2],[3,4],[5,6]]])
-var1=np.array([[[11,12],[13,14],[15,16]]])
-ar=np.concatenate((var,var1),axis=2)
-print(ar)
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7])
-print(var)
-print()
-ar=np.array_split(var,3)
-print(ar)
-
-import numpy as np
-var=np.array([[1,2],[3,4],[5,6],[1,1]])
-print(var)
-print()
-ar=np.array_split(var,3)
-print(ar)
-
-**Search**
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7,2,8,2])
-x=np.where(var==2)
-print(x)
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7,2,8,2])
-x=np.where(var/2==4)
-print(x)
-
-import numpy as np
-var=np.array([1,2,3,4,5,6,7,2,8,2])
-x=np.sort(var)
-print(x)
-
-import numpy as np
-var=np.array(["a","z","c"])
-x=np.sort(var)
-print(x)
-
-import numpy as np
-var=np.array(["a","z","c"])
-x=np.sort(var)[::-1]
-print(x)
-
-arr = np.array([[3, 2, 4],
-                [5, 0, 1],
-                [1, 9, 7]])
-
-arr = np.sort(arr, axis=0)
-print(arr)
-
-arr = np.array([[3, 2, 4],
-                [5, 0, 1],
-                [1, 9, 7]])
-
-arr = np.sort(arr, axis=1)[::-1]
-print(arr)
-
-#filter array
-import numpy as np
-var=np.array([1,2,3,4])
-f=[True,False,True,False]
-new_a=var[f]
-print(new_a)
-
-var1=np.array(["a","w","e","r"])
-new_a1=var1[f]
-print(new_a1)
-
-**Insert**
-
-import numpy as np
-var=np.array([1,2,3,4])
-print(var,"\n")
-v=np.insert(var,2,10)
-print(v)
-
-v=np.insert(var,5,10)
-print(v)
-
-import numpy as np
-var=np.array([11,12,13,14])
-print(var,"\n")
-v=np.insert(var, 3, 20)
-print(v)
-v=np.insert(var, (2,3), [20.5,30.5])  #doesn't take float values
-print(v)
-
-import numpy as np
-var=np.array([[1,2,3],[4,5,6]])
-print(var,"\n")
-v=np.insert(var, (6), 20)
-print(v,"\n")
-v=np.insert(var, (2), 20,axis=0)
-print(v,"\n")
-v=np.insert(var, (2,3), 20.5,axis=1)  #doesn't take float values
-print(v,"\n")
-v=np.insert(var, 1, [7,8],axis=1)
-print(v,"\n")
-
-import numpy as np
-var=np.array([11,12,13,14])
-print(var,"\n")
-v=np.append(20,var)  #append at the start
-print(v)
-
-import numpy as np
-var=np.array([11,12,13,14])
-print(var,"\n")
-v=np.append(var, 20) #append at the end
-print(v)
-
-import numpy as np
-var=np.array([[1,2,3],[4,5,6]])
-var1=np.append(var,[[7,8,9]],axis=0)
-print(var1,"\n")
-
-
-import numpy as np
-var=np.array([[1,2,3],[4,5,6]])
-print(var)
-var1=np.append(var,[[7],[8]],axis=1)
-print(var1,"\n")
-
-**Delete**
-
-import numpy as np
-var=np.array([11,12,13,14])
-print(var,"\n")
-v=np.delete(var, 2)
-print(v)
-
-**Matrix**
-
-import numpy as np
-var=np.array([11,12,13,14])
-print(var,"\n")
-print(type(var),"\n")
-
-var1=np.matrix([11,12,13,14])
-print(var1,"\n")
-print(type(var1),"\n")
-
-#arithmetic operation in matrix
-
-var1=np.matrix([[1,2],[3,4]])
-var2=np.matrix([[1,2],[3,4]])
-print(var1+var2,"\n")
-
-print(var1*var2,"\n")
-print(var1.dot(var2))
-print()
-print(np.matmul(var1,var2))
-
-
-var1 @ var2
-
-var1=np.matrix([[1,2],[3,4]])
-print(np.transpose(var1))
-print(var1.T)
-
-var11=np.array([[1,2,3],[3,4,1]])
-print(np.transpose(var11))
-
-import numpy as np
-var1=np.matrix([[1,22],[3,1]])
-print(var1)
-print(np.linalg.matrix_power(var1,2))
-
-
-var11=np.array([[1,2],[3,4]])
-print(np.linalg.matrix_power(var11,2))
-
-var11=np.array([[1,2,3],[3,4,1]])
-var12=np.array([[1,2,3],[3,4,1]])
-print(var11*var12,"\n")
-
-arr1=list(range(1000000))
-arr2=list(range(1000000,2000000))
-
-arr1_np=np.array(arr1)
-arr2_np=np.array(arr2)
-
-%%time
-result=0
-for x1,x2 in zip(arr1,arr2):
-  result+=x1*x2
-result
-
-
-%%time
-np.dot(arr1_np, arr2_np)
-
-#Create an identity matrix of dimension 4-by-4
-import numpy as np
-i = np.eye(4)
-
-print(i)
-
-#Convert a binary numpy 2D array (containing only 0s and 1s) to a boolean numpy array
-a = np.array([[1, 0, 0],
-              [1, 1, 1],
-              [0, 0, 0]])
-
-o = a.astype('bool')
-a1 = np.array([[1, 0, 0],
-              [1, 1, 1],
-              [0, 0, 0]],dtype='bool')
-print(o)
-print()
-print(a1)
-
-#Generate a sequence of numbers in the form of a numpy array from 0 to 100 with gaps of 2 numbers, for example: 0, 2, 4 ....
-o = np.arange(0, 101, 2)
-
-print(o)
-
-list_of_numbers = [x for x in range(0, 101, 2)]
-
-o = np.array(list_of_numbers)
-
-print(o)
-
-#Getting the positions (indexes) where elements of 2 numpy arrays match
-a = np.array([1,2,3,4,5])
-
-b = np.array([1,3,2,4,5])
-
-print(np.where(a != b))
-
-print(np.where(a == b))
-
-#Output a 5-by-5 array of random integers between 0 (inclusive) and 10 (exclusive)
-o = np.random.randint(0, 10, size = (5,5))
-
-print(o)
-
-#Output the transpose of a matrix
-a = np.array([[1,2,3],
-              [4,5,6],
-              [7,8,9]])
-
-a_transpose = a.T
-
-print(a_transpose)
-A = np.array([[6, 1, 1],
-              [4, -2, 5],
-              [2, 8, 7]])
-
-# Calculating the inverse of the matrix
-print(np.linalg.inv(A))
-
-#Check whether a Numpy array contains a specified row
-import numpy
-
-# create numpy array
-arr = numpy.array([[1, 2, 3, 4, 5],
-                   [6, 7, 8, 9, 10],
-                   [11, 12, 13, 14, 15],
-                   [16, 17, 18, 19, 20]
-                   ])
-
-# view array
-print(arr)
-
-# check for some lists
-print([1, 2, 3, 4, 5] in arr.tolist())
-print([16, 17, 20, 19, 18] in arr.tolist())
-print([3, 2, 5, -4, 5] in arr.tolist())
-print([11, 12, 13, 14, 15] in arr.tolist())
-
-import numpy as np
-
-# Creating 2X3 2-D Numpy array
-n_arr = np.array([[10.5, np.nan, 3.8],
-                  [41, np.nan, np.nan]])
-
-print("Given array:")
-print(n_arr)
-
-print("\nRemove all rows containing non-numeric elements")
-print(n_arr[~np.isnan(n_arr)])
-print()
-print(n_arr[np.isnan(n_arr)])
-
-#Create a filter array that will return only values higher than 42
-import numpy as np
-
-arr = np.array([41, 42, 43, 44,50,-50])
-
-# Create an empty list
-filter_arr = []
-
-# go through each element in arr
-for element in arr:
-  # if the element is higher than 42, set the value to True, otherwise False:
-  if element > 42:
-    filter_arr.append(True)
-  else:
-    filter_arr.append(False)
-
-newarr = arr[filter_arr]
-
-print(filter_arr)
-print(newarr)
-
-
-
-
-
-*******************************PANDAS************************
-
-
-
-pip install pandas
-
-Loading Data in Pandas
-
-import pandas as pd
-df=pd.read_csv('pokemon_data.csv')
-print(df)
-
-df.shape
-
-df.info()
-
-
-pd.set_option('display.max_columns',12)
-
-df
-
-df.head()
-
-df.head(10)
-
-df.tail()
-
-df.tail(10)
-
-#Reading data from a text file which is tab separated
-df = pd.read_csv('pokemon_data.txt', delimiter='\t')
-print(df.head(5))
-
-#Reading Data in Pandas
-#printing the column headers
-print(df.columns)
-
-#printing specific column
-print(df['Name'])
-
-
-#printing specific column until a range
-print(df['Name'][0:5])
-
-
-#Reading Multiple Columns
-print(df[['Name','Type 1','HP']])
-
-#Reading Rows
-#Printing data of a specific row using iloc->integer location
-print(df.iloc[1])
-
-
-#Reading Rows
-#Printing data of a specific range in rows using iloc->integer location
-print(df.iloc[1:4])
-
-## Read a specific location (R,C)
-print(df.iloc[2,1])
-
-#Using for in to iterate through the rows
-for index, row in df.iterrows():
- print(index, row['Name'])
-
-
-#Using for in to iterate through the rows
-for index, row in df.iterrows():
- print(index, row['Name'])
-
-
-#Using loc to access any type of data
-df.loc[df['Type 1'] == "Grass"]
-
-#Using loc to access any type of data
-df.loc[df['Type 1'] == "Fighting"]
-
-#Sorting Describing Data
-#Provide statistics based on mean,median etc
-df.describe()
-
-
-#Sort Values
-df.sort_values('Name')
-
-#Sort Values
-df.sort_values('Name',ascending=False)
-
-#Sorting on multiple values using asc,desc
-df.sort_values(['Type 1','HP'])
-
-
-#Sorting on multiple values using asc,desc
-df.sort_values(['Type 1','HP'],ascending=[0,0])
-
-
-#Making Changes to the Data
-#Adding the sum
-df['Total'] = df['HP'] + df['Attack'] + df['Defense'] + df['Sp. Atk']
-df.head(5)
-
-
-df
-
-#axis = 0 means along the column and axis = 1 means working along the row.
-df['Total'] = df.iloc[:, 4:10].sum(axis=1)
-df.head(5)
-
-
-#Displaying columns in rearrangement,this does not modify the data,its visual
-cols = list(df.columns)
-df = df[cols[0:4] + [cols[-1]]+cols[4:12]]
-df.head(5)
-
-#Droping a column
-df = df.drop(columns=['Total'])
-
-df
-
-#Reading data from an xlsx excel file
-df_xlsx=pd.read_excel('modified.xlsx')
-print(df_xlsx.head(3))
-
-#Making Changes to the Data
-#Adding the sum
-import pandas as pd
-df=pd.read_csv('pokemon_data.csv')
-print(df)
-df['Total'] = df['HP'] + df['Attack'] + df['Defense'] + df['Sp. Atk']
-df.head(5)
-
-#axis = 0 means along the column and axis = 1 means working along the row.
-df['Total1'] = df.iloc[:, 4:10].sum(axis=1)
-df.head(5)
-
-#Displaying columns in rearrangement,this does not modify the data,its visual
-cols = list(df.columns)
-df = df[cols[0:4] + [cols[-1]]+cols[4:12]]
-df.head(5)
-
-# Saving our data,Exporting into desired format
-df.to_csv('modified.csv')
-
-#Saved in a .csv format,without indexes
-df.to_csv('modified1.csv',index=False)
-
-#Saving in a excel format
-df.to_excel('modified.xlsx', index=False)
-
-#Saving in a excel format
-df.to_excel('modified.xlsx', sep='\t',index=False)
-
-#read in a excel format
-#df=pd.read_excel('modified.xlsx', index_col='Response')
-
-pip install openpyxl
-
-#Saving in a txt doc which is tab separated
-df.to_csv('modified.txt', index=False, sep='\t')
-
-#Filtering data using & and |
-new_df = df.loc[(df['Type 1'] == 'Grass') & (df['Type 2'] == 'Poison') ]
-new_df
-
-new_df = df.loc[(df['Type 1'] == 'Grass') & (df['Type 2'] == 'Poison') & (df['Speed']==40)]
-new_df
-
-new_df1 = (df['Name'] == 'Skiddo')
-df[new_df1]
-
-#Saving the filtered data
-new_df.to_csv('filtered.csv')
-
-df1=pd.read_csv('filtered.csv')
-print(df1)
-
-#Resetting indexes
-#inplace = True , the data is modified in place, which means it will return n
-#and the dataframe is now updated. When inplace = False ,
-#which is the default, then the operation is performed and it returns a copy
-new_df.reset_index(drop=True, inplace=False)
-new_df
-
-#Resetting indexes
-#inplace = True , the data is modified in place, which means it will return n
-#and the dataframe is now updated. When inplace = False ,
-#which is the default, then the operation is performed and it returns a copy
-new_df.reset_index(drop=True, inplace=True)
-new_df
-
-new_df.rename(columns={'Name':'first_name'}, inplace=True)
-new_df
-
-df1=pd.read_csv('filtered.csv')
-print(df1)
-
-new_df = df.loc[(df['Type 1'] == 'Grass') | (df['Type 2'] == 'Poison')]
-new_df
-
-#String functions
-df['Name']=df['Name'].str.lower()
-df
-
-#String functions
-df['Name']=df['Name'].str.upper()
-df
-
-#Filtering data based on criteria using contains function
-df.loc[df['Name'].str.contains('Mega')]
-
-#Filtering data based on criteria using contains function-using negation
-df.loc[~df['Name'].str.contains('Mega')]
-
-#Using regex
-import re
-df.loc[df['Type 1'].str.contains('fire|grass',flags=re.I,regex=True)]
-
-#Get names that start with Pi,* means 0 or more
-df.loc[df['Name'].str.contains('^Pi[a-z]*',flags=re.I,regex=True)]
-
-#Conditional Changes
-#Change the data based on conditions
-df.loc[df['Type 1']=='Fire','Type 1']='Error'
-df
-
-#chnage the value of the coloumn
-df.loc[df['Total1'] > 500, ['Generation','Legendary']] = ['Test 1', 'Test 2']
-df
-
-#reading the data
-df=pd.read_csv('modified.csv')
-df
-
-#Applying groupby with the sum function
-df.groupby(['Type 1']).sum()
-
-#Applying groupby with count
-df.groupby(['Type 1']).count()
-
-#Applying groupby with count
-df['count']=1
-df.groupby(['Type 1']).count()['count']
-
-#Applying groupby with count on multiple columns
-df['count']=1
-df.groupby(['Type 1','Type 2']).count()['count']
-
-import pandas as pd
-for df in pd.read_csv('modified.csv',chunksize=5):
- print("Chunk DF")
- print(df)
-
-
-#Cleaning data
-import pandas as pd
-import numpy as np
-
-people={
-    'first':['Ankita','Akshat','Mohammed','Pranav', np.nan, None, 'NA'],
-    'last':['Pradhan','Bajaj', 'Saleh', 'Muketjee',np.nan,np.nan,'Missing'],
-    'email':['ankitapradgan@gmail.com','akshatbajaj@gmail.com','mohdsaleg@gmail.com',None,np.nan,'anonymous@gmail.com','NA'],
-    'age':['33','35','40','63',None,None,'Missing']
-}
-df=pd.DataFrame(people)
-df
-
-
-df.dropna()
-
-
-
-df.dropna(axis='index',how='any')
-
-df.dropna(axis='index',how='all')
-
-df.dropna(axis='columns',how='all')
-
-df.dropna(axis='columns',how='any')
-
-df.dropna(axis='index',how='any',subset=['email'])
-
-df.dropna(axis='index',how='all',subset=['email'])
-
-df.dropna(axis='index',how='all',subset=['last','email'])
-
-df=pd.DataFrame(people)
-df.replace('NA',np.nan, inplace=True)
-df.replace('Missing',np.nan, inplace=True)
-
-df
-
-df.dropna(axis='index',how='all',subset=['email'])
-
-df.isna()
-
-df.fillna('MISSING')
-
-df.fillna(0)
-
-df.dtypes
-
-df['age'].mean()
-
-
-df['age']=df['age'].astype(int)
-
-#this works if the values are NAN or None
-df['age']=df['age'].astype(float)
-
-df['age'].mean()
-
-df['age'].median()
-
-what to be done for a string value?????
-
-df['age'].unique()
-
-#reading data from a json file
-import pandas as pd
-
-df = pd.read_json("employees.json")
-df.head(10)
-
-
-
-
-
-**************************SEABORN*******************
-**Sea Born Line Plot**
-
-import seaborn as sns
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-
-import matplotlib      
-print(sns.__version__)
-print(np.__version__)
-print(matplotlib.__version__)
-
-tips1=pd.read_csv('tips1.csv')
-tips1
-
-
-
-plt.plot(tips1['tip'],tips1['total_bill'])
-plt.show()
-
-tips=sns.load_dataset("tips")
-tips
-
-sns.lineplot(x="tip", y="total_bill", data=tips)
-plt.show()
-
-sns.lineplot(x="tip", y="total_bill", data=tips, hue="sex")
-plt.show()
-
-sns.lineplot(x="tip", y="total_bill", data=tips, hue="sex", style="sex", markers=["o","<"])
-plt.show()
-
-sns.lineplot(x="tip", y="total_bill", data=tips, hue="sex", style="sex", markers=["o",">"], legend=False)
-plt.show()
-
-**Histogram**
-
-sns.histplot(data=tips['tip'],kde=True) #kde(kernel density estimator) brings out the line
-plt.show()
-
-sns.histplot(data=tips['tip'],kde=True, bins=[1,2,3,4,5,6,7,8,9,10], color="g") #kde(kernel density estimator) brings out the line
-plt.show()
-
-sns.distplot(tips['tip'],kde=True, rug=True, bins=[1,2,3,4,5,6,7,8,9,10]) #kde(kernel density estimator) brings out the line
-plt.show()
-
-**Bar Plot**
-
-sns.barplot(x='sex',y='tip',data=tips,palette="Blues")
-plt.show()
-
-sns.barplot(x='sex',y='tip',data=tips,palette="Accent")
-plt.show()
-
-sns.boxplot(x='day',y='tip',data=tips,hue='sex',palette='Blues')
-plt.show()
-
-sns.scatterplot(x='tip',y='total_bill',data=tips)
-plt.show()
-
-sns.scatterplot(x='tip',y='total_bill',hue='day',data=tips)
-plt.show()
-
-sns.stripplot(x='day',y='tip',data=tips,hue='sex',dodge=True)
-#dodge helps in not mixing the data dots
-plt.show()
-
-sns.stripplot(x='day',y='tip',data=tips,hue='sex')
-#dodge helps in not mixing the data dots
-plt.show()
-
-sns.jointplot(x='tip',y='total_bill',data=tips,kind='reg')
-
-sns.jointplot(x='tip',y='total_bill',data=tips)
-
-sns.jointplot(x='tip',y='total_bill',data=tips,kind='kde',shade=True,cmap='Blues')
-
-sns.jointplot(x='tip',y='total_bill',data=tips,kind='kde',Fill=True,cmap='Accent')
-
-sns.jointplot(x='tip',y='total_bill',data=tips,kind='hex',cmap='crest')
-
-#valid value for cmap; supported values are 'Accent', 'Accent_r', 'Blues', 'Blues_r', 'BrBG', 'BrBG_r', 'BuGn', 'BuGn_r', 'BuPu', 'BuPu_r', 'CMRmap', 'CMRmap_r', 'Dark2', 'Dark2_r', 'GnBu', 'GnBu_r', 'Greens', 'Greens_r', 'Greys', 'Greys_r', 'OrRd', 'OrRd_r', 'Oranges', 'Oranges_r', 'PRGn', 'PRGn_r', 'Paired', 'Paired_r', 'Pastel1', 'Pastel1_r', 'Pastel2', 'Pastel2_r', 'PiYG', 'PiYG_r', 'PuBu', 'PuBuGn', 'PuBuGn_r', 'PuBu_r', 'PuOr', 'PuOr_r', 'PuRd', 'PuRd_r', 'Purples', 'Purples_r', 'RdBu', 'RdBu_r', 'RdGy', 'RdGy_r', 'RdPu', 'RdPu_r', 'RdYlBu', 'RdYlBu_r', 'RdYlGn', 'RdYlGn_r', 'Reds', 'Reds_r', 'Set1', 'Set1_r', 'Set2', 'Set2_r', 'Set3', 'Set3_r', 'Spectral', 'Spectral_r', 'Wistia', 'Wistia_r', 'YlGn', 'YlGnBu', 'YlGnBu_r', 'YlGn_r', 'YlOrBr', 'YlOrBr_r', 'YlOrRd', 'YlOrRd_r', 'afmhot', 'afmhot_r', 'autumn', 'autumn_r', 'binary', 'binary_r', 'bone', 'bone_r', 'brg', 'brg_r', 'bwr', 'bwr_r', 'cividis', 'cividis_r', 'cool', 'cool_r', 'coolwarm', 'coolwarm_r', 'copper', 'copper_r', 'crest', 'crest_r', 'cubehelix', 'cubehelix_r', 'flag', 'flag_r', 'flare', 'flare_r', 'gist_earth', 'gist_earth_r', 'gist_gray', 'gist_gray_r', 'gist_heat', 'gist_heat_r', 'gist_ncar', 'gist_ncar_r', 'gist_rainbow', 'gist_rainbow_r', 'gist_stern', 'gist_stern_r', 'gist_yarg', 'gist_yarg_r', 'gnuplot', 'gnuplot2', 'gnuplot2_r', 'gnuplot_r', 'gray', 'gray_r', 'hot', 'hot_r', 'hsv', 'hsv_r', 'icefire', 'icefire_r', 'inferno', 'inferno_r', 'jet', 'jet_r', 'magm...
-
-sns.pairplot(tips.select_dtypes(['number']),hue='size',palette='Blues')
-
-tips.corr()
-
-sns.heatmap(tips.corr(),annot=True,cmap='Blues')
-#annot=putting values in the box
-
-
-
-
-*****************MATPLOTLIB*******************
-
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-
-
-x=[1,2,3]
-y=[2,4,6]
-#Creating a line graph
-plt.plot(x,y)
-plt.show()
-
-x=[1,2,3]
-y=[2,4,6]
-#Creating a line graph
-plt.plot(x,y)
-#Adding a title
-plt.title("First Graph")
-plt.show()
-
-x=[1,2,3]
-y=[2,4,6]
-#Creating a line graph
-plt.plot(x,y)
-#Adding a title
-plt.title("First Graph")
-#Adding a label to x and y
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-plt.show()
-
-x=[1,2,3]
-y=[2,4,6]
-#Creating a line graph
-plt.plot(x,y)
-#Adding a title and changing the font
-plt.title("First Graph",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-#Adding a label to x and y
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-plt.show()
-
-x=[1,2,3]
-y=[2,4,6]
-#Creating a line graph
-plt.plot(x,y)
-#Adding a title and changing the font
-plt.title("First Graph",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-#Adding a label to x and y
-plt.xlabel("X-Axis",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-plt.ylabel("Y-Axis",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-plt.show()
-
-#Changing the x and y co-ordinates to integer values
-x=[1,2,3,4]
-y=[2,4,6,8]
-#Creating a line graph
-plt.plot(x,y)
-#Adding a title and changing the font
-plt.title("First Graph",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-#Adding a label to x and y
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-#scale the graph by specifying the x & y tickmark
-plt.xticks([0,1,2,3,4])
-plt.yticks([0,2,4,6,6.5,8,10])
-plt.show()
-
-#Adding a legend
-x=[1,2,3,4]
-y=[2,4,6,8]
-#Creating a line graph
-plt.plot(x,y,label='2x')
-#Adding a title and changing the font
-plt.title("First Graph",fontdict={'fontname':'Comic Sans MS','fontsize':20, 'color':'red'})
-#Adding a label to x and y
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-#
-plt.xticks([0,1,2,3,4])
-plt.yticks([0,2,4,6,8,10])
-plt.legend()
-plt.show()
-
-#Applying different properties to the line
-#Adding a legend
-x=[1,2,3,4]
-y=[2,4,6,8]
-#Creating a line graph, adding color,color can be specified with hexadecimal
-#Applying different properties to the line
-
-plt.plot(x,y,label='2x',color='Yellow',linestyle='--',linewidth=2)
-#Adding a title and changing the font
-plt.title("First Graph",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-#Adding a label to x and y
-
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-plt.xticks([0,1,2,3,4])
-plt.yticks([0,2,4,6,8,10])
-plt.legend()
-plt.show()
-
-#Shorthand Notation
-#Adding a legend
-x=[1,2,3,4]
-y=[2,4,6,8]
-#Reference: Shorthand:https://matplotlib.org/stable/api/_as_gen/matplotlib.py
-# Shorthand notation
-# fmt = '[color][marker][line]'
-plt.plot(x,y, 'b^--', label='2x')
-#Adding a title and changing the font
-plt.title("First Graph",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-#Adding a label to x and y
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-#
-plt.xticks([0,1,2,3,4])
-plt.yticks([0,2,4,6,8,10])
-plt.legend()
-plt.show()
-
-#Plotting Line 2
-#Adding a legend
-x=[1,2,3,4]
-y=[2,4,6,8]
-#Reference: Shorthand:https://matplotlib.org/stable/api/_as_gen/matplotlib.py
-# Shorthand notation
-# fmt = '[color][marker][line]'
-plt.plot(x,y, 'b^--', label='2x')
-#Line 2:
-x2=np.arange(0,4.5,0.5)
-plt.plot(x2,x2**2,'r',label='X^2')
-#Adding a title and changing the font
-plt.title("First Graph",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-#Adding a label to x and y
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-#
-plt.xticks([0,1,2,3,4])
-#plt.yticks([0,2,4,6,8,10])
-plt.legend()
-plt.show()
-
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-#used for visualization
-x=[1,2,3]
-y=[2,4,6]
-font={'family': 'serif', 'color':'red', 'weight': 'normal', 'size':18}
-#**Line Styles**
-
-#=============    ===============================
-#character        description
-#=============    ===============================
-#``'-'``          solid line style
-#``'--'``         dashed line style
-#``'-.'``         dash-dot line style
-#``':'``          dotted line style
-
-#**Markers**
-
-#=============   ===============================
-#character       description
-#=============   ===============================
-#``'.'``         point marker
-#``','``         pixel marker
-#``'o'``         circle marker
-#``'v'``         triangle_down marker
-#``'^'``         triangle_up marker
-#``'<'``         triangle_left marker
-#``'>'``         triangle_right marker
-#``'1'``         tri_down marker
-#``'2'``         tri_up marker
-#``'3'``         tri_left marker
-#``'4'``         tri_right marker
-#``'8'``         octagon marker
-#``'s'``         square marker
-#``'p'``         pentagon marker
-#``'P'``         plus (filled) marker
-#``'*'``         star marker
-#``'h'``         hexagon1 marker
-#``'H'``         hexagon2 marker
-#``'+'``         plus marker
-#``'x'``         x marker
-#``'X'``         x (filled) marker
-#``'D'``         diamond marker
-#``'d'``         thin_diamond marker
-#``'|'``         vline marker
-#``'_'``         hline marker
-#=============   ===============================
-#markerfacecolor='orange'==to fill in the marker
-#markersize=12=== to change the size
-#markeredgecolor='orange'=== to change the outline
-plt.plot(x,y,label='a',color='black',linestyle='-.',linewidth=2,marker='*',markerfacecolor='orange',markeredgecolor='orange',markersize=12)
-
-#plt.title(label, fontdict=None, loc=None, pad=None, *, y=None, **kwargs)
-plt.title('Firstgraph',fontdict=font)
-plt.xlabel('sales')#x axis
-plt.ylabel('total')# y  axis
-
-#plt.xticks(ticks=None, labels=None, **kwargs)
-plt.xticks(['jan','feb','mar','apr','may','june','july','aug','sept','oct'])
-#plt.yticks(ticks=None, labels=None, **kwargs)
-plt.yticks([1,2,3,4,5,6,7,8,9,10],['jan','feb','mar','apr','may','june','july','aug','sept','oct'])
-
-plt.legend()
-plt.show()#show
-
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-#used for visualization
-x=[1,2,3]
-y=[2,4,6]
-font={'family': 'serif', 'color':'red', 'weight': 'normal', 'size':18}
-#**Line Styles**
-
-#=============    ===============================
-#character        description
-#=============    ===============================
-#``'-'``          solid line style
-#``'--'``         dashed line style
-#``'-.'``         dash-dot line style
-#``':'``          dotted line style
-
-#**Markers**
-
-#=============   ===============================
-#character       description
-#=============   ===============================
-#``'.'``         point marker
-#``','``         pixel marker
-#``'o'``         circle marker
-#``'v'``         triangle_down marker
-#``'^'``         triangle_up marker
-#``'<'``         triangle_left marker
-#``'>'``         triangle_right marker
-#``'1'``         tri_down marker
-#``'2'``         tri_up marker
-#``'3'``         tri_left marker
-#``'4'``         tri_right marker
-#``'8'``         octagon marker
-#``'s'``         square marker
-#``'p'``         pentagon marker
-#``'P'``         plus (filled) marker
-#``'*'``         star marker
-#``'h'``         hexagon1 marker
-#``'H'``         hexagon2 marker
-#``'+'``         plus marker
-#``'x'``         x marker
-#``'X'``         x (filled) marker
-#``'D'``         diamond marker
-#``'d'``         thin_diamond marker
-#``'|'``         vline marker
-#``'_'``         hline marker
-#=============   ===============================
-#markerfacecolor='orange'==to fill in the marker
-#markersize=12=== to change the size
-#markeredgecolor='orange'=== to change the outline
-plt.plot(x,y,label='a',color='black',linestyle='-.',linewidth=2,marker='*',markerfacecolor='orange',markeredgecolor='orange',markersize=12)
-
-#plt.title(label, fontdict=None, loc=None, pad=None, *, y=None, **kwargs)
-plt.title('Firstgraph',fontdict=font)
-plt.xlabel('sales')#x axis
-plt.ylabel('total')# y  axis
-
-#plt.xticks(ticks=None, labels=None, **kwargs)
-plt.xticks([1,2,3,4,5,6,7,8,9,10],['jan','feb','mar','apr','may','june','july','aug','sept','oct'])
-#plt.yticks(ticks=None, labels=None, **kwargs)
-plt.yticks([1,2,3,4,5,6,7,8,9,10],['jan','feb','mar','apr','may','june','july','aug','sept','oct'])
-
-plt.legend()
-plt.show()#show
-
-#creating another line
-import numpy as np
-import matplotlib.pyplot as plt
-x2=np.arange(0,4.5,0.5)
-plt.plot(x2,x2**2,'r',label='X^2')
-
-#fmt=[color][marker][line]
-import numpy as np
-
-import matplotlib.pyplot as plt
-x3=np.arange(0,4.5,0.5)
-plt.plot(x3,x3**2,'b^--',label='X^2')
-
-#Plotting Line 2 in for two different analysis
-#Adding a legend
-x=[1,2,3,4]
-y=[2,4,6,8]
-#Reference: Shorthand:https://matplotlib.org/stable/api/_as_gen/matplotlib.py
-# Shorthand notation
-# fmt = '[color][marker][line]'
-plt.plot(x,y, 'b^--', label='2x')
-#Line 2:
-x2=np.arange(0,4.5,0.5)
-plt.plot(x2[:6],x2[:6]**2,'r',label='X^2')
-plt.plot(x2[5:],x2[5:]**2,'r--')
-#Adding a title and changing the font
-plt.title("First Graph",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-#Adding a label to x and y
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-#
-plt.xticks([0,1,2,3,4])
-plt.yticks([0,2,4,6,8,10])
-plt.legend()
-plt.show()
-
-#Resize your Graph
-#Adding a legend
-x=[1,2,3,4]
-y=[2,4,6,8]
-# Resize your Graph (dpi specifies pixels per inch.)
-plt.figure(figsize=(2,1.5), dpi=100)
-#Reference: Shorthand:https://matplotlib.org/stable/api/_as_gen/matplotlib.py
-# Shorthand notation
-# fmt = '[color][marker][line]'
-plt.plot(x,y, 'b^--', label='2x')
-#Line 2:
-x2=np.arange(0,4.5,0.5)
-plt.plot(x2[:6],x2[:6]**2,'r',label='X^2')
-plt.plot(x2[5:],x2[5:]**2,'r--')
-#Adding a title and changing the font
-plt.title("First Graph",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-#Adding a label to x and y
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-#
-plt.xticks([0,1,2,3,4])
-#plt.yticks([0,2,4,6,8,10])
-plt.legend()
-plt.show()
-
-#Saving your Graph
-#Adding a legend
-x=[1,2,3,4]
-y=[2,4,6,8]
-# Resize your Graph (dpi specifies pixels per inch)
-plt.figure(figsize=(8,5), dpi=100)
-#Reference: Shorthand:https://matplotlib.org/stable/api/_as_gen/matplotlib.py
-# Shorthand notation
-# fmt = '[color][marker][line]'
-plt.plot(x,y, 'b^--', label='2x')
-#Line 2:
-x2=np.arange(0,4.5,0.5)
-plt.plot(x2[:6],x2[:6]**2,'r',label='X^2')
-plt.plot(x2[5:],x2[5:]**2,'r--')
-#Adding a title and changing the font
-plt.title("First Graph",fontdict={'fontname':'Comic Sans MS','fontsize':20})
-#Adding a label to x and y
-plt.xlabel("X-Axis")
-plt.ylabel("Y-Axis")
-#
-plt.xticks([0,1,2,3,4])
-#plt.yticks([0,2,4,6,8,10])
-plt.legend()
-# Save figure (dpi 300 is good when saving so graph has high resolution)
-plt.savefig('mygraph.png', dpi=300)
-print('hello')
-plt.show()
-
-#Bar Chart
-#Creating the labels and values
-labels = ['A', 'B', 'C']
-values = [1,4,2]
-#Resizing the graph
-plt.figure(figsize=(5,3), dpi=100)
-#Plotting the graph
-bars = plt.bar(labels, values)
-plt.show()
-
-#Adding the hatch patterns
-#Creating the labels and values
-labels = ['A', 'B', 'C']
-values = [1,4,2]
-#Resizing the graph
-plt.figure(figsize=(5,3), dpi=100)
-#Plotting the graph
-bars = plt.bar(labels, values)
-bars[0].set_hatch('/')
-bars[1].set_hatch('O')
-bars[2].set_hatch('*')
-plt.show()
-
-#Adding the hatch patterns using a for loop
-#Creating the labels and values
-labels = ['A', 'B', 'C']
-values = [1,4,2]
-#Resizing the graph
-plt.figure(figsize=(5,3), dpi=100)
-#Plotting the graph
-bars = plt.bar(labels, values)
-patterns = ['/', 'o', '*']
-for bar in bars:
- bar.set_hatch(patterns.pop())
-plt.show()
-
- # Data to plot
-import matplotlib.pyplot as plt
-labels = 'Python', 'C++', 'Ruby', 'Java'
-sizes = [215, 130, 245, 210]
-#size of the particular segement in relation to the whole data
-plt.pie(sizes, labels=labels)
-plt.show()
-
-
- # Data to plot
-labels = 'Python', 'C++', 'Ruby', 'Java'
-sizes = [215, 130, 245, 210]
-colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']#helps in chosing your own color pallete
-
-# Plot
-plt.pie(sizes,labels=labels, colors=colors,)
-
-plt.show()
-
-# Data to plot
-labels = 'Python', 'C++', 'Ruby', 'Java'
-sizes = [215, 130, 245, 210]
-colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
-#explode = (1, 0, 0, 0)  # explode 1st segement that is python, digit denote the distance it is away from the pie chart,here 1 inch,too much
-explode = (0.1, 0.1, 0, 0)#exploding two segements, i.e python and c++
-# Plot
-plt.pie(sizes, explode=explode, labels=labels, colors=colors)
-
-plt.show()
-
-# Data to plot
-labels = 'Python', 'C++', 'Ruby', 'Java'
-sizes = [215, 130, 245, 210]
-colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
-explode = (0.1, 0, 0, 0)  # explode 1st slice
-
-# Plot
-plt.pie(sizes, explode=explode, labels=labels, colors=colors,
-autopct='%.3f%%')#autopct helps in showing the percentage value on the pie itself, format-'%1.1f%%'.here .3 stands for three decimal places
-
-
-plt.show()
-
-# Data to plot
-labels = 'Python', 'C++', 'Ruby', 'Java'
-sizes = [215, 130, 245, 210]
-colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
-explode = (0.1, 0, 0, 0)  # explode 1st slice
-
-# Plot
-plt.pie(sizes, explode=explode, labels=labels, colors=colors,
-autopct='%1.3f%%', shadow=True)#shadows will be there if true, nahi toh if isnt mentioned or false no shadows will be there
-
-plt.show()
-
-# Data to plot
-labels = 'Python', 'C++', 'Ruby', 'Java'
-sizes = [215, 130, 245, 210]
-colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
-explode = (0, 0, 0, 0)  # explode 1st slice
-
-# Plot
-plt.pie(sizes, explode=explode, labels=labels, colors=colors,
-autopct='%1.3f%%', shadow=True, startangle=80)#The angle by which the start of the pie is rotated,counterclockwise from the x-axis.
-
-plt.show()
-
-# Data to plot
-labels = 'Python', 'C++', 'Ruby', 'Java'
-sizes = [215, 130, 245, 210]
-colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
-explode = (0.1, 0, 0, 0)  # explode 1st slice
-
-# Plot
-plt.pie(sizes, explode=explode, labels=labels, colors=colors,
-autopct='%1.3f%%', shadow=True, startangle=200)
-
-#plt.axis('square')
-plt.show()
-
-# Data to plot
-labels = 'Python', 'C++', 'Ruby', 'Java'
-sizes = [215, 130, 245, 210]
-colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
-explode = (0.1, 0, 0, 0)  # explode 1st slice
-
-# Plot
-plt.pie(sizes, explode=explode, labels=labels, colors=colors,
-autopct='%1.3f%%', shadow=True, startangle=80,rotatelabels=True)#rotates the labels
-
-#plt.axis('square')
-plt.show()
-
-gas=pd.read_csv('gasprices.csv')
-gas
-
-#printing the year
-gas=pd.read_csv('gas_prices.csv')
-plt.title('Gas prices')
-plt.plot(gas['Year'].to_numpy(),gas['USA'].to_numpy(),label='United States')
-plt.show()
-
-#printing the year
-gas=pd.read_csv('gas_prices.csv')
-plt.title('Gas prices')
-plt.plot(gas['Year'].to_numpy(),gas['USA'].to_numpy(),label='United States')
-plt.plot(gas['Year'].to_numpy(),gas['Canada'].to_numpy(),label='Canada')
-plt.show()
-
-#printing the year
-gas=pd.read_csv('gas_prices.csv')
-plt.title('Gas prices')
-plt.plot(gas['Year'].to_numpy(),gas['USA'].to_numpy(),label='United States')
-plt.plot(gas['Year'].to_numpy(),gas['Canada'].to_numpy(),label='Canada')
-plt.plot(gas['Year'].to_numpy(),gas['South Korea'].to_numpy(),label='South Korea')
-plt.show()
-
-#printing the year
-gas=pd.read_csv('gas_prices.csv')
-plt.title('Gas prices over time (in USD')
-plt.plot(gas['Year'].to_numpy(),gas['USA'].to_numpy(),label='United States')
-plt.plot(gas['Year'].to_numpy(),gas['Canada'].to_numpy(),label='Canada')
-#for multiple word column names use the [] notation
-plt.plot(gas['Year'].to_numpy(),gas['South Korea'].to_numpy(),label='South Korea')
-plt.legend()
-plt.show()
-
-#printing the year
-gas=pd.read_csv('gas_prices.csv')
-plt.title('Gas prices over time (in USD')
-plt.plot(gas['Year'].to_numpy(),gas['USA'].to_numpy(),label='United States')
-plt.plot(gas['Year'].to_numpy(),gas['Canada'].to_numpy(),label='Canada')
-#for multiple word column names use the [] notation
-plt.plot(gas['Year'].to_numpy(),gas['South Korea'].to_numpy(),label='South Korea')
-print(gas.Year[::3])
-plt.xticks(gas.Year[::3])
-plt.legend()
-plt.show()
-
-#printing the year
-gas=pd.read_csv('gas_prices.csv')
-plt.title('Gas prices over time (in USD')
-plt.plot(gas['Year'].to_numpy(),gas['USA'].to_numpy(),'b.-',label='United States')
-plt.plot(gas['Year'].to_numpy(),gas['Canada'].to_numpy(),'r.-',label='Canada')
-#for multiple word column names use the [] notation
-plt.plot(gas['Year'].to_numpy(),gas['South Korea'].to_numpy(),'g.-',label='South Korea')
-plt.legend()
-plt.xlabel('Year')
-plt.ylabel('US Dollars')
-
-plt.show()
-
-#printing the year
-gas=pd.read_csv('gas_prices.csv')
-plt.title('Gas prices over time (in USD')
-plt.plot(gas['Year'].to_numpy(),gas['USA'].to_numpy(),'b.-',label='United States')
-plt.plot(gas['Year'].to_numpy(),gas['Canada'].to_numpy(),'r.-',label='Canada')
-#for multiple word column names use the [] notation
-plt.plot(gas['Year'].to_numpy(),gas['South Korea'].to_numpy(),'g.-',label='South Korea')
-print(gas.Year[::3])
-plt.xticks(gas.Year[::3].tolist()+[2011])
-
-plt.legend()
-plt.xlabel('Year')
-plt.ylabel('US Dollars')
-
-plt.show()
-
-#Loading the data
-fifa = pd.read_csv('players_20.csv')
-fifa
-
-plt.hist(fifa.overall)
-plt.show()
-
-bins = [40,50,60,70,80,90,100]
-
-plt.hist(fifa.overall, bins=bins, color='#abcdef')
-plt.xticks(bins)
-plt.ylabel('Number of Players')
-plt.xlabel('Skill Level')
-plt.title('Distribution of Player Skills in FIFA 2018')
-plt.savefig('histogram.png', dpi=300)
-plt.show()
-
-left = fifa.loc[fifa['preferred_foot'] == 'Left'].count()[0]
-print(left)
-right = fifa.loc[fifa['preferred_foot'] == 'Right'].count()[0]
-print(right)
-
-left = fifa.loc[fifa['preferred_foot'] == 'Left'].count()[0]
-right = fifa.loc[fifa['preferred_foot'] == 'Right'].count()[0]
-plt.figure(figsize=(8,5))
-labels = ['Left', 'Right']
-colors = ['#abcdef', '#aabbcc']
-explode = (0,.2)
-# .2f -> 2 decimals in float
-plt.pie([left, right], labels = labels,explode=explode,colors=colors, autopct='%.2f %%')
-plt.title('Foot Preference of FIFA Players')
-plt.show()
-
-fifa.weight_kg = [int(x.strip('lbs')) if type(x)==str else x for x in fifa.weight_kg]
-fifa.weight_kg
-
-plt.figure(figsize=(8,5), dpi=100)
-plt.style.use('ggplot')
-fifa.weight_kg = [int(x.strip('lbs')) if type(x)==str else x for x in fifa.weight_kg]
-light = fifa.loc[fifa.weight_kg < 60].count()[0]
-print(light)
-
-light_medium = fifa[(fifa.weight_kg >= 60) & (fifa.weight_kg < 70)].count()[0]
-print(light_medium)
-medium = fifa[(fifa.weight_kg >= 70) & (fifa.weight_kg < 80)].count()[0]
-print(medium)
-medium_heavy = fifa[(fifa.weight_kg >= 80) & (fifa.weight_kg < 90)].count()[0]
-print(medium_heavy)
-heavy = fifa[fifa.weight_kg >= 90].count()[0]
-print(heavy)
-weights = [light,light_medium, medium, medium_heavy, heavy]
-label = ['under 60', '60-70', '70-80', '80-90', 'over 90']
-explode = (.4,.2,0,0,.4)
-#explode = (.4,.2,0,0,.8)
-plt.title('Weight of Professional Soccer Players (Kgs)')
-plt.pie(weights, labels=label, explode=explode, pctdistance=0.5,autopct='%.2f')
-plt.show()
-
-
-#plt.style.use('default')
-barcelona = fifa.loc[fifa.club == "FC Barcelona"]['overall']
-madrid = fifa.loc[fifa.club == "Real Madrid"]['overall']
-
-#bp = plt.boxplot([barcelona, madrid, revs], labels=['a','b','c'], boxprops=d
-bp = plt.boxplot([barcelona, madrid])
-
-plt.figure(figsize=(5,8), dpi=100)
-plt.style.use('default')
-barcelona = fifa.loc[fifa.club == "FC Barcelona"]['overall']
-madrid = fifa.loc[fifa.club == "Real Madrid"]['overall']
-revs = fifa.loc[fifa.club == "New England Revolution"]['overall']
-#bp = plt.boxplot([barcelona, madrid, revs], labels=['a','b','c'], boxprops=d
-bp = plt.boxplot([barcelona, madrid, revs], labels=['FC Barcelona','Real Madrid','New England Revolution'])
-plt.title('Professional Soccer Team Comparison')
-plt.ylabel('FIFA Overall Rating')
-for box in bp['boxes']:
- # change outline color
- box.set(color='#4286f4', linewidth=2)
- # change fill color
-
-plt.show()
-
-plt.figure(figsize=(5,8), dpi=100)
-plt.style.use('default')
-barcelona = fifa.loc[fifa.club == "FC Barcelona"]['overall']
-madrid = fifa.loc[fifa.club == "Real Madrid"]['overall']
-revs = fifa.loc[fifa.club == "New England Revolution"]['overall']
-#bp = plt.boxplot([barcelona, madrid, revs], labels=['a','b','c'], boxprops=d
-bp = plt.boxplot([barcelona, madrid, revs], labels=['FC Barcelona','Real Madrid','New England Revolution'],patch_artist=True)
-plt.title('Professional Soccer Team Comparison')
-plt.ylabel('FIFA Overall Rating')
-for box in bp['boxes']:
- # change outline color
- box.set(color='#4286f4', linewidth=2)
- # change fill color
- box.set(facecolor = '#e0e0e0' )
- # change hatch
- box.set(hatch = '/')
-
-plt.show()
-
-#Scatter plot
-day=[1,2,3,4,5,6,7]
-no=[2,3,1,4,5,3,6]
-plt.scatter(day,no)
-plt.show()
-
-#Scatter plot
-day=[1,2,3,4,5,6,7]
-no=[2,3,1,4,5,3,6]
-colors=["r", "y","b","y","b","r","g"]
-plt.scatter(day,no, c=colors, marker="*", s=200, edgecolor="g", linewidth=2)
-
-plt.title("Scatter Plot",fontsize=15)
-plt.xlabel("Day", fontsize=15)
-plt.ylabel("Day", fontsize=15)
-plt.show()
-
-#Scatter plot
-day=[1,2,3,4,5,6,7]
-no=[2,3,1,4,5,3,6]
-colors=["r", "y","b","y","b","r","g"]
-plt.scatter(day,no, c=colors, s=200,alpha=0.5)
-plt.colorbar()
-plt.title("Scatter Plot",fontsize=15)
-plt.xlabel("Day", fontsize=15)
-plt.ylabel("Day", fontsize=15)
-plt.show()
-
-#Bar Plot
-x=["python","C", "C++", "Scala"]
-y=[85,70,60,82]
-plt.title("Bar Plot",fontsize=15)
-plt.xlabel("Language", fontsize=15)
-plt.ylabel("No", fontsize=15)
-plt.bar(x,y)
-plt.show()
-
-#Bar Plot
-x=["python","C", "C++", "Scala"]
-y=[85,70,60,82]
-plt.title("Bar Plot",fontsize=15)
-plt.xlabel("Language", fontsize=15)
-plt.ylabel("No", fontsize=15)
-plt.bar(x,y, width=0.3,color="y")
-plt.show()
-
-#Bar Plot
-x=["python","C", "C++", "Scala"]
-y=[85,70,60,82]
-plt.title("Bar Plot",fontsize=15)
-plt.xlabel("Language", fontsize=15)
-plt.ylabel("No", fontsize=15)
-c=["y","b","m","g"]
-plt.bar(x,y, width=0.5,color=c,edgecolor="g", linewidth=2, linestyle=":", alpha=0.8)
-plt.show()
-
-x=["python","C", "C++", "Scala"]
-y=[85,70,60,82]
-z=[20,30,40,50]
-plt.title("Bar Plot",fontsize=15)
-plt.xlabel("Language", fontsize=15)
-plt.ylabel("No", fontsize=15)
-c=["y","b","m","g"]
-plt.bar(x,y, width=0.5,color="g")
-plt.bar(x,z, width=0.5,color="y")
-plt.show()
-
-import numpy as np
-x=["python","C", "C++", "Scala"]
-y=[85,70,60,82]
-z=[20,30,40,50]
-width=0.2
-p=np.arange(len(x))
-p1=[j+width for j in p]
-
-plt.title("Bar Plot",fontsize=15)
-plt.xlabel("Language", fontsize=15)
-plt.ylabel("No", fontsize=15)
-c=["y","b","m","g"]
-plt.bar(p,y, width,color="g", label="popularity")
-plt.bar(p1,z, width,color="y",label="popularity1")
-plt.xticks(p+width/2,x)
-plt.legend()
-plt.show()
-
-#Stem plot
-
-x=[1,2,3,4,5,6]
-y=[2,2,5,6,4,3]
-plt.stem(x,y)
-plt.show()
-
-x=[1,2,3,4,5,6]
-y=[2,2,5,6,4,3]
-plt.stem(x,y, linefmt=":",markerfmt="ro")
-plt.show()
-
-x=[1,2,3,4,5,6]
-y=[2,2,5,6,4,3]
-plt.stem(x,y, linefmt=":",markerfmt="ro", bottom=1, basefmt="g",
-         label="Matplotlib", use_line_collection=False)
-plt.legend()
-plt.show()
-
-*****************RDATAANALYSIS********************
-
-R Data Analysis:
-
-#Load Raw Data
-train&lt;- read.csv(&quot;train.csv&quot;,header=TRUE)
-test&lt;-read.csv(&quot;test.csv&quot;,header=TRUE)
-
-#Add a &quot;Survived&quot; variable to the test set to allow for combining data sets
-test.survived &lt;-data.frame(survived=rep(&quot;None&quot;,nrow(test)),test[,])
-data frame function allows to create a dataframe
-rep- replicate elements of vectors and lists
-nrow- numbers of rows/columns of an array
-test[,]: entire dataframe of rows and coloumns
-
-#Combine data sets
-data.combined &lt;-rbind(train,test.survived)
-
-#R datatypes
-str(data.combined)
-str- Display the structure of an arbitrary R object
-
-data.combined$pclass &lt;- as.factor(data.combined$pclass)
-data.combined$survived &lt;- as.factor(data.combined$survived)
-
-#Gross survival rates
-table(data.combined$survived)
-
-#Load ggplot2 package to use for visualizations
-library(ggplot2)
-
-#Hypothesis
-train$pclass&lt;-as.factor(train$pclass)
-ggplot(train,aes(x=pclass,fill=factor(survived)))+
-geom_bar(width=0.5)+
-xlab(&quot;Pclass&quot;)+
-ylab(&quot;Total Count&quot;)+
-labs(fill=&quot;survived&quot;)
-
-#Examine the first few names in the training data set
-head(as.character(train$name))
-
-#Uniqe names accross the train and test set
-length(unique(as.character(data.combined$name)))
-
-#Get Duplicate names data and store them as a vector
-dup.names&lt;-
-as.character(data.combined[which(duplicated(as.character((data.combined$name)))),&quot;name&quot;])
-
-#Look at the detailed duplicate records
-data.combined[which(data.combined$name %in% dup.names),]
-
-#including the string library
-library(stringr)
-
-#Checking for a pattern Miss.
-misses&lt;-data.combined[which(str_detect(data.combined$name,&quot;Miss.&quot;)),]
-misses[1:5,]
-
-misses[1:5,1:3]
-misses[,1:3]
-
-#Checking for a pattern males.
-males&lt;-data.combined[which(data.combined$sex==&quot;male&quot;),]
-males[1:5,]
-#Adding a new title variable
-#Creating a utility function to help with the title extraction
-
-extractTitle &lt;- function(name){
-name &lt;- as.character(name)
-
-if(length(grep(&quot;Miss.&quot;,name))&gt;0){
-return(&quot;Miss.&quot;)
-
-}else if(length(grep(&quot;Master.&quot;,name))&gt;0){
-return(&quot;Master.&quot;)
-
-}else if(length(grep(&quot;Mrs.&quot;,name))&gt;0){
-return(&quot;Mrs.&quot;)
-
-}else if(length(grep(&quot;Mr.&quot;,name))&gt;0){
-return(&quot;Mr.&quot;)
-
-}else {
-return(&quot;Other&quot;)
-}
-}
-
-titles &lt;- NULL
-for(i in 1:nrow(data.combined))
-{
-titles &lt;- c(titles,extractTitle(data.combined[i,&quot;name&quot;]))
-}
-data.combined$title&lt;- as.factor(titles)
-
-#plotting the graph
-
-ggplot(data.combined[1:891,],aes(x=title,fill=survived))+
-geom_bar(width=0.5)+
-facet_wrap(~pclass)+
-ggtitle(&quot;Pclass&quot;)+
-xlab(&quot;Title&quot;)+
-ylab(&quot;Total Count&quot;)+
-labs(fill=&quot;Survived&quot;)
-
-
-
-
-
-
-
-
-
-
-************SINGLYDOBLY**********************************
-class Node:
-    #function to initialize the node object
-    def __init__(self,data):
-        self.data=data  #assign data
-        self.next=None  #initialize next as null
+for i in range(e):
+    u1,u2 = input().split()
+    graph[u1].append(u2)
+    if u1!=u2:
+        graph[u2].append(u1)
         
-    #linked list class contains a node object
-class LinkedList:
-    #function on initialize head
-    def __init__(self):
-        self.head=None
-    
-    #this function prints contents of linked list
-    #startig from head
-    def printList(self):
-        temp=self.head
-        while(temp):
-            print(temp.data)
-            temp=temp.next
-
-#code execution begings here
-if __name__=='__main__':
-    #start with the empty list
-    llist=LinkedList()
-    llist.head=Node(1)
-    second=Node(2)
-    third=Node(3)
-    
-    llist.head.next=second;  #link first node with second
-    second.next=third;  #link second node to third node
-    llist.printList()
-    
-
-#INSERTION OF NODE  IN SINGLY LINKED LIST
-
-#Represent a node of singly linked list
-class Node: #stores two vals: data and address of next data
-    def __init__(self,data):
-        self.data=data; #assign data
-        self.next=None; #Initialize next as null
-   
-class LinkedList:
-    def __init__(self):
-        self.head=None
-       
-    #Function to add new node
-    def AtEnd(self,newdata):
-        NewNode = Node(newdata)
-        if self.head is None:
-            self.head=NewNode
-            return
-        laste = self.head
-        while(laste.next):
-            laste = laste.next
-        laste.next=NewNode
-           
-    #function prints contents of linked list starting from head
-    def printList(self):
-        temp = self.head
-        while(temp):
-            print(temp.data)
-            temp=temp.next
-   
-#code execution starts here
-if __name__=='__main__':
-   
-    #Start with empty list
-    llist = LinkedList()
-   
-    #Creating head node and second and third node
-    llist.head = Node("Monday")
-    second = Node("Tuesday")
-    third = Node("Wednesday")
-    fourth = Node("Thursday")
-   
-    llist.head.next = second; #link first node with second
-    second.next = third; #link second node with the third node
-    third.next = fourth;
-   
-    llist.AtEnd("Friday")
-
-    llist.printList()
-
-#DELETION OF NODE IN SINGLY LINKED LIST
-
-class Node:
-    def __init__(self, dataval=None):
-        self.dataval = dataval
-        self.nextval = None
-
-class SLinkedList:
-    def __init__(self):
-        self.headval = None
-
-    # Corrected method to add a node at the end
-    def AtEnd(self, newdata):
-        NewNode = Node(newdata)
-        if self.headval is None:
-            self.headval = NewNode
-            return
-        last = self.headval
-        while last.nextval:
-            last = last.nextval
-        last.nextval = NewNode
-
-    def deleteNode(self, removekey):
-        headval = self.headval
-
-        # Check if the head node needs to be deleted
-        if headval is not None and headval.dataval == removekey:
-            self.headval = headval.nextval
-            return
-
-        prev = None
-
-        # Search for the node with the given value to delete
-        while headval is not None:
-            if headval.dataval == removekey:
-                break
-            prev = headval
-            headval = headval.nextval
-
-        # If the value was not found in the list
-        if headval is None:
-            return
-
-        # Unlink the node
-        prev.nextval = headval.nextval
-
-    def listprint(self):
-        printval = self.headval
-        while printval is not None:
-            print(printval.dataval)
-            printval = printval.nextval
-
-# Code execution begins here
-llist = SLinkedList()
-llist.headval = Node("Monday")
-e2 = Node("Tuesday")
-e3 = Node("Wednesday")
-
-llist.headval.nextval = e2
-e2.nextval = e3
-
-llist.AtEnd("Thursday")
-
-# Delete "Tuesday" node
-llist.deleteNode("Tuesday")
-llist.listprint()
-
-#doubly linked list
-
-class Node:
-    def __init__(self,data):
-        self.data=data;
-        self.prev=None;
-        self.next=None;
-
-class DLinkedList:
-    def __init__(self):
-        self.head=None
-        
-    #adding data elements     
-    def push(self,NewVal):
-        NewNode=Node(NewVal)
-        NewNode.next=self.head
-        if self.head is not None:
-            self.head.prev=NewNode
-        self.head=NewNode
-    
-    def listprint(self,node):
-        while (node is not None):
-            print(node.data)
-            last=node
-            node=node.next
-            
-dllist=DLinkedList()
-dllist.push(12)
-dllist.push(8)
-dllist.push(62)
-dllist.listprint(dllist.head)
-      
-
-#insertion to doubly linked list
-
-class Node:
-    def __init__(self,data):
-        self.data=data;
-        self.prev=None;
-        self.next=None;
-
-class DLinkedList:
-    def __init__(self):
-        self.head=None
-        
-    #adding data elements     
-    def push(self,NewVal):
-        NewNode=Node(NewVal)
-        NewNode.next=self.head
-        if self.head is not None:
-            self.head.prev=NewNode
-        self.head=NewNode
-     #adding data elements     
-    def append(self,NewVal):
-        NewNode=Node(NewVal)
-        NewNode.next=None
-        
-        if self.head is None:
-            NewNode.prev=None
-            self.head=NewNode
-            return
-        last=self.head
-        while (last.next is not None):
-            last=last.next
-        last.next=NewNode
-        NewNode.prev=last
-        return
-        
-    def listprint(self,node):
-        while (node is not None):
-            print(node.data)
-            last=node
-            node=node.next
-            
-dllist=DLinkedList()
-dllist.push(12)
-dllist.push(8)
-dllist.push(62)
-dllist.append(12)
-dllist.append(9)
-dllist.append(45)
-dllist.listprint(dllist.head)
-      
-
-#insert node at the beginning and delete the node
-
-class Node:    
-    def __init__(self, data):
-        self.data = data
-        self.prev = None
-        self.next = None
-
-class DLinkedList:
-    def __init__(self):
-        self.head = None
-
-    def AtBeginning(self, NewVal):
-        new_node = Node(NewVal)
-        new_node.next = self.head
-        if self.head is not None:
-            self.head.prev = new_node
-        self.head = new_node
-
-    def deleteNode(self, removekey):
-        head = self.head
-
-        # Checking if the head node needs to be deleted
-        if head is not None and head.data == removekey:
-            self.head = head.next
-            if self.head is not None:
-                self.head.prev = None
-            return
-
-        # Searching for the node with the given value to delete
-        while head is not None:
-            if head.data == removekey:
-                break
-            prev = head
-            head = head.next
-
-        # If the value was not found in the list
-        if head is None:
-            return
-
-        # Unlink the node
-        prev.next = head.next
-        if head.next is not None:
-            head.next.prev = prev
-
-    def listprint(self):
-        node = self.head
-        while node is not None:
-            print(node.data)
-            node = node.next
-
-llist = DLinkedList()
-llist.head = Node("1")
-e2 = Node("2")
-e3 = Node("3")
-
-llist.head.next = e2
-e2.next = e3
-
-llist.AtBeginning("0")
-
-# Delete "3" node
-llist.deleteNode("3")
-llist.listprint()
-
-
-
-
-
-
-
-
-
-
-*****************LAGRANGE ***********************
-
-#normal
-x = np.array([0,20,40,60,80,100])
-y = np.array([26.0,48.6,61.6,71.2,74.8,75.2])
-m=len(x)
-n = m-1 #degree of polynomial
-xp = float(input(&quot;Enter x: &quot;))
-yp=0
-for i in range(n+1):
-p=1
-for j in range(n+1):
-if j != i:
-p*=(xp - x[j])/(x[i]-x[j])
-yp += y[i]*p
-print(&#39;for x=%.2f,y=%f&#39; % (xp,yp))
-
-#using numpy
-import numpy as np
-x = np.array([0,20,40,60,80,100])
-y = np.array([26.0,48.6,61.6,71.2,74.8,75.2])
-xp = float(input(&quot;Enter x: &quot;))
-yp=0
-for xi, yi in zip (x,y):
-yp += yi * np.prod((xp-x[x != xi])/(xi-x[x != xi]))
-print(&#39;for x=%.2f,y=%f&#39; % (xp,yp))
-
-#polynomial interpolation using Lagrange polynomials using numpy plotting using matplotlib
-import numpy as np
-
-import matplotlib.pyplot as plt
-x = np.array([0,20,40,60,80,100],float)
-y = np.array([26.0,48.6,61.6,71.2,74.8,75.2],float)
-xplt = np.linspace(x[0],x[-1])
-yplt = np.array([],float)
-for xp in xplt:
-yp = 0
-for xi, yi in zip (x,y):
-yp += yi * np.prod((xp-x[x != xi])/(xi-x[x != xi]))
-yplt = np.append(yplt,yp)
-#plot
-plt.plot(x,y,&#39;ro&#39;,xplt,yplt)
-plt.xlabel(&#39;x&#39;)
-plt.ylabel(&#39;y&#39;)
-plt.show()
-
-#Using R
-
-x &lt;- c(0,20,40,60,80,100)
-y &lt;- c(26.0,48.6,61.6,71.2,74.8,75.2)
-n=length(x)
-a &lt;- 20
-s &lt;- 0.0
-
-for (i in 1:n){
-prodx = 1.0
-prody = 1.0
-for (j in 1:n){
-if (i != j){
-prodx &lt;- prodx*(a-x[j])
-prody &lt;- prody*(x[i]-x[j])
-}
-j &lt;- j+1
-}
-s=s+(prodx/prody)*y[i]
-i &lt;- i+1
-}
-print(paste("answer is ",s))
-
-library(ggplot2)
-plot(x,y,type='o')
-
-
-*************MERGE SORT**************************
-Merge Sort Algorithm
-Code:
-# Python program for implementation of MergeSort
-
-def mergeSort(arr):
-if len(arr) &gt; 1:
-
-# Finding the mid of the array
-mid = len(arr)//2
-
-# Dividing the array elements
-L = arr[:mid]
-
-# Into 2 halves
-R = arr[mid:]
-
-# Sorting the first half
-mergeSort(L)
-
-# Sorting the second half
-mergeSort(R)
-
-i = j = k = 0
-
-# Copy data to temp arrays L[] and R[]
-while i &lt; len(L) and j &lt; len(R):
-if L[i] &lt;= R[j]:
-arr[k] = L[i]
-i += 1
-else:
-arr[k] = R[j]
-
-j += 1
-k += 1
-
-# Checking if any element was left
-while i &lt; len(L):
-arr[k] = L[i]
-i += 1
-k += 1
-
-while j &lt; len(R):
-arr[k] = R[j]
-j += 1
-k += 1
-
-# Code to print the list
-def printList(arr):
-for i in range(len(arr)):
-print(arr[i], end=&quot; &quot;)
-print()
-
-# Driver Code
-if __name__ == &#39;__main__&#39;:
-arr = [12, 11, 13, 5, 6, 7]
-print(&quot;Given array is&quot;)
-printList(arr)
-mergeSort(arr)
-print(&quot;\nSorted array is &quot;)
-printList(arr)
-
-### Time complexity = O(N log(N))
-
-
-
-
-*****************STEEPEST ASCENT%***************
-
-#Steepest Ascent Method
-
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import axes3d
-
-def f(x):
-    return -(0.5*x[0]**2 + 2.5*x[1]**2)
-
-def df(x):
-    return np.array([-x[0], -5*x[1]])
-
-fig = plt.figure()
-ax = fig.add_subplot(projection = '3d')
-xmesh,ymesh = np.mgrid[-2:2:50j,-2:2:50j]  #[start:stop:any complex no]
-fmesh = f(np.array([xmesh,ymesh]))
-#print(fmesh)
-ax.plot_surface(xmesh,ymesh,fmesh)
-
-plt.axis("equal")
-plt.contour(xmesh,ymesh,fmesh)
-
-guesses = [np.array([2,-2/5.0])]
-print(guesses)
-
-x = guesses[-1]
-print(x)
-print()
-s = df(x)
-print(s)
-alpha_opt = 0.1
-for i in range (0,5):
-    next_guesses = (x + alpha_opt * s)
-    guesses.append(next_guesses)
-print(next_guesses)
-
-plt.axis('equal')
-plt.contour(xmesh,ymesh,fmesh,100)
-it_array = np.array(guesses)
-plt.plot(it_array.T[0], it_array.T[1], "x-")
-
-
-***************LINERA BINARY SELECTION BUBBLE***************
-#linear search
-l = []
-a = int(input("Enter your elements"))
-for i in range(a):
-    l.append(input("enter elements"))
-print(l)
-f=0
-s = input("enter element to search")
-for i in l:
-    if i == s:
-            f = 1
+for i in graph:        
+    print(i,graph[i])
+
+# Practical 1.b Generate adjacency matrix
+
+from collections import defaultdict
+def createGraph():
+    v = int(input("Enter Number for vertices: "))
+    e = int(input("Enter Number for edges: "))
+    graph = defaultdict(list)
+    for i in range (e):
+        u1,u2 = input().split()
+        graph[u1].append(u2)
+        if u1!=u2:
+            graph[u2].append(u1)
+    for i in graph:
+        print(i,graph[i])
+    return graph
+    graph = createGraph()
+
+
+
+
+def verticesDict(graph):
+    vertices_list = list(graph.keys())
+    vertices_dict ={}
+    for i in range(len(vertices_list)):
+        vertices_dict[vertices_list[i]]=i
+    return vertices_dict
+ 
+def adjacencyMatrix(graph,vertices_dict):
+    adjacency_matrix = [[0]*len(list(graph.keys()))
+                       for i in range(len(list(graph.keys())))]
+    for key in graph:
+        i = vertices_dict[key]
+        for edge in graph[key]:
+            if i == vertices_dict[edge]:
+                adjacency_matrix[i][vertices_dict[edge]]=2
+            else:
+                adjacency_matrix[i][vertices_dict[edge]]=1
+    print("\nAdjacency Matrix:")
+    for i in adjacency_matrix:
+        print(*i)  
+graph = createGraph() 
+adjacencyMatrix(graph,verticesDict(graph))  
+
+
+# Practical 1.c Generate Adjacency Matrix for Weighted Graphs
+
+def printmatrix(matrix):
+    r,c=len(matrix),len(matrix[0])
+    for i in range(r):
+        for j in range(c):
+            print(matrix[i][j],end="")
+        print()
+v,e=map(int,input().split())
+matrix=[[0]*v for i in range(v)]
+for i in range(e):
+    u,v=map(str,input().split())
+    w=int(input())
+    u=ord(u)-ord('a')  #ord: calculates the ascii value of the character
+    v=ord(v)-ord('a')
+    matrix[u][v]=w
+printmatrix(matrix)        
+
+
+def print_matrix(matrix):
+    for row in matrix:
+        print(*row)
+
+v, e = map(int, input().split())
+matrix = [[0] * v for _ in range(v)]
+
+for _ in range(e):
+    u, v, w = input().split()
+    u, v = ord(u) - ord('a'), ord(v) - ord('a')
+    matrix[u][v] = int(w)
+
+print_matrix(matrix)
+
+\
+# pRac2 minimum spanning tree 
+# Prim's algorithm for finding the minimum spanning tree in a graph
+
+INF = 9999999
+
+def primMST(V, G):
+    selected = [False] * V
+    selected[0] = True
+    no_edge = 0
+
+    print("Edge : Weight\n")
+
+    while no_edge < V - 1:
+        minimum = INF
+        x = 0
+        y = 0
+        for i in range(V):
+            if selected[i]:
+                for j in range(V):
+                    if not selected[j] and G[i][j] and minimum > G[i][j]:
+                        minimum = G[i][j]
+                        x = i
+                        y = j
+
+        print(f"{x} - {y} : {G[x][y]}")
+        selected[y] = True
+        no_edge += 1
+
+if __name__ == '__main__':
+    V = int(input("Enter the number of vertices: "))
+
+    G = []
+    print("Enter the adjacency matrix:")
+    for _ in range(V):
+        row = list(map(int, input().split()))
+        G.append(row)
+
+    primMST(V, G)
+
+
+# Python program for Kruskal's algorithm to find Minimum Spanning Tree
+
+# Class to represent a graph 
+class Graph: 
+  
+    def __init__(self, vertices): 
+        self.V = vertices 
+        self.graph = [] 
+  
+    # Function to add an edge to graph 
+    def addEdge(self, u, v, w): 
+        self.graph.append([u, v, w]) 
+  
+    # A utility function to find set of an element i 
+    # (truly uses path compression technique) 
+    def find(self, parent, i): 
+        if parent[i] != i: 
+  
+            # Reassignment of node's parent 
+            # to root node as 
+            # path compression requires 
+            parent[i] = self.find(parent, parent[i]) 
+        return parent[i] 
+  
+    # A function that does union of two sets of x and y 
+    # (uses union by rank) 
+    def union(self, parent, rank, x, y): 
+  
+        # Attach smaller rank tree under root of 
+        # high rank tree (Union by Rank) 
+        if rank[x] < rank[y]: 
+            parent[x] = y 
+        elif rank[x] > rank[y]: 
+            parent[y] = x 
+  
+        # If ranks are same, then make one as root 
+        # and increment its rank by one 
+        else: 
+            parent[y] = x 
+            rank[x] += 1
+  
+    # The main function to construct MST 
+    # using Kruskal's algorithm 
+    def KruskalMST(self): 
+  
+        # This will store the resultant MST 
+        result = [] 
+  
+        # An index variable, used for sorted edges 
+        i = 0
+  
+        # An index variable, used for result[] 
+        e = 0
+  
+        # Sort all the edges in 
+        # non-decreasing order of their 
+        # weight 
+        self.graph = sorted(self.graph, 
+                            key=lambda item: item[2]) 
+  
+        parent = [] 
+        rank = [] 
+  
+        # Create V subsets with single elements 
+        for node in range(self.V): 
+            parent.append(node) 
+            rank.append(0) 
+  
+        # Number of edges to be taken is less than to V-1 
+        while e < self.V - 1: 
+  
+            # Pick the smallest edge and increment 
+            # the index for next iteration 
+            u, v, w = self.graph[i] 
+            i = i + 1
+            x = self.find(parent, u) 
+            y = self.find(parent, v) 
+  
+            # If including this edge doesn't 
+            # cause cycle, then include it in result 
+            # and increment the index of result 
+            # for next edge 
+            if x != y: 
+                e = e + 1
+                result.append([u, v, w]) 
+                self.union(parent, rank, x, y) 
+            # Else discard the edge 
+  
+        minimumCost = 0
+        print("Edges in the constructed MST") 
+        for u, v, weight in result: 
+            minimumCost += weight 
+            print("%d -- %d == %d" % (u, v, weight)) 
+        print("Minimum Spanning Tree", minimumCost) 
+  
+  
+# Driver code 
+if __name__ == '__main__': 
+    g = Graph(4) 
+    g.addEdge(0, 1, 10) 
+    g.addEdge(0, 2, 6) 
+    g.addEdge(0, 3, 5) 
+    g.addEdge(1, 3, 15) 
+    g.addEdge(2, 3, 4) 
+  
+    # Function call 
+    g.KruskalMST()
+
+
+class Graph:
+    def __init__(self, vertices):
+        self.V = vertices
+        self.graph = []
+
+    def addEdge(self, u, v, w):
+        self.graph.append((u, v, w))
+
+    def KruskalMST(self):
+        result = []
+        self.graph.sort(key=lambda item: item[2])
+        parent = list(range(self.V))
+
+        def find(i):
+            if parent[i] != i:
+                parent[i] = find(parent[i])
+            return parent[i]
+
+        def union(x, y):
+            parent[find(x)] = find(y)
+
+        e = 0
+        i = 0
+        while e < self.V - 1:
+            u, v, w = self.graph[i]
+            i += 1
+            x, y = find(u), find(v)
+            if x != y:
+                e += 1
+                result.append((u, v, w))
+                union(x, y)
+
+        minimumCost = sum(weight for _, _, weight in result)
+        print("Edges in the constructed MST")
+        for u, v, weight in result:
+            print(f"{u} -- {v} == {weight}")
+        print("Minimum Spanning Tree", minimumCost)
+
+# Driver code
+if __name__ == '__main__':
+    num_vertices = int(input("Enter the number of vertices: "))
+    g = Graph(num_vertices)
+
+    while True:
+        try:
+            u, v, w = map(int, input("Enter edge (u v w), or type 'done' to finish: ").split())
+            g.addEdge(u, v, w)
+        except ValueError:
             break
-if f == 1:
-    print("found")
-else:
-    print("not found")
-        
 
-# binary search
-def binary_search(list1, n):  
-    low = 0  
-    high = len(list1) - 1  
-    mid = 0  
-  
-    while low <= high:  
-        # for get integer result   
-        mid = (high + low) // 2  
-  
-        # Check if n is present at mid   
-        if list1[mid] < n:  
-            low = mid + 1  
-  
-        # If n is greater, compare to the right of mid   
-        elif list1[mid] > n:  
-            high = mid - 1  
-  
-        # If n is smaller, compared to the left of mid  
-        else:  
-            return mid  
-  
-            # element was not present in the list, return -1  
-    return -1  
-  
- 
-list1 = []
-a=int(input("Enter no. of elememts: "))
-for i in range(a):
-    list1.append(input("Enter Element: "))
-
-n = input("Element to search: ")  
- 
-# Function call  
-result = binary_search(list1, n)  
- 
-if result != -1:  
-    print("Element is present at index", str(result))  
-else:  
-    print("Element is not present in list1")
-
-#selection sorting
-list1 = []
-b = int(input("Enter number of elements: "))
-
-for x in range(b):
-    list1.append(input("Enter Element: "))
-
-a = len(list1)
-
-for i in range(a):
-    for j in range(i + 1, a):  
-        if list1[i] > list1[j]:
-            list1[i], list1[j] = list1[j], list1[i]
-
-print("Sorted list:", list1)
-
-# Creating a bubble sort function  
-def bubble_sort(list1):  
-    # Outer loop for traverse the entire list  
-    for i in range(0,len(list1)-1):  
-        for j in range(len(list1)-1):  
-            if(list1[j]>list1[j+1]):
-                list1[j], list1[j+1]  = list1[j+1], list1[j]  
-    return list1  
- 
-list1 = []  
-items = int(input("Enter number of elements you want to insert: "))
-for i in range(items):
-    list1.append(input(f'Enter Element {i+1}: '))
-
-print("The unsorted list is: ", list1)  
-# Calling the bubble sort function  
-print("The sorted list is: ", bubble_sort(list1))
+    # Function call
+    g.KruskalMST()
+    
+    """Enter the number of vertices: 6
+Enter edge (u v w), or type 'done' to finish: 5 3 20
+Enter edge (u v w), or type 'done' to finish: 4 5 55
+Enter edge (u v w), or type 'done' to finish: 2 5 15
+Enter edge (u v w), or type 'done' to finish: 2 4 35
+Enter edge (u v w), or type 'done' to finish: 0 1 10
+Enter edge (u v w), or type 'done' to finish: 0 3 30
+Enter edge (u v w), or type 'done' to finish: 0 4 45
+Enter edge (u v w), or type 'done' to finish: 1 2 50
+Enter edge (u v w), or type 'done' to finish: 1 3 25
+Enter edge (u v w), or type 'done' to finish: 1 4 40
+Enter edge (u v w), or type 'done' to finish: done
+Edges in the constructed MST
+0 -- 1 == 10
+2 -- 5 == 15
+5 -- 3 == 20
+1 -- 3 == 25
+2 -- 4 == 35
+Minimum Spanning Tree 105"""
 
 
 
+# 3A Dijkstra's Algorithm
+
+import heapq
+from collections import defaultdict
+
+def shortestPath(graph, src, dest):
+    h = []
+    heapq.heappush(h, (0, src))
+    while len(h) != 0:
+        currcost, curvtx = heapq.heappop(h)
+        if curvtx == dest:
+            print("Path exists from {} to {} with cost {}.".format(src, dest, currcost))
+            break
+        for neigh, neighcost in graph[curvtx]:
+            heapq.heappush(h, (currcost + neighcost, neigh))
+
+graph = defaultdict(list)
+v, e = map(int, input("Enter no of vertices and edges:").split())
+for i in range(e):
+    u, v, w = map(str, input("Enter edges and weights:").split())
+    graph[u].append((v, int(w)))
+
+src, dest = map(str, input("Enter source and destination:").split())
+shortestPath(graph, src, dest)
 
 
+# 3B  Floyd-Warshall Algorithm
+INF = float('inf')
 
-************************NEWTONRAPHSON****************************
-#Newton Raphson
-def nraphson(fn,dfn,x,tol,maxiter):
-for i in range( maxiter):
-xnew=x-fn(x)/dfn(x)
-if abs(xnew-x)&lt;tol:
-break
-x=xnew
-return xnew,i
-y=lambda x:2*x**3-9.5*x+7.5
-dy=lambda x:6*x**2-9.5
-x,n=nraphson(y,dy,5,0.001,100)
-print(&quot;The root is %f at %d iterations.&quot;%(x,n))
+def printmatrix(m):
+    r, c = len(m), len(m[0])
+    for i in range(r):
+        for j in range(c):
+            print(m[i][j], end="\t")
+        print()
 
+v, e = map(int, input("Enter number of Vertices and Edges: ").split())
+m = [[None] * v for i in range(v)]
 
-
-
-
-
-
-
-***********************MONTE CARLO********************************************
-import numpy as np
-
-agg_score = []
-for i in range (0,10000):
-    shot=[]
-    for j in range(100):
-        r = np.random.random()
-        if(r<=0.7):
-            shot.append(1)
+for i in range(v):
+    for j in range(v):
+        # src=dst
+        if i == j:
+            m[i][j] = 0
+        # edge does not exist
         else:
-                shot.append(0)
-    if (sum(shot)>=70):
-        agg_score.append(1)
-    else:
-        agg_score.append(0)
-print(np.average(agg_score))
+            m[i][j] = INF
 
-agg_score = []
-for i in range (0,1000000):
-    shot=[]
-    for j in range(100):
-        r = np.random.random()
-        if(r<=0.7):
-            shot.append(1)
-        else:
-                shot.append(0)
-    if (sum(shot)>=70):
-        agg_score.append(1)
-    else:
-        agg_score.append(0)
-print(np.average(agg_score))
+# take input values
+for i in range(e):
+    src, dst, wt = map(int, input("Enter edges and the weights: ").split())
+    m[src-1][dst-1] = wt
 
-agg_score = []
-for i in range (0,100000):
-    shot=[]
-    for j in range(100):
-        r = np.random.random()
-        if(r<=0.7):
-            shot.append(1)
-        else:
-                shot.append(0)
-    if (sum(shot)>=70):
-        agg_score.append(1)
-    else:
-        agg_score.append(0)
-print(np.average(agg_score))
+print("Original Matrix:")
+printmatrix(m)
+print("........................................")
 
-# to find the probability of the dart hitting the target
+# apply your algo
+# T.C=(v^3)
+for k in range(v):
+    for i in range(v):
+        for j in range(v):
+            # cost of tmp path is less
+            # update
+            if m[i][k] + m[k][j] < m[i][j]:
+                m[i][j] = m[i][k] + m[k][j]
 
-import math
+print("Final Matrix:")
+printmatrix(m)
+
+# Python3 program to print DFS traversal from a given  graph
+from collections import defaultdict
+ 
+ 
+# This class represents a directed graph using
+# adjacency list representation
+class Graph:
+ 
+    # Constructor
+    def __init__(self):
+ 
+        # Default dictionary to store graph
+        self.graph = defaultdict(list)
+ 
+     
+    # Function to add an edge to graph
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+ 
+     
+    # A function used by DFS
+    def DFSUtil(self, v, visited):
+ 
+        # Mark the current node as visited
+        # and print it
+        visited.add(v)
+        print(v, end=' ')
+ 
+        # Recur for all the vertices
+        # adjacent to this vertex
+        for neighbour in self.graph[v]:
+            if neighbour not in visited:
+                self.DFSUtil(neighbour, visited)
+ 
+     
+    # The function to do DFS traversal. It uses
+    # recursive DFSUtil()
+    def DFS(self, v):
+ 
+        # Create a set to store visited vertices
+        visited = set()
+ 
+        # Call the recursive helper function
+        # to print DFS traversal
+        self.DFSUtil(v, visited)
+ 
+ 
+# Driver's code
+if __name__ == "__main__":
+    g = Graph()
+    g.addEdge(0, 1)
+    g.addEdge(0, 2)
+    g.addEdge(1, 2)
+    g.addEdge(2, 0)
+    g.addEdge(2, 3)
+    g.addEdge(3, 3)
+ 
+    print("Following is Depth First Traversal (starting from vertex 2)")
+     
+    # Function call
+    g.DFS(2)
+
+
+# Python3 Program to print BFS traversal from a given source vertex. BFS(int s) traverses vertices reachable from s.
+
+
+
+from collections import defaultdict
+ 
+ 
+# This class represents a directed graph
+# using adjacency list representation
+class Graph:
+ 
+    # Constructor
+    def __init__(self):
+ 
+        # Default dictionary to store graph
+        self.graph = defaultdict(list)
+ 
+    # Function to add an edge to graph
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+ 
+    # Function to print a BFS of graph
+    def BFS(self, s):
+ 
+        # Mark all the vertices as not visited
+        visited = [False] * (max(self.graph) + 1)
+ 
+        # Create a queue for BFS
+        queue = []
+ 
+        # Mark the source node as
+        # visited and enqueue it
+        queue.append(s)
+        visited[s] = True
+ 
+        while queue:
+ 
+            # Dequeue a vertex from
+            # queue and print it
+            s = queue.pop(0)
+            print(s, end=" ")
+ 
+            # Get all adjacent vertices of the
+            # dequeued vertex s.
+            # If an adjacent has not been visited,
+            # then mark it visited and enqueue it
+            for i in self.graph[s]:
+                if visited[i] == False:
+                    queue.append(i)
+                    visited[i] = True
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    # Create a graph given in
+    # the above diagram
+    g = Graph()
+    g.addEdge(0, 1)
+    g.addEdge(0, 2)
+    g.addEdge(1, 2)
+    g.addEdge(2, 0)
+    g.addEdge(2, 3)
+    g.addEdge(3, 3)
+ 
+    print("Following is Breadth First Traversal"
+          " (starting from vertex 2)")
+    g.BFS(2)
+
+
+# prac 5 Random Graph
+import networkx as nx
+import matplotlib.pyplot as plt
 import random
 
-def function(x):
-    return math.log(x) / x
-count = 0.0
-in_area = 0.0
-while count < 100000:
-    
-    x_coord = random.uniform(1,10)
-    y_coord = random.uniform(0,1/math.e)
-    
-    if y_coord < function(x_coord):
-        in_area +=1
-    count+=1
-#print in area 
-#print(count)
-area_box=9/math.e
-print((in_area/count)*area_box)
+#distribution graph from Erdos_renyl model
 
-def function(x):
-    return math.log(x)/x
-count=0.0
-in_area=0.0
-while count<100000:
-    x_coord=random.uniform(1,10)
-    y_coord=random.uniform(0,1/math.e)
+def distribution_graph(g):
+    print(nx.degree(g))
+    all_node_degree=list(dict((nx.degree(g))).values())
    
-    if y_coord<function(x_coord):
-        in_area+=1
-    count+=1
+    unique_degree=list(set(all_node_degree))
+    unique_degree.sort()
+    nodes_with_degree=[]
+    for i in unique_degree:
+        nodes_with_degree.append(all_node_degree.count(i))
+    plt.plot(unique_degree,nodes_with_degree)
+    plt.xlabel("Degrees")
+    plt.ylabel("Number of nodes")
+    plt.title("Degree distribution")
+    plt.show()
    
-area_box=9/math.e
-print((in_area/count)*area_box)
+#take N number of nodes from user
+print("Enter number of nodes: ")
+N=int(input())
+
+#take P probability for every edges
+print("Enter value of probability of every node: ")
+P=float(input())
+
+#create an empty graph object
+g=nx.Graph()
+#part of network module,vreating an empty graph using it
+
+#adding nodes
+g.add_nodes_from(range(1,N+1))
+#1,2,3 as 4 is not considered
+
+#add edge to the graph randomly
+for i in g.nodes():
+    for j in g.nodes():
+        if (i<j):
+            #take random number R:
+            R=random.random()
+            #creates some random value that will be 0-1 by default
+            #check if R<P add the edge to the graph else ignore
+            if (R<P):
+                #random value which will be 0-1 and we are taking 0 for example
+                g.add_edge(i,j)
+    #for printing the nodes
+    pos=nx.circular_layout(g)
+    #display the social netwrok
+    nx.draw(g,pos,with_labels=1)
+    plt.show()
+
+#display connection between nodes
+distribution_graph(g)
 
 
-************************************STATISTICS USING R************************
+# 6A. Generate Random Walk
+
+import random
 import numpy as np
-import seaborn as sns
-import statistics as st
-from scipy import stats
-from numpy import random
+import matplotlib.pyplot as plt
+def random_walk(steps):
+    position=0
+    positions=[position]
+    for _ in range(steps):
+        step = random.choice([-1,1])
+        position+=step
+        positions.append(position)
+    return positions
+
+steps=1000
+walk=random_walk(steps)
+
+plt.plot(range(steps+1),walk)
+plt.xlabel('Steps')
+plt.ylabel('Positions')
+plt.show()
+
+# 6B. Check Behaviour Of Random Walk
+def random_walk(steps):
+    position=0
+    positions=[position]
+    for _ in range(steps):
+        step = random.choice([-1,1])
+        position+=step
+        positions.append(position)
+    return positions
+
+def analyze_random_walk(steps, trails):
+    mean_displacements= []
+    variances= []
+    for _ in range(trails):
+        walk=random_walk(steps)
+        mean_displacement = np.mean(walk)
+        variance=np.var(walk)
+        mean_displacements.append(mean_displacement)
+        variances.append(variance)
+    return mean_displacements, variances
+
+steps=1000
+trails=1000
+
+mean_displacements, variances= analyze_random_walk(steps, trails)
+plt.figure(figsize=(10,5))
+
+plt.subplot(1,2,1)
+plt.hist(mean_displacements, bins=30, edgecolor="black")
+plt.xlabel("Mean Displacement")
+plt.ylabel("Frequency")
+plt.title("Distribution of Mean Displacement")
+
+plt.subplot(1,2,2)
+plt.hist(variances,bins=30, edgecolor="black")
+plt.xlabel("Variance")
+plt.ylabel("Frequency")
+plt.title("Distribution of Variance")
+
+plt.tight_layout()
+plt.show()
+
+# 6C. Find Stationery Probability Of Random Walk
+
+import random
+import numpy as np
 import matplotlib.pyplot as plt
 
-#Mean(Average)
+def random_walk(steps):
+    position = 0
+    positions = [position]
+    for _ in range(steps):
+        step = random.choice([-1, 1])
+        position += step
+        positions.append(position)
+    return positions
 
-speed = [99,93,67,83,112,88,94,35,87,79,99]
-x = np.mean(speed)
-print(x)
+def stationary_distribution(steps, trials):
+    counts = np.zeros(2 * steps + 1)
+    for _ in range(trials):
+        walk = random_walk(steps)
+        for position in walk:
+            counts[position + steps] += 1
+    probs = counts / (trials * (2 * steps + 1))
+    return probs
 
-#Median
+steps = 1000
+trials = 10000
+probs = stationary_distribution(steps, trials)
 
-x = np.median(speed)
-x
-
-#Mode
-
-x = stats.mode(speed)
-print(x)
-
-#Standard Deviation
-
-x = np.std(speed)
-x
-
-#Variance
-
-speed1 = [36,111,23,78,94,67,89,93,45,57,78,84]
-y = np.var(speed1)
-y
-
-x = np.var(speed)
-x
-
-#sample standard deviation
-
-x = st.stdev(speed)
-x
-
-#population Standard Deviation
-
-x = st.pstdev(speed)
-x
-
-#Variance
-
-x = st.variance(speed)
-x
-
-y = st.variance(speed1)
-y
-
-# NORMAL DISTRIBUTION
-
-#make this example reproducible
-print(np.random.seed(0))
-
-#create data
-x = np.random.normal(size=10)
-print("x",x)
-#create normal distribution curve
-sns.displot(x, kind = 'kde')
-
-# BINOMIAL DISTRIBUTION - Discrete Distribution
-
-sample = random.binomial(n=15,p=0.7,size=100)
-print(sample)
-sns.histplot(sample,kde=True)
-plt.show()
-
-# BERNOULLI DISTRIBUTION
-
-from scipy.stats import bernoulli
-sample2 = bernoulli.rvs(size=1000,p=0.6)  #rvs - random variable sample
-print(sample2)
-sns.displot(sample2, kde = False)
-plt.show()
-
-# POISSON DISTRIBUTION - no of occurrence of an event at a point of time
-
-sample2 = random.poisson(lam = 2,size=100)
-print(sample2)
-sns.displot(sample2,kde=False)
-plt.show()
-
-# LINEAR REGRESSION
-
-df = sns.load_dataset('tips')
-sns.regplot(x="total_bill",y="tip",data=df)
+plt.plot(range(-steps, steps + 1), probs)
+plt.xlabel('position')
+plt.ylabel('probability')
+plt.title('stationary probability distribution of random walks')
 plt.show()
 
 
+# Prac 7 svd Image Compression
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.image import imread 
+import numpy.linalg as nplinalg
+
+a = imread('fds.jpg') 
+x = np.mean(a, -1)
+
+img = plt.imshow(x, cmap='gray')
+plt.axis("off")
+plt.show()
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Assume x is your input image as a NumPy array
+
+# Perform SVD
+u, s, vt = np.linalg.svd(x)
+
+# List of values of r for compression
+r_values = [5, 30, 500]
+
+# Loop through r values
+for r in r_values:
+    # Truncate SVD components
+    u_trunc = u[:, :r]
+    s_trunc = np.diag(s[:r])
+    vt_trunc = vt[:r, :]
+    
+    # Reconstruct compressed image
+    x_approx = u_trunc @ s_trunc @ vt_trunc
+    
+   
+    
+    # Display the compressed image
+    plt.imshow(x_approx, cmap='gray')
+    plt.axis('off')
+    plt.title(f'r={r}')
+    plt.show()
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Assume 'a' is your input image as a NumPy array
+
+# Take the mean along the last axis to convert to grayscale
+X = np.mean(a,-1)
+
+# Display the image with a blue colormap
+plt.imshow(X, cmap='Reds')
+plt.axis('off')
+plt.show()
+
+
+# prac8 pca
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import numpy as np
+%matplotlib inline
+
+from sklearn import datasets
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.datasets import load_breast_cancer
+
+# Load the breast cancer dataset
+cancer = load_breast_cancer()
+cancer.keys()
+
+df = pd.DataFrame(cancer['data'],columns=cancer['feature_names'])
+df.head()
+
+scaler=StandardScaler()
+scaler.fit(df)
+scaled_data = scaler.transform(df)
+scaled_data
+pca = PCA(n_components=2)
+pca.fit(scaled_data)
+scaled_data.shape
+x_pca = pca.transform(scaled_data)
+x_pca.shape
+x_pca
+
+# Plot PCA
+y=cancer.target
+plt.figure(figsize=(8, 6))
+for i, target_name in enumerate(cancer.target_names):
+    plt.scatter(x_pca[y == i, 0], x_pca[y == i, 1], label=target_name)
+    plt.xlabel('Principal Component 1')
+    plt.ylabel('Principal Component 2')
+    plt.title('PCA of Breast Cancer dataset')
+    plt.legend()
+    plt.show()
