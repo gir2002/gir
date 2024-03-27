@@ -1,780 +1,645 @@
-# Prac1 Practical 1.a Generate Adjacency List
-
-from collections import defaultdict
-
-n = int(input("Enter Number of Vertices: "))
-e = int(input("Enter Number of Edges: "))
-
-graph = defaultdict(list)
-
-for i in range(e):
-    u1,u2 = input().split()
-    graph[u1].append(u2)
-    if u1!=u2:
-        graph[u2].append(u1)
-        
-for i in graph:        
-    print(i,graph[i])
-
-# Practical 1.b Generate adjacency matrix
-
-from collections import defaultdict
-def createGraph():
-    v = int(input("Enter Number for vertices: "))
-    e = int(input("Enter Number for edges: "))
-    graph = defaultdict(list)
-    for i in range (e):
-        u1,u2 = input().split()
-        graph[u1].append(u2)
-        if u1!=u2:
-            graph[u2].append(u1)
-    for i in graph:
-        print(i,graph[i])
-    return graph
-    graph = createGraph()
-
-
-
-
-def verticesDict(graph):
-    vertices_list = list(graph.keys())
-    vertices_dict ={}
-    for i in range(len(vertices_list)):
-        vertices_dict[vertices_list[i]]=i
-    return vertices_dict
- 
-def adjacencyMatrix(graph,vertices_dict):
-    adjacency_matrix = [[0]*len(list(graph.keys()))
-                       for i in range(len(list(graph.keys())))]
-    for key in graph:
-        i = vertices_dict[key]
-        for edge in graph[key]:
-            if i == vertices_dict[edge]:
-                adjacency_matrix[i][vertices_dict[edge]]=2
-            else:
-                adjacency_matrix[i][vertices_dict[edge]]=1
-    print("\nAdjacency Matrix:")
-    for i in adjacency_matrix:
-        print(*i)  
-graph = createGraph() 
-adjacencyMatrix(graph,verticesDict(graph))  
-
-
-# Practical 1.c Generate Adjacency Matrix for Weighted Graphs
-
-def printmatrix(matrix):
-    r,c=len(matrix),len(matrix[0])
-    for i in range(r):
-        for j in range(c):
-            print(matrix[i][j],end="")
-        print()
-v,e=map(int,input().split())
-matrix=[[0]*v for i in range(v)]
-for i in range(e):
-    u,v=map(str,input().split())
-    w=int(input())
-    u=ord(u)-ord('a')  #ord: calculates the ascii value of the character
-    v=ord(v)-ord('a')
-    matrix[u][v]=w
-printmatrix(matrix)        
-
-
-def print_matrix(matrix):
-    for row in matrix:
-        print(*row)
-
-v, e = map(int, input().split())
-matrix = [[0] * v for _ in range(v)]
-
-for _ in range(e):
-    u, v, w = input().split()
-    u, v = ord(u) - ord('a'), ord(v) - ord('a')
-    matrix[u][v] = int(w)
-
-print_matrix(matrix)
-
-\
-# pRac2 minimum spanning tree 
-# Prim's algorithm for finding the minimum spanning tree in a graph
-
-INF = 9999999
-
-def primMST(V, G):
-    selected = [False] * V
-    selected[0] = True
-    no_edge = 0
-
-    print("Edge : Weight\n")
-
-    while no_edge < V - 1:
-        minimum = INF
-        x = 0
-        y = 0
-        for i in range(V):
-            if selected[i]:
-                for j in range(V):
-                    if not selected[j] and G[i][j] and minimum > G[i][j]:
-                        minimum = G[i][j]
-                        x = i
-                        y = j
-
-        print(f"{x} - {y} : {G[x][y]}")
-        selected[y] = True
-        no_edge += 1
-
-if __name__ == '__main__':
-    V = int(input("Enter the number of vertices: "))
-
-    G = []
-    print("Enter the adjacency matrix:")
-    for _ in range(V):
-        row = list(map(int, input().split()))
-        G.append(row)
-
-    primMST(V, G)
-
-
-# Python program for Kruskal's algorithm to find Minimum Spanning Tree
-
-# Class to represent a graph 
-class Graph: 
-  
-    def __init__(self, vertices): 
-        self.V = vertices 
-        self.graph = [] 
-  
-    # Function to add an edge to graph 
-    def addEdge(self, u, v, w): 
-        self.graph.append([u, v, w]) 
-  
-    # A utility function to find set of an element i 
-    # (truly uses path compression technique) 
-    def find(self, parent, i): 
-        if parent[i] != i: 
-  
-            # Reassignment of node's parent 
-            # to root node as 
-            # path compression requires 
-            parent[i] = self.find(parent, parent[i]) 
-        return parent[i] 
-  
-    # A function that does union of two sets of x and y 
-    # (uses union by rank) 
-    def union(self, parent, rank, x, y): 
-  
-        # Attach smaller rank tree under root of 
-        # high rank tree (Union by Rank) 
-        if rank[x] < rank[y]: 
-            parent[x] = y 
-        elif rank[x] > rank[y]: 
-            parent[y] = x 
-  
-        # If ranks are same, then make one as root 
-        # and increment its rank by one 
-        else: 
-            parent[y] = x 
-            rank[x] += 1
-  
-    # The main function to construct MST 
-    # using Kruskal's algorithm 
-    def KruskalMST(self): 
-  
-        # This will store the resultant MST 
-        result = [] 
-  
-        # An index variable, used for sorted edges 
-        i = 0
-  
-        # An index variable, used for result[] 
-        e = 0
-  
-        # Sort all the edges in 
-        # non-decreasing order of their 
-        # weight 
-        self.graph = sorted(self.graph, 
-                            key=lambda item: item[2]) 
-  
-        parent = [] 
-        rank = [] 
-  
-        # Create V subsets with single elements 
-        for node in range(self.V): 
-            parent.append(node) 
-            rank.append(0) 
-  
-        # Number of edges to be taken is less than to V-1 
-        while e < self.V - 1: 
-  
-            # Pick the smallest edge and increment 
-            # the index for next iteration 
-            u, v, w = self.graph[i] 
-            i = i + 1
-            x = self.find(parent, u) 
-            y = self.find(parent, v) 
-  
-            # If including this edge doesn't 
-            # cause cycle, then include it in result 
-            # and increment the index of result 
-            # for next edge 
-            if x != y: 
-                e = e + 1
-                result.append([u, v, w]) 
-                self.union(parent, rank, x, y) 
-            # Else discard the edge 
-  
-        minimumCost = 0
-        print("Edges in the constructed MST") 
-        for u, v, weight in result: 
-            minimumCost += weight 
-            print("%d -- %d == %d" % (u, v, weight)) 
-        print("Minimum Spanning Tree", minimumCost) 
-  
-  
-# Driver code 
-if __name__ == '__main__': 
-    g = Graph(4) 
-    g.addEdge(0, 1, 10) 
-    g.addEdge(0, 2, 6) 
-    g.addEdge(0, 3, 5) 
-    g.addEdge(1, 3, 15) 
-    g.addEdge(2, 3, 4) 
-  
-    # Function call 
-    g.KruskalMST()
-
-
-class Graph:
-    def __init__(self, vertices):
-        self.V = vertices
-        self.graph = []
-
-    def addEdge(self, u, v, w):
-        self.graph.append((u, v, w))
-
-    def KruskalMST(self):
-        result = []
-        self.graph.sort(key=lambda item: item[2])
-        parent = list(range(self.V))
-
-        def find(i):
-            if parent[i] != i:
-                parent[i] = find(parent[i])
-            return parent[i]
-
-        def union(x, y):
-            parent[find(x)] = find(y)
-
-        e = 0
-        i = 0
-        while e < self.V - 1:
-            u, v, w = self.graph[i]
-            i += 1
-            x, y = find(u), find(v)
-            if x != y:
-                e += 1
-                result.append((u, v, w))
-                union(x, y)
-
-        minimumCost = sum(weight for _, _, weight in result)
-        print("Edges in the constructed MST")
-        for u, v, weight in result:
-            print(f"{u} -- {v} == {weight}")
-        print("Minimum Spanning Tree", minimumCost)
-
-# Driver code
-if __name__ == '__main__':
-    num_vertices = int(input("Enter the number of vertices: "))
-    g = Graph(num_vertices)
-
-    while True:
-        try:
-            u, v, w = map(int, input("Enter edge (u v w), or type 'done' to finish: ").split())
-            g.addEdge(u, v, w)
-        except ValueError:
-            break
-
-    # Function call
-    g.KruskalMST()
-    
-    """Enter the number of vertices: 6
-Enter edge (u v w), or type 'done' to finish: 5 3 20
-Enter edge (u v w), or type 'done' to finish: 4 5 55
-Enter edge (u v w), or type 'done' to finish: 2 5 15
-Enter edge (u v w), or type 'done' to finish: 2 4 35
-Enter edge (u v w), or type 'done' to finish: 0 1 10
-Enter edge (u v w), or type 'done' to finish: 0 3 30
-Enter edge (u v w), or type 'done' to finish: 0 4 45
-Enter edge (u v w), or type 'done' to finish: 1 2 50
-Enter edge (u v w), or type 'done' to finish: 1 3 25
-Enter edge (u v w), or type 'done' to finish: 1 4 40
-Enter edge (u v w), or type 'done' to finish: done
-Edges in the constructed MST
-0 -- 1 == 10
-2 -- 5 == 15
-5 -- 3 == 20
-1 -- 3 == 25
-2 -- 4 == 35
-Minimum Spanning Tree 105"""
-
-
-
-# 3A Dijkstra's Algorithm
-
-import heapq
-from collections import defaultdict
-
-def shortestPath(graph, src, dest):
-    h = []
-    heapq.heappush(h, (0, src))
-    while len(h) != 0:
-        currcost, curvtx = heapq.heappop(h)
-        if curvtx == dest:
-            print("Path exists from {} to {} with cost {}.".format(src, dest, currcost))
-            break
-        for neigh, neighcost in graph[curvtx]:
-            heapq.heappush(h, (currcost + neighcost, neigh))
-
-graph = defaultdict(list)
-v, e = map(int, input("Enter no of vertices and edges:").split())
-for i in range(e):
-    u, v, w = map(str, input("Enter edges and weights:").split())
-    graph[u].append((v, int(w)))
-
-src, dest = map(str, input("Enter source and destination:").split())
-shortestPath(graph, src, dest)
-
-
-# 3B  Floyd-Warshall Algorithm
-INF = float('inf')
-
-def printmatrix(m):
-    r, c = len(m), len(m[0])
-    for i in range(r):
-        for j in range(c):
-            print(m[i][j], end="\t")
-        print()
-
-v, e = map(int, input("Enter number of Vertices and Edges: ").split())
-m = [[None] * v for i in range(v)]
-
-for i in range(v):
-    for j in range(v):
-        # src=dst
-        if i == j:
-            m[i][j] = 0
-        # edge does not exist
-        else:
-            m[i][j] = INF
-
-# take input values
-for i in range(e):
-    src, dst, wt = map(int, input("Enter edges and the weights: ").split())
-    m[src-1][dst-1] = wt
-
-print("Original Matrix:")
-printmatrix(m)
-print("........................................")
-
-# apply your algo
-# T.C=(v^3)
-for k in range(v):
-    for i in range(v):
-        for j in range(v):
-            # cost of tmp path is less
-            # update
-            if m[i][k] + m[k][j] < m[i][j]:
-                m[i][j] = m[i][k] + m[k][j]
-
-print("Final Matrix:")
-printmatrix(m)
-
-# Python3 program to print DFS traversal from a given  graph
-from collections import defaultdict
- 
- 
-# This class represents a directed graph using
-# adjacency list representation
-class Graph:
- 
-    # Constructor
-    def __init__(self):
- 
-        # Default dictionary to store graph
-        self.graph = defaultdict(list)
- 
-     
-    # Function to add an edge to graph
-    def addEdge(self, u, v):
-        self.graph[u].append(v)
- 
-     
-    # A function used by DFS
-    def DFSUtil(self, v, visited):
- 
-        # Mark the current node as visited
-        # and print it
-        visited.add(v)
-        print(v, end=' ')
- 
-        # Recur for all the vertices
-        # adjacent to this vertex
-        for neighbour in self.graph[v]:
-            if neighbour not in visited:
-                self.DFSUtil(neighbour, visited)
- 
-     
-    # The function to do DFS traversal. It uses
-    # recursive DFSUtil()
-    def DFS(self, v):
- 
-        # Create a set to store visited vertices
-        visited = set()
- 
-        # Call the recursive helper function
-        # to print DFS traversal
-        self.DFSUtil(v, visited)
- 
- 
-# Driver's code
-if __name__ == "__main__":
-    g = Graph()
-    g.addEdge(0, 1)
-    g.addEdge(0, 2)
-    g.addEdge(1, 2)
-    g.addEdge(2, 0)
-    g.addEdge(2, 3)
-    g.addEdge(3, 3)
- 
-    print("Following is Depth First Traversal (starting from vertex 2)")
-     
-    # Function call
-    g.DFS(2)
-
-
-# Python3 Program to print BFS traversal from a given source vertex. BFS(int s) traverses vertices reachable from s.
-
-
-
-from collections import defaultdict
- 
- 
-# This class represents a directed graph
-# using adjacency list representation
-class Graph:
- 
-    # Constructor
-    def __init__(self):
- 
-        # Default dictionary to store graph
-        self.graph = defaultdict(list)
- 
-    # Function to add an edge to graph
-    def addEdge(self, u, v):
-        self.graph[u].append(v)
- 
-    # Function to print a BFS of graph
-    def BFS(self, s):
- 
-        # Mark all the vertices as not visited
-        visited = [False] * (max(self.graph) + 1)
- 
-        # Create a queue for BFS
-        queue = []
- 
-        # Mark the source node as
-        # visited and enqueue it
-        queue.append(s)
-        visited[s] = True
- 
-        while queue:
- 
-            # Dequeue a vertex from
-            # queue and print it
-            s = queue.pop(0)
-            print(s, end=" ")
- 
-            # Get all adjacent vertices of the
-            # dequeued vertex s.
-            # If an adjacent has not been visited,
-            # then mark it visited and enqueue it
-            for i in self.graph[s]:
-                if visited[i] == False:
-                    queue.append(i)
-                    visited[i] = True
- 
- 
-# Driver code
-if __name__ == '__main__':
- 
-    # Create a graph given in
-    # the above diagram
-    g = Graph()
-    g.addEdge(0, 1)
-    g.addEdge(0, 2)
-    g.addEdge(1, 2)
-    g.addEdge(2, 0)
-    g.addEdge(2, 3)
-    g.addEdge(3, 3)
- 
-    print("Following is Breadth First Traversal"
-          " (starting from vertex 2)")
-    g.BFS(2)
-
-
-# prac 5 Random Graph
-import networkx as nx
-import matplotlib.pyplot as plt
-import random
-
-#distribution graph from Erdos_renyl model
-
-def distribution_graph(g):
-    print(nx.degree(g))
-    all_node_degree=list(dict((nx.degree(g))).values())
-   
-    unique_degree=list(set(all_node_degree))
-    unique_degree.sort()
-    nodes_with_degree=[]
-    for i in unique_degree:
-        nodes_with_degree.append(all_node_degree.count(i))
-    plt.plot(unique_degree,nodes_with_degree)
-    plt.xlabel("Degrees")
-    plt.ylabel("Number of nodes")
-    plt.title("Degree distribution")
-    plt.show()
-   
-#take N number of nodes from user
-print("Enter number of nodes: ")
-N=int(input())
-
-#take P probability for every edges
-print("Enter value of probability of every node: ")
-P=float(input())
-
-#create an empty graph object
-g=nx.Graph()
-#part of network module,vreating an empty graph using it
-
-#adding nodes
-g.add_nodes_from(range(1,N+1))
-#1,2,3 as 4 is not considered
-
-#add edge to the graph randomly
-for i in g.nodes():
-    for j in g.nodes():
-        if (i<j):
-            #take random number R:
-            R=random.random()
-            #creates some random value that will be 0-1 by default
-            #check if R<P add the edge to the graph else ignore
-            if (R<P):
-                #random value which will be 0-1 and we are taking 0 for example
-                g.add_edge(i,j)
-    #for printing the nodes
-    pos=nx.circular_layout(g)
-    #display the social netwrok
-    nx.draw(g,pos,with_labels=1)
-    plt.show()
-
-#display connection between nodes
-distribution_graph(g)
-
-
-# 6A. Generate Random Walk
-
-import random
-import numpy as np
-import matplotlib.pyplot as plt
-def random_walk(steps):
-    position=0
-    positions=[position]
-    for _ in range(steps):
-        step = random.choice([-1,1])
-        position+=step
-        positions.append(position)
-    return positions
-
-steps=1000
-walk=random_walk(steps)
-
-plt.plot(range(steps+1),walk)
-plt.xlabel('Steps')
-plt.ylabel('Positions')
-plt.show()
-
-# 6B. Check Behaviour Of Random Walk
-def random_walk(steps):
-    position=0
-    positions=[position]
-    for _ in range(steps):
-        step = random.choice([-1,1])
-        position+=step
-        positions.append(position)
-    return positions
-
-def analyze_random_walk(steps, trails):
-    mean_displacements= []
-    variances= []
-    for _ in range(trails):
-        walk=random_walk(steps)
-        mean_displacement = np.mean(walk)
-        variance=np.var(walk)
-        mean_displacements.append(mean_displacement)
-        variances.append(variance)
-    return mean_displacements, variances
-
-steps=1000
-trails=1000
-
-mean_displacements, variances= analyze_random_walk(steps, trails)
-plt.figure(figsize=(10,5))
-
-plt.subplot(1,2,1)
-plt.hist(mean_displacements, bins=30, edgecolor="black")
-plt.xlabel("Mean Displacement")
-plt.ylabel("Frequency")
-plt.title("Distribution of Mean Displacement")
-
-plt.subplot(1,2,2)
-plt.hist(variances,bins=30, edgecolor="black")
-plt.xlabel("Variance")
-plt.ylabel("Frequency")
-plt.title("Distribution of Variance")
-
-plt.tight_layout()
-plt.show()
-
-# 6C. Find Stationery Probability Of Random Walk
-
-import random
-import numpy as np
-import matplotlib.pyplot as plt
-
-def random_walk(steps):
-    position = 0
-    positions = [position]
-    for _ in range(steps):
-        step = random.choice([-1, 1])
-        position += step
-        positions.append(position)
-    return positions
-
-def stationary_distribution(steps, trials):
-    counts = np.zeros(2 * steps + 1)
-    for _ in range(trials):
-        walk = random_walk(steps)
-        for position in walk:
-            counts[position + steps] += 1
-    probs = counts / (trials * (2 * steps + 1))
-    return probs
-
-steps = 1000
-trials = 10000
-probs = stationary_distribution(steps, trials)
-
-plt.plot(range(-steps, steps + 1), probs)
-plt.xlabel('position')
-plt.ylabel('probability')
-plt.title('stationary probability distribution of random walks')
-plt.show()
-
-
-# Prac 7 svd Image Compression
-import matplotlib.pyplot as plt
-import numpy as np
-from matplotlib.image import imread 
-import numpy.linalg as nplinalg
-
-a = imread('fds.jpg') 
-x = np.mean(a, -1)
-
-img = plt.imshow(x, cmap='gray')
-plt.axis("off")
-plt.show()
-
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Assume x is your input image as a NumPy array
-
-# Perform SVD
-u, s, vt = np.linalg.svd(x)
-
-# List of values of r for compression
-r_values = [5, 30, 500]
-
-# Loop through r values
-for r in r_values:
-    # Truncate SVD components
-    u_trunc = u[:, :r]
-    s_trunc = np.diag(s[:r])
-    vt_trunc = vt[:r, :]
-    
-    # Reconstruct compressed image
-    x_approx = u_trunc @ s_trunc @ vt_trunc
-    
-   
-    
-    # Display the compressed image
-    plt.imshow(x_approx, cmap='gray')
-    plt.axis('off')
-    plt.title(f'r={r}')
-    plt.show()
-
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Assume 'a' is your input image as a NumPy array
-
-# Take the mean along the last axis to convert to grayscale
-X = np.mean(a,-1)
-
-# Display the image with a blue colormap
-plt.imshow(X, cmap='Reds')
-plt.axis('off')
-plt.show()
-
-
-# prac8 pca
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
-import numpy as np
-%matplotlib inline
-
-from sklearn import datasets
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-
-from sklearn.datasets import load_breast_cancer
-
-# Load the breast cancer dataset
-cancer = load_breast_cancer()
-cancer.keys()
-
-df = pd.DataFrame(cancer['data'],columns=cancer['feature_names'])
-df.head()
-
-scaler=StandardScaler()
-scaler.fit(df)
-scaled_data = scaler.transform(df)
-scaled_data
-pca = PCA(n_components=2)
-pca.fit(scaled_data)
-scaled_data.shape
-x_pca = pca.transform(scaled_data)
-x_pca.shape
-x_pca
-
-# Plot PCA
-y=cancer.target
-plt.figure(figsize=(8, 6))
-for i, target_name in enumerate(cancer.target_names):
-    plt.scatter(x_pca[y == i, 0], x_pca[y == i, 1], label=target_name)
-    plt.xlabel('Principal Component 1')
-    plt.ylabel('Principal Component 2')
-    plt.title('PCA of Breast Cancer dataset')
-    plt.legend()
-    plt.show()
+###################################################Prac1- Least square method
+
+
+#Least Square Method
+
+###for linear regression###
+df = data.frame(hours=c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15),
+                score=c(35,42,29,45,60,58,75,59,68,73,83,89,84,95,90))
+df
+model = lm(score~hours,data=df)
+model
+summary(model)
+plot(df$hours,df$score,pch=16,col='steelblue')
+abline(model)
+res=resid(model)
+res
+plot(fitted(model),res)
+plot(density(res))
+
+#B For polynomial regression 
+df = data.frame(x=1:15,y=c(3,14,23,25,23,15,9,5,9,13,17,24,32,36,46))
+plot(df$x,df$y,pch=19,xlab='x',ylab='y')
+fit1 = lm(y~x,data=df)
+fit2 = lm(y~poly(x,2,raw=T),data=df)
+fit3 = lm(y~poly(x,3,raw=T),data=df)
+fit4 = lm(y~poly(x,4,raw=T),data=df)
+fit5 = lm(y~poly(x,5,raw=T),data=df)
+plot(df$x,df$y,pch=19,xlab='x',ylab='y')
+x_axis=seq(1,15,length=15)
+lines(x_axis,predict(fit1,data.frame(x=x_axis)),col='green')
+lines(x_axis,predict(fit2,data.frame(x=x_axis)),col='red')
+lines(x_axis,predict(fit3,data.frame(x=x_axis)),col='purple')
+lines(x_axis,predict(fit4,data.frame(x=x_axis)),col='blue')
+lines(x_axis,predict(fit5,data.frame(x=x_axis)),col='orange')
+
+summary(fit1)$adj.r.squared
+summary(fit2)$adj.r.squared
+summary(fit3)$adj.r.squared
+summary(fit4)$adj.r.squared
+summary(fit5)$adj.r.squared
+
+summary(fit4)
+summary(fit1)
+
+#1C For multiple linear regression
+df = read.csv("insurance.csv")
+df
+insurance_data$sex <- as.factor(insurance_data$sex)
+insurance_data$smoker <- as.factor(insurance_data$smoker)
+insurance_data$region <- as.factor(insurance_data$region)
+
+# Fit the model using lm
+model <- lm(charges ~ ., data = insurance_data)
+
+# Display the summary of the model
+summary(model)
+
+
+##################PRAC2-ANOVA####################
+
+
+library(tidyverse)
+library(glmnet)
+library(ggplot2)
+library(ggpubr)
+library(broom)
+
+data = read.csv("crop.csv",header=TRUE,colClasses = c("factor","factor","factor","numeric"))
+data
+summary(data)
+onewayanova = aov(yield~block,data=data)
+summary(onewayanova)
+
+
+# Access the F-value and P-value
+Fvalue <- summary(onewayanova)[[1]][1,4]
+Fvalue
+Pvalue=summary(onewayanova)[[1]][1,5]
+Pvalue
+LoS= 0.01
+
+if(Pvalue>LoS){
+  print("Accept H0")
+}else{
+  print("Cannot accept H0")
+}
+
+
+data = read.csv("poison.csv",header=TRUE,colClasses = c("numeric","factor","factor"))
+data
+
+summary(data)
+
+onewayanovap = aov(time~poison,data=data)
+summary(onewayanovap)
+# Access the F-value and P-value
+Fvalue <- summary(onewayanovap)[[1]][1,4]
+Fvalue
+Pvalue=summary(onewayanovap)[[1]][1,5]
+Pvalue
+LoS= 0.05
+
+if(Pvalue>LoS){
+  print("Accept H0")
+}else{
+  print("Cannot accept H0")
+}
+
+onewayanovat = aov(time~treat,data=data)
+summary(onewayanovat)
+# Access the F-value and P-value
+Fvalue <- summary(onewayanovat)[[1]][1,4]
+Fvalue
+Pvalue=summary(onewayanovat)[[1]][1,5]
+Pvalue
+LoS= 0.05
+
+if(Pvalue>LoS){
+  print("Accept H0")
+}else{
+  print("Cannot accept H0")
+}
+
+
+
+##########prac3 MANOVA#############
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+library(car)
+library(broom)
+library(datarium)
+library(tidyr)
+
+mydata = data.frame(c(9,6,9,0,2,3,1,2),c(3,2,7,4,0,8,9,7),c("A","A","A","B","B","C","C","C"))
+colnames(mydata) = c("X1","X2","Population")
+mydata
+
+res.man = manova(cbind(X1,X2)~Population,data=mydata)
+res.man
+
+print("Ho: ?1 = ?2 = ?3")
+print("H1: Not Ho")
+los = 0.05
+ftab = qf(0.95,4,8)
+ftab
+
+Wilks = summary(res.man,test="Wilks")
+Wilks
+Pvalue = Wilks$stats["Population","Pr(>F)"]
+Pvalue
+Fvalue = Wilks$stats["Population","approx F"]
+Fvalue
+
+if(Pvalue>los){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+if(Fvalue<ftab){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+Roy = summary(res.man,test="Roy")
+Roy
+Pvalue = Roy$stats["Population","Pr(>F)"]
+Pvalue
+Fvalue = Roy$stats["Population","approx F"]
+Fvalue
+if(Pvalue>los){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+if(Fvalue<ftab){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+HL = summary(res.man,test="Hotelling-Lawley")
+HL
+Pvalue = HL$stats["Population","Pr(>F)"]
+Pvalue
+Fvalue = HL$stats["Population","approx F"]
+Fvalue
+if(Pvalue>los){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+if(Fvalue<ftab){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+pillai = summary(res.man,test="Pillai")
+Pvalue = pillai$stats["Population","Pr(>F)"]
+Pvalue
+Fvalue = pillai$stats["Population","approx F"]
+Fvalue
+if(Pvalue>los){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+if(Fvalue<ftab){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+
+
+iris2 = iris
+data = data.frame(iris$Sepal.Length,iris$Petal.Length,iris2$Species)
+data
+head(data)
+
+res.man = manova(cbind(iris.Sepal.Length,iris.Sepal.Length)~ iris2.Species,data)
+res.man
+
+print("Ho: ?1 = ?2 = ?3")
+print("H1: Not Ho")
+
+los = 0.05
+FTab = qf(0.95,4,292)
+FTab
+
+pillai = summary(res.man,test="Pillai")
+pillai
+Pvalue = pillai$stats["iris.Species","Pr(>F)"]
+Pvalue
+Fvalue = pillai$stats["iris.Species","approx F"]
+Fvalue
+
+if(Pvalue>los){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+if(Fvalue<FTab){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+Roy = Manova(model,test.statistic="Roy")
+Roy
+Pvalue = pillai$stats["iris.Species","Pr(>F)"]
+Pvalue
+Fvalue = pillai$stats["iris.Species","approx F"]
+Fvalue
+
+if(Pvalue>los){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+if(Fvalue<FTab){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+Pillai = Manova(model,test.statistic="Pillai")
+Pillai
+Pvalue = pillai$stats["iris.Species","Pr(>F)"]
+Pvalue
+Fvalue = pillai$stats["iris.Species","approx F"]
+Fvalue
+
+if(Pvalue>los){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+if(Fvalue<FTab){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+HL = Manova(model,test.statistic="Hotelling-Lowley")
+HL
+Pvalue = pillai$stats["iris.Species","Pr(>F)"]
+Pvalue
+Fvalue = pillai$stats["iris.Species","approx F"]
+Fvalue
+
+if(Pvalue>los){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+if(Fvalue<FTab){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+wilks = Manova(model,test.statistic="Wilks")
+wilks
+Pvalue = pillai$stats["iris.Species","Pr(>F)"]
+Pvalue
+Fvalue = pillai$stats["iris.Species","approx F"]
+Fvalue
+
+if(Pvalue>los){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+if(Fvalue<FTab){
+  print("Accept Ho")
+}else{
+  print("Cannot Accept Ho")
+}
+
+
+##########Prac 5##############
+
+
+###Title: Multiple Linear Regression- Backward Elimination
+dataset=read.csv('data2.csv)')
+dataset$State = factor(dataset$State,
+                       levels = c('New York','California','Florida'),
+                       labels = c(1,2,3))
+
+#building the model
+set.seed(123)
+regressor = lm(formula = Profit ~ .,data = dataset)
+#{formula = Profit ~ .}->profit depends on(~) all the features(.).
+summary(regressor)
+
+
+#Conclusion: From the above output we come to a conclusion that we can accept the
+#R.D.Spend attribute at an los of 0.05.
+#Weeliminate Administration as it has a higher probability.
+
+dataset$Administration = NULL
+regressor = lm(formula = Profit ~ .,data = dataset)
+summary(regressor)
+
+
+
+#Conclusion: From the above output we come to a conclusion that we can accept the
+#R.D.Spend attribute at an los of 0.01.
+#Weeliminate State3 as it has a higher probability
+
+dataset$State = NULL
+regressor = lm(formula = Profit ~ .,data = dataset)
+summary(regressor)
+
+#Title: Multiple Linear Regression- Forward Selection
+
+dataset = read.csv('data2.csv')
+regressor = lm(formula = Profit ~ NULL,data = dataset)
+summary(regressor)
+y_pred = predict(regressor)
+
+regressor = lm(formula = Profit ~ dataset$R.D.Spend+dataset$Administration,data = dataset)
+summary(regressor)
+
+regressor = lm(formula = Profit ~ dataset$R.D.Spend+dataset$Marketing.Spend,data =
+                 dataset)
+summary(regressor)
+
+
+#Title: Multiple Linear Regression- Using AIC
+
+dataset = read.csv('data2.csv')
+full.model = lm(Profit~.,data = dataset)
+step.model = stepAIC(full.model, direction = "both")
+#Title: Multiple Linear Regression- Using AIC on “mtcars” dataset
+
+data("mtcars")
+head(mtcars)
+full.model = lm(mpg~.,data=mtcars)
+step.model = stepAIC(full.model, direction = "both")
+
+#Conclusion: From the above output it is seen that the AIC value is the least when mpg is
+#dependent on wt, qsec and am
+########PRAC 5 MLE############
+#Maximum likelihood Estimator
+
+#NORMAL
+set.seed(1123)
+x=rnorm(100)
+x=x/sd(x)*8
+x=x-mean(x)+10
+c('mean'=mean(x),'sd'=sd(x))
+
+hist(x,freq=FALSE,col='blue')
+lines(density(x),col='RED',lwd=2)
+
+norm_lik = function(x,m,s){
+  y=1/sqrt(2*pi*s^2)*exp((-1/(2*s^2))*(x-m)^2)
+}
+plot(seq(-3, 3, 0.1), sapply(seq(-3, 3, 0.1), FUN = function(x) norm_lik(x, 0, 1)), 
+     type = "l", ylab = "", xlab = "", main = "Gaussian Normal")
+
+llik=function(x,par){
+  m=par[1]
+  s=par[2]
+  n=length(x)
+  ll=-(n/2)*(log(2*pi*s^2))+(-1/(2*s^2))*sum((x-m)^2)
+  return(-ll)
+}
+plot(seq(-3,3,.1),-1*sapply(seq(-3,3,.1),FUN=llik,par=c(0,1)),type="l",xlab ="",ylab ="")
+plot(seq(-3,3,.1),sapply(seq(-3,3,.1),FUN=llik,par=c(0,1)),type="l",xlab ="",ylab ="")
+
+res0 = optim(par=c(.5,.5),llik,x=x)
+res0$par
+
+#POISSON
+set.seed(1123)
+x = rpois(100, lambda = 3)  # Generating random Poisson data
+c('lambda' = mean(x))  # Displaying the mean of the generated Poisson data
+
+hist(x, freq = FALSE, col = 'blue')
+lines(density(x), col = 'red', lwd = 2)
+
+poisson_lik = function(x, lambda) {
+  y = dpois(x, lambda = lambda)
+}
+
+plot(seq(0, max(x), 1), sapply(seq(0, max(x), 1), FUN = function(x) poisson_lik(x, 3)),
+     type = "l", ylab = "", xlab = "", main = "Poisson Distribution")
+
+llik_poisson <- function(par, x) {
+  lambda <- par[1]
+  n <- length(x)
+  ll <- sum(dpois(x, lambda = lambda, log = TRUE))
+  return(-ll)
+}
+
+plot(seq(0, max(x), 1), -1 * sapply(seq(0, max(x), 1), FUN = function(x) llik_poisson(c(3), x)),
+     type = "l", xlab = "", ylab = "")
+plot(seq(0, max(x), 1), sapply(seq(0, max(x), 1), FUN = function(x) llik_poisson(c(3), x)),
+     type = "l", xlab = "", ylab = "")
+
+res_poisson <- optim(par = c(2), llik_poisson, x = x, method = "BFGS")
+res_poisson$par
+
+
+
+
+
+#POISSON
+obs=c(1,2,3,4,5,6,7,8,9,10,11,12,13,17,42,43)
+freq=c(1392,1711,914,468,306,192,96,56,35,17,15,6,2,2,1,1)
+sum(freq)
+x=rep(obs,freq)
+plot(table(x),main="count data")
+
+llik_poisson = function(x,lambda) lambda^x/factorial(x)*exp(-lambda)
+ log.lklh.poisson = function(x,lambda){
+   -sum(x*log(lambda)-log(factorial(x))-lambda)
+ }
+res1 = optim(par=2,log.lklh.poisson,x=x)
+res1$par
+
+x = rpois(1000,2)
+n=1000
+
+
+###############PRAC6 LOGISTIC REGRESSION################
+
+data("mtcars")
+head(mtcars)
+
+str(mtcars)
+
+model=glm(am~mpg +hp +wt,data=mtcars,family=binomial)
+summary(model)
+predictions = predict(model,type="response")
+head(predictions)
+
+table(mtcars$am,predictions>0.5)
+accuracy = mean((predictions>0.5)==mtcars$am)
+accuracy
+
+
+##############prac 7 hypothesis testing of single population ##############
+
+#1.
+Ho = "mean time for medicine to work is 15mins"
+H1 = "mean time for medicine to work is not 15mins"
+
+Xbar= 18
+mu0 = 15
+sd = 4
+n = 225
+alpha = 0.01
+
+#z-test as huge population
+zcal <- abs(Xbar - mu0) / (sd / sqrt(n))
+zcal
+
+Ztab = qnorm(1-alpha/2)
+Ztab  
+
+if (zcal<= Ztab){
+  print("Accept Ho")
+  print(Ho)
+}else{
+  print("cannot accept Ho")
+  print(H1)
+}
+
+#2. 
+Ho = "mean cost is 4800"
+H1 = "mean cost is LESS THAN 4800"
+
+Xbar= 4500
+mu0 = 4800
+sd = 900
+n = 40
+alpha = 0.01
+
+#z-test as huge population
+zcal <- abs(Xbar - mu0) / (sd / sqrt(n))
+zcal
+
+Ztab = qnorm(1-alpha)
+Ztab  
+
+if (zcal<= Ztab){
+  print("Accept Ho")
+  print(Ho)
+}else{
+  print("cannot accept Ho")
+  print(H1)
+}
+
+#3.
+Ho = "mean age is 66.2years "
+H1 = "mean age MORE THAN 66.2"
+
+Xbar= 68
+mu0 = 66.2
+sd = 8.1
+n = 30
+alpha = 0.05
+
+#z-test as huge population
+zcal <- abs(Xbar - mu0) / (sd / sqrt(n))
+zcal
+
+Ztab = qnorm(1-alpha)
+Ztab  
+
+if (zcal<= Ztab){
+  print("Accept Ho")
+  print(Ho)
+}else{
+  print("cannot accept Ho")
+  print(H1)
+}
+
+#4.
+Ho = "mean lifetime of light bulb is 10000hours"
+H1 = "mean lifetime of light bulb is MORE THAN 10000"
+
+Xbar= 9900
+mu0 = 10000
+sd = 120
+n = 200
+alpha = 0.05
+
+#z-test as huge population
+zcal <- abs(Xbar - mu0) / (sd / sqrt(n))
+zcal
+
+Ztab = qnorm(1-alpha)
+Ztab  
+
+if (zcal<= Ztab){
+  print("Accept Ho")
+  print(Ho)
+}else{
+  print("cannot accept Ho")
+  print(H1)
+}
+
+
+###############Prac8 DRAW ROC CURVE##################
+
+library(tidyr)
+library(pROC)
+
+data = read.csv("heart_data.csv")
+data
+
+ggplot(data)+
+  geom_point(aes(fast_food_spend,factor(heart_disease)),color='blue')
+
+model = lm(heart_disease~fast_food_spend,data=data)
+summary(model)
+
+ggplot(data) +
+  geom_point(aes(fast_food_spend,heart_disease), color = 'blue') +
+  geom_abline(slope = coef(model)[2], intercept = coef(model)[1],color="red")
+
+LogisticRegression = glm(formula = factor(heart_disease)~factor(coffee_drinker)+
+                           fast_food_spend + income,data=data,
+                         family=binomial(link='logit'))
+summary(LogisticRegression)
+
+thresh_1 = 0.01
+thresh_2 = 0.25
+thresh_3 = 0.5
+thresh_4 = 1.00
+
+pred_probs = predict(LogisticRegression,type="response")
+
+accuracy1 = sum(ifelse(pred_probs>thresh_1,1,0)==data$heart_disease)/nrow(data)
+accuracy2 = sum(ifelse(pred_probs>thresh_2,1,0)==data$heart_disease)/nrow(data)
+accuracy3 = sum(ifelse(pred_probs>thresh_3,1,0)==data$heart_disease)/nrow(data)
+accuracy4 = sum(ifelse(pred_probs>thresh_4,1,0)==data$heart_disease)/nrow(data)
+
+accuracy1
+accuracy2
+accuracy3
+accuracy4
+
+data.frame(actual=data$heart_disease,predicted=ifelse(pred_probs>thresh_1,1,0))%>%table()
+
+#sensitivity
+321/(321+12)
+
+#specificity
+7163/(7163+2504)
+
+rocurve = roc(heart_disease ~ coffee_drinker + fast_food_spend, data = data, plot = TRUE, print.auc = TRUE)
+
