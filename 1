@@ -1,645 +1,74 @@
-###################################################Prac1- Least square method
-
-
-#Least Square Method
-
-###for linear regression###
-df = data.frame(hours=c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15),
-                score=c(35,42,29,45,60,58,75,59,68,73,83,89,84,95,90))
-df
-model = lm(score~hours,data=df)
-model
-summary(model)
-plot(df$hours,df$score,pch=16,col='steelblue')
-abline(model)
-res=resid(model)
-res
-plot(fitted(model),res)
-plot(density(res))
-
-#B For polynomial regression 
-df = data.frame(x=1:15,y=c(3,14,23,25,23,15,9,5,9,13,17,24,32,36,46))
-plot(df$x,df$y,pch=19,xlab='x',ylab='y')
-fit1 = lm(y~x,data=df)
-fit2 = lm(y~poly(x,2,raw=T),data=df)
-fit3 = lm(y~poly(x,3,raw=T),data=df)
-fit4 = lm(y~poly(x,4,raw=T),data=df)
-fit5 = lm(y~poly(x,5,raw=T),data=df)
-plot(df$x,df$y,pch=19,xlab='x',ylab='y')
-x_axis=seq(1,15,length=15)
-lines(x_axis,predict(fit1,data.frame(x=x_axis)),col='green')
-lines(x_axis,predict(fit2,data.frame(x=x_axis)),col='red')
-lines(x_axis,predict(fit3,data.frame(x=x_axis)),col='purple')
-lines(x_axis,predict(fit4,data.frame(x=x_axis)),col='blue')
-lines(x_axis,predict(fit5,data.frame(x=x_axis)),col='orange')
-
-summary(fit1)$adj.r.squared
-summary(fit2)$adj.r.squared
-summary(fit3)$adj.r.squared
-summary(fit4)$adj.r.squared
-summary(fit5)$adj.r.squared
-
-summary(fit4)
-summary(fit1)
-
-#1C For multiple linear regression
-df = read.csv("insurance.csv")
-df
-insurance_data$sex <- as.factor(insurance_data$sex)
-insurance_data$smoker <- as.factor(insurance_data$smoker)
-insurance_data$region <- as.factor(insurance_data$region)
-
-# Fit the model using lm
-model <- lm(charges ~ ., data = insurance_data)
-
-# Display the summary of the model
-summary(model)
-
-
-##################PRAC2-ANOVA####################
-
-
-library(tidyverse)
-library(glmnet)
-library(ggplot2)
-library(ggpubr)
-library(broom)
-
-data = read.csv("crop.csv",header=TRUE,colClasses = c("factor","factor","factor","numeric"))
-data
-summary(data)
-onewayanova = aov(yield~block,data=data)
-summary(onewayanova)
-
-
-# Access the F-value and P-value
-Fvalue <- summary(onewayanova)[[1]][1,4]
-Fvalue
-Pvalue=summary(onewayanova)[[1]][1,5]
-Pvalue
-LoS= 0.01
-
-if(Pvalue>LoS){
-  print("Accept H0")
-}else{
-  print("Cannot accept H0")
-}
-
-
-data = read.csv("poison.csv",header=TRUE,colClasses = c("numeric","factor","factor"))
-data
-
-summary(data)
-
-onewayanovap = aov(time~poison,data=data)
-summary(onewayanovap)
-# Access the F-value and P-value
-Fvalue <- summary(onewayanovap)[[1]][1,4]
-Fvalue
-Pvalue=summary(onewayanovap)[[1]][1,5]
-Pvalue
-LoS= 0.05
-
-if(Pvalue>LoS){
-  print("Accept H0")
-}else{
-  print("Cannot accept H0")
-}
-
-onewayanovat = aov(time~treat,data=data)
-summary(onewayanovat)
-# Access the F-value and P-value
-Fvalue <- summary(onewayanovat)[[1]][1,4]
-Fvalue
-Pvalue=summary(onewayanovat)[[1]][1,5]
-Pvalue
-LoS= 0.05
-
-if(Pvalue>LoS){
-  print("Accept H0")
-}else{
-  print("Cannot accept H0")
-}
-
-
-
-##########prac3 MANOVA#############
-library(tidyverse)
-library(ggpubr)
-library(rstatix)
-library(car)
-library(broom)
-library(datarium)
-library(tidyr)
-
-mydata = data.frame(c(9,6,9,0,2,3,1,2),c(3,2,7,4,0,8,9,7),c("A","A","A","B","B","C","C","C"))
-colnames(mydata) = c("X1","X2","Population")
-mydata
-
-res.man = manova(cbind(X1,X2)~Population,data=mydata)
-res.man
-
-print("Ho: ?1 = ?2 = ?3")
-print("H1: Not Ho")
-los = 0.05
-ftab = qf(0.95,4,8)
-ftab
-
-Wilks = summary(res.man,test="Wilks")
-Wilks
-Pvalue = Wilks$stats["Population","Pr(>F)"]
-Pvalue
-Fvalue = Wilks$stats["Population","approx F"]
-Fvalue
-
-if(Pvalue>los){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-if(Fvalue<ftab){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-Roy = summary(res.man,test="Roy")
-Roy
-Pvalue = Roy$stats["Population","Pr(>F)"]
-Pvalue
-Fvalue = Roy$stats["Population","approx F"]
-Fvalue
-if(Pvalue>los){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-if(Fvalue<ftab){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-HL = summary(res.man,test="Hotelling-Lawley")
-HL
-Pvalue = HL$stats["Population","Pr(>F)"]
-Pvalue
-Fvalue = HL$stats["Population","approx F"]
-Fvalue
-if(Pvalue>los){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-if(Fvalue<ftab){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-pillai = summary(res.man,test="Pillai")
-Pvalue = pillai$stats["Population","Pr(>F)"]
-Pvalue
-Fvalue = pillai$stats["Population","approx F"]
-Fvalue
-if(Pvalue>los){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-if(Fvalue<ftab){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-
-
-iris2 = iris
-data = data.frame(iris$Sepal.Length,iris$Petal.Length,iris2$Species)
-data
-head(data)
-
-res.man = manova(cbind(iris.Sepal.Length,iris.Sepal.Length)~ iris2.Species,data)
-res.man
-
-print("Ho: ?1 = ?2 = ?3")
-print("H1: Not Ho")
-
-los = 0.05
-FTab = qf(0.95,4,292)
-FTab
-
-pillai = summary(res.man,test="Pillai")
-pillai
-Pvalue = pillai$stats["iris.Species","Pr(>F)"]
-Pvalue
-Fvalue = pillai$stats["iris.Species","approx F"]
-Fvalue
-
-if(Pvalue>los){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-if(Fvalue<FTab){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-Roy = Manova(model,test.statistic="Roy")
-Roy
-Pvalue = pillai$stats["iris.Species","Pr(>F)"]
-Pvalue
-Fvalue = pillai$stats["iris.Species","approx F"]
-Fvalue
-
-if(Pvalue>los){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-if(Fvalue<FTab){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-Pillai = Manova(model,test.statistic="Pillai")
-Pillai
-Pvalue = pillai$stats["iris.Species","Pr(>F)"]
-Pvalue
-Fvalue = pillai$stats["iris.Species","approx F"]
-Fvalue
-
-if(Pvalue>los){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-if(Fvalue<FTab){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-HL = Manova(model,test.statistic="Hotelling-Lowley")
-HL
-Pvalue = pillai$stats["iris.Species","Pr(>F)"]
-Pvalue
-Fvalue = pillai$stats["iris.Species","approx F"]
-Fvalue
-
-if(Pvalue>los){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-if(Fvalue<FTab){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-wilks = Manova(model,test.statistic="Wilks")
-wilks
-Pvalue = pillai$stats["iris.Species","Pr(>F)"]
-Pvalue
-Fvalue = pillai$stats["iris.Species","approx F"]
-Fvalue
-
-if(Pvalue>los){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-if(Fvalue<FTab){
-  print("Accept Ho")
-}else{
-  print("Cannot Accept Ho")
-}
-
-
-##########Prac 5##############
-
-
-###Title: Multiple Linear Regression- Backward Elimination
-dataset=read.csv('data2.csv)')
-dataset$State = factor(dataset$State,
-                       levels = c('New York','California','Florida'),
-                       labels = c(1,2,3))
-
-#building the model
-set.seed(123)
-regressor = lm(formula = Profit ~ .,data = dataset)
-#{formula = Profit ~ .}->profit depends on(~) all the features(.).
-summary(regressor)
-
-
-#Conclusion: From the above output we come to a conclusion that we can accept the
-#R.D.Spend attribute at an los of 0.05.
-#Weeliminate Administration as it has a higher probability.
-
-dataset$Administration = NULL
-regressor = lm(formula = Profit ~ .,data = dataset)
-summary(regressor)
-
-
-
-#Conclusion: From the above output we come to a conclusion that we can accept the
-#R.D.Spend attribute at an los of 0.01.
-#Weeliminate State3 as it has a higher probability
-
-dataset$State = NULL
-regressor = lm(formula = Profit ~ .,data = dataset)
-summary(regressor)
-
-#Title: Multiple Linear Regression- Forward Selection
-
-dataset = read.csv('data2.csv')
-regressor = lm(formula = Profit ~ NULL,data = dataset)
-summary(regressor)
-y_pred = predict(regressor)
-
-regressor = lm(formula = Profit ~ dataset$R.D.Spend+dataset$Administration,data = dataset)
-summary(regressor)
-
-regressor = lm(formula = Profit ~ dataset$R.D.Spend+dataset$Marketing.Spend,data =
-                 dataset)
-summary(regressor)
-
-
-#Title: Multiple Linear Regression- Using AIC
-
-dataset = read.csv('data2.csv')
-full.model = lm(Profit~.,data = dataset)
-step.model = stepAIC(full.model, direction = "both")
-#Title: Multiple Linear Regression- Using AIC on “mtcars” dataset
-
-data("mtcars")
-head(mtcars)
-full.model = lm(mpg~.,data=mtcars)
-step.model = stepAIC(full.model, direction = "both")
-
-#Conclusion: From the above output it is seen that the AIC value is the least when mpg is
-#dependent on wt, qsec and am
-########PRAC 5 MLE############
-#Maximum likelihood Estimator
-
-#NORMAL
-set.seed(1123)
-x=rnorm(100)
-x=x/sd(x)*8
-x=x-mean(x)+10
-c('mean'=mean(x),'sd'=sd(x))
-
-hist(x,freq=FALSE,col='blue')
-lines(density(x),col='RED',lwd=2)
-
-norm_lik = function(x,m,s){
-  y=1/sqrt(2*pi*s^2)*exp((-1/(2*s^2))*(x-m)^2)
-}
-plot(seq(-3, 3, 0.1), sapply(seq(-3, 3, 0.1), FUN = function(x) norm_lik(x, 0, 1)), 
-     type = "l", ylab = "", xlab = "", main = "Gaussian Normal")
-
-llik=function(x,par){
-  m=par[1]
-  s=par[2]
-  n=length(x)
-  ll=-(n/2)*(log(2*pi*s^2))+(-1/(2*s^2))*sum((x-m)^2)
-  return(-ll)
-}
-plot(seq(-3,3,.1),-1*sapply(seq(-3,3,.1),FUN=llik,par=c(0,1)),type="l",xlab ="",ylab ="")
-plot(seq(-3,3,.1),sapply(seq(-3,3,.1),FUN=llik,par=c(0,1)),type="l",xlab ="",ylab ="")
-
-res0 = optim(par=c(.5,.5),llik,x=x)
-res0$par
-
-#POISSON
-set.seed(1123)
-x = rpois(100, lambda = 3)  # Generating random Poisson data
-c('lambda' = mean(x))  # Displaying the mean of the generated Poisson data
-
-hist(x, freq = FALSE, col = 'blue')
-lines(density(x), col = 'red', lwd = 2)
-
-poisson_lik = function(x, lambda) {
-  y = dpois(x, lambda = lambda)
-}
-
-plot(seq(0, max(x), 1), sapply(seq(0, max(x), 1), FUN = function(x) poisson_lik(x, 3)),
-     type = "l", ylab = "", xlab = "", main = "Poisson Distribution")
-
-llik_poisson <- function(par, x) {
-  lambda <- par[1]
-  n <- length(x)
-  ll <- sum(dpois(x, lambda = lambda, log = TRUE))
-  return(-ll)
-}
-
-plot(seq(0, max(x), 1), -1 * sapply(seq(0, max(x), 1), FUN = function(x) llik_poisson(c(3), x)),
-     type = "l", xlab = "", ylab = "")
-plot(seq(0, max(x), 1), sapply(seq(0, max(x), 1), FUN = function(x) llik_poisson(c(3), x)),
-     type = "l", xlab = "", ylab = "")
-
-res_poisson <- optim(par = c(2), llik_poisson, x = x, method = "BFGS")
-res_poisson$par
-
-
-
-
-
-#POISSON
-obs=c(1,2,3,4,5,6,7,8,9,10,11,12,13,17,42,43)
-freq=c(1392,1711,914,468,306,192,96,56,35,17,15,6,2,2,1,1)
-sum(freq)
-x=rep(obs,freq)
-plot(table(x),main="count data")
-
-llik_poisson = function(x,lambda) lambda^x/factorial(x)*exp(-lambda)
- log.lklh.poisson = function(x,lambda){
-   -sum(x*log(lambda)-log(factorial(x))-lambda)
- }
-res1 = optim(par=2,log.lklh.poisson,x=x)
-res1$par
-
-x = rpois(1000,2)
-n=1000
-
-
-###############PRAC6 LOGISTIC REGRESSION################
-
-data("mtcars")
-head(mtcars)
-
-str(mtcars)
-
-model=glm(am~mpg +hp +wt,data=mtcars,family=binomial)
-summary(model)
-predictions = predict(model,type="response")
-head(predictions)
-
-table(mtcars$am,predictions>0.5)
-accuracy = mean((predictions>0.5)==mtcars$am)
-accuracy
-
-
-##############prac 7 hypothesis testing of single population ##############
-
-#1.
-Ho = "mean time for medicine to work is 15mins"
-H1 = "mean time for medicine to work is not 15mins"
-
-Xbar= 18
-mu0 = 15
-sd = 4
-n = 225
-alpha = 0.01
-
-#z-test as huge population
-zcal <- abs(Xbar - mu0) / (sd / sqrt(n))
-zcal
-
-Ztab = qnorm(1-alpha/2)
-Ztab  
-
-if (zcal<= Ztab){
-  print("Accept Ho")
-  print(Ho)
-}else{
-  print("cannot accept Ho")
-  print(H1)
-}
-
-#2. 
-Ho = "mean cost is 4800"
-H1 = "mean cost is LESS THAN 4800"
-
-Xbar= 4500
-mu0 = 4800
-sd = 900
-n = 40
-alpha = 0.01
-
-#z-test as huge population
-zcal <- abs(Xbar - mu0) / (sd / sqrt(n))
-zcal
-
-Ztab = qnorm(1-alpha)
-Ztab  
-
-if (zcal<= Ztab){
-  print("Accept Ho")
-  print(Ho)
-}else{
-  print("cannot accept Ho")
-  print(H1)
-}
-
-#3.
-Ho = "mean age is 66.2years "
-H1 = "mean age MORE THAN 66.2"
-
-Xbar= 68
-mu0 = 66.2
-sd = 8.1
-n = 30
-alpha = 0.05
-
-#z-test as huge population
-zcal <- abs(Xbar - mu0) / (sd / sqrt(n))
-zcal
-
-Ztab = qnorm(1-alpha)
-Ztab  
-
-if (zcal<= Ztab){
-  print("Accept Ho")
-  print(Ho)
-}else{
-  print("cannot accept Ho")
-  print(H1)
-}
-
-#4.
-Ho = "mean lifetime of light bulb is 10000hours"
-H1 = "mean lifetime of light bulb is MORE THAN 10000"
-
-Xbar= 9900
-mu0 = 10000
-sd = 120
-n = 200
-alpha = 0.05
-
-#z-test as huge population
-zcal <- abs(Xbar - mu0) / (sd / sqrt(n))
-zcal
-
-Ztab = qnorm(1-alpha)
-Ztab  
-
-if (zcal<= Ztab){
-  print("Accept Ho")
-  print(Ho)
-}else{
-  print("cannot accept Ho")
-  print(H1)
-}
-
-
-###############Prac8 DRAW ROC CURVE##################
-
-library(tidyr)
-library(pROC)
-
-data = read.csv("heart_data.csv")
-data
-
-ggplot(data)+
-  geom_point(aes(fast_food_spend,factor(heart_disease)),color='blue')
-
-model = lm(heart_disease~fast_food_spend,data=data)
-summary(model)
-
-ggplot(data) +
-  geom_point(aes(fast_food_spend,heart_disease), color = 'blue') +
-  geom_abline(slope = coef(model)[2], intercept = coef(model)[1],color="red")
-
-LogisticRegression = glm(formula = factor(heart_disease)~factor(coffee_drinker)+
-                           fast_food_spend + income,data=data,
-                         family=binomial(link='logit'))
-summary(LogisticRegression)
-
-thresh_1 = 0.01
-thresh_2 = 0.25
-thresh_3 = 0.5
-thresh_4 = 1.00
-
-pred_probs = predict(LogisticRegression,type="response")
-
-accuracy1 = sum(ifelse(pred_probs>thresh_1,1,0)==data$heart_disease)/nrow(data)
-accuracy2 = sum(ifelse(pred_probs>thresh_2,1,0)==data$heart_disease)/nrow(data)
-accuracy3 = sum(ifelse(pred_probs>thresh_3,1,0)==data$heart_disease)/nrow(data)
-accuracy4 = sum(ifelse(pred_probs>thresh_4,1,0)==data$heart_disease)/nrow(data)
-
-accuracy1
-accuracy2
-accuracy3
-accuracy4
-
-data.frame(actual=data$heart_disease,predicted=ifelse(pred_probs>thresh_1,1,0))%>%table()
-
-#sensitivity
-321/(321+12)
-
-#specificity
-7163/(7163+2504)
-
-rocurve = roc(heart_disease ~ coffee_drinker + fast_food_spend, data = data, plot = TRUE, print.auc = TRUE)
+################### List the steps used in Creation of AWS RDS (data base ) server along with screen shots
+
+Steps Used in Creation of Relational Database Service server
+
+
+1.  Launching RDS
+2.  Creating database and choosing database method
+
+3.  Choosing the engine and its version
+
+For example choosing MySQL and its default version
+
+4.  Choosing template and deployment options
+
+Since we using the free tier, the availability and durability options are not there, the deployment options offer backups in various availability zones
+Configuring settings such as specifying database details such as cluster identifier, username, credentials management etc
+6.  Configuring the instance
+
+Choosing the DB instance type that allocates the computational, network, and memory capacity required by planned workloads of this DB instance.
+7.  Using the default storage settings for the database
+8.  Configuring the advance settings
+Such as selecting the VPC where we want to launch the RDS instance,then choosing the subnet group that defines the subnets for RDS instance.
+Specifying whether the database instance should be publicly accessible over the internet or no, configuring security group settings to control access to the RDS instance. And setting additional database options such as parameter groups, backup retention, monitoring, etc.
+Optional to add tags for easy identification and authentication, once done click on “create database”
+
+
+
+
+####################CC
+
+
+
+ Listthe steps used in creation of VPC in AWS along with screenshots and proper writeup on CIDR Notation.
+
+
+Steps Used in Creation of VPC in AWS with write up on CIDR Notation
+
+1. Launching the VPC dashboard
+
+2. After clicking on create VPC > Adding “Name Tag” > CIDR block
+
+(Specifying the CIDR block for your VPC. This is a range of IPv4 addresses in CIDR notation. For example, "10.0.0.0/16" represents a range of IP addresses from 10.0.0.0 to 10.0.255.255.)
+
+3. Choosing the number of availability zone
+4.	Configuring the Subnet settings
+
+After creating the VPC, you can create one or more subnets within it. Subnets are segments of the VPC's IP address range where you can place your resources.
+5. NAT and VPC endpoints
+
+NAT gateways enable resources in private subnets to reach the internet. And VPC endpoints enable you to create an isolated VPC that is closed from the public internet.
+
+6. Previewing and then clicking on “create vpc”
+
+you can verify the creation of your VPC by navigating back to the VPC dashboard and ensuring that your newly created VPC is listed there.
+
+
+CIDR Notation
+
+CIDR notation is a way to describe a range of IP addresses in a compact and standardized format. It consists of two parts:
+IP Address: An IP address is like a unique identifier for a device on a network. It's made up of four numbers separated by dots, like 10.0.0.0.
+​
+
+Subnet Mask: A subnet mask helps define which part of the IP address identifies the network and which part identifies the specific device on that network. It's typically a series of four numbers separated by dots, just like the IP address.
+
+In CIDR notation, the subnet mask is represented differently. Instead of writing out the entire subnet mask, we simply write a number after a slash ("/"). This number tells us how many bits from the left of the IP address are used to represent the network. For example:
+
+IP Address: 10.0.0.0
+
+Subnet Mask: 255.255.0.0
+
+In CIDR notation, this would be written as "10.0.0.0/16". The "/16" means that the first 16 bits of the IP address are used to represent the network, while the remaining bits can be used to identify individual devices within that network.
+So, in simpler terms, CIDR notation is just a way of saying "this IP address belongs to this network, and here's how many devices can be on that network." It helps network administrators efficiently manage and organize IP addresses within a network.
+
 
