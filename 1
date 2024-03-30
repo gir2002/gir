@@ -1,74 +1,545 @@
-################### List the steps used in Creation of AWS RDS (data base ) server along with screen shots
-
-Steps Used in Creation of Relational Database Service server
-
-
-1.  Launching RDS
-2.  Creating database and choosing database method
-
-3.  Choosing the engine and its version
-
-For example choosing MySQL and its default version
-
-4.  Choosing template and deployment options
-
-Since we using the free tier, the availability and durability options are not there, the deployment options offer backups in various availability zones
-Configuring settings such as specifying database details such as cluster identifier, username, credentials management etc
-6.  Configuring the instance
-
-Choosing the DB instance type that allocates the computational, network, and memory capacity required by planned workloads of this DB instance.
-7.  Using the default storage settings for the database
-8.  Configuring the advance settings
-Such as selecting the VPC where we want to launch the RDS instance,then choosing the subnet group that defines the subnets for RDS instance.
-Specifying whether the database instance should be publicly accessible over the internet or no, configuring security group settings to control access to the RDS instance. And setting additional database options such as parameter groups, backup retention, monitoring, etc.
-Optional to add tags for easy identification and authentication, once done click on “create database”
+#####################            PRAC 1  LINEAR REGRESSION           ###################### 
 
 
 
+#AIM: Implementing Simple Linear Regression Model
 
-####################CC
+import pandas as pd
+import matplotlib.pyplot as plt
 
-
-
- Listthe steps used in creation of VPC in AWS along with screenshots and proper writeup on CIDR Notation.
-
-
-Steps Used in Creation of VPC in AWS with write up on CIDR Notation
-
-1. Launching the VPC dashboard
-
-2. After clicking on create VPC > Adding “Name Tag” > CIDR block
-
-(Specifying the CIDR block for your VPC. This is a range of IPv4 addresses in CIDR notation. For example, "10.0.0.0/16" represents a range of IP addresses from 10.0.0.0 to 10.0.255.255.)
-
-3. Choosing the number of availability zone
-4.	Configuring the Subnet settings
-
-After creating the VPC, you can create one or more subnets within it. Subnets are segments of the VPC's IP address range where you can place your resources.
-5. NAT and VPC endpoints
-
-NAT gateways enable resources in private subnets to reach the internet. And VPC endpoints enable you to create an isolated VPC that is closed from the public internet.
-
-6. Previewing and then clicking on “create vpc”
-
-you can verify the creation of your VPC by navigating back to the VPC dashboard and ensuring that your newly created VPC is listed there.
+url = 'http://bit.ly/w-data'
 
 
-CIDR Notation
+data = pd.read_csv(url)
+data
 
-CIDR notation is a way to describe a range of IP addresses in a compact and standardized format. It consists of two parts:
-IP Address: An IP address is like a unique identifier for a device on a network. It's made up of four numbers separated by dots, like 10.0.0.0.
-​
+data.shape
 
-Subnet Mask: A subnet mask helps define which part of the IP address identifies the network and which part identifies the specific device on that network. It's typically a series of four numbers separated by dots, just like the IP address.
+data.info()
 
-In CIDR notation, the subnet mask is represented differently. Instead of writing out the entire subnet mask, we simply write a number after a slash ("/"). This number tells us how many bits from the left of the IP address are used to represent the network. For example:
 
-IP Address: 10.0.0.0
+data.plot(x='Hours', y = 'Scores',style = 'o')
+plt.xlabel('Hours Studies')
+plt.ylabel("Score Gained")
 
-Subnet Mask: 255.255.0.0
+x = data.iloc[:,:-1].values
+y = data.iloc[:,-1].values
 
-In CIDR notation, this would be written as "10.0.0.0/16". The "/16" means that the first 16 bits of the IP address are used to represent the network, while the remaining bits can be used to identify individual devices within that network.
-So, in simpler terms, CIDR notation is just a way of saying "this IP address belongs to this network, and here's how many devices can be on that network." It helps network administrators efficiently manage and organize IP addresses within a network.
+from sklearn.model_selection import train_test_split
 
+xtrain,xtest,ytrain,ytest = train_test_split(x,y,random_state = 1,test_size =0.2)
+
+from sklearn.linear_model import LinearRegression
+
+regressor=LinearRegression()
+
+regressor.fit(xtrain,ytrain)
+
+print(regressor.coef_)
+
+print(regressor.intercept_)
+
+line = regressor.coef_ * x + regressor.intercept_
+plt.scatter(x,y)
+plt.plot(x,line)
+ypred = regressor.predict(xtest)
+ypred
+xtest
+df = pd.DataFrame({'Actual':ytest,'Predicted':ypred})
+df
+from sklearn.metrics import mean_absolute_error
+
+print(mean_absolute_error(ytest,ypred))
+
+
+
+#####################            PRAC 2 LOGISTIC REGRESSION           ###################### 
+
+
+#LOGISTIC REGRESSION with pandas
+
+from sklearn.datasets import load_breast_cancer
+import pandas as pd
+
+dataset = load_breast_cancer()
+
+df = pd.DataFrame(dataset.data, columns = dataset.feature_names)
+
+df.shape
+
+df.sample(2)
+df['class']=dataset.target
+
+df.shape
+
+df.sample(2)
+from sklearn.model_selection import train_test_split
+
+x = df.iloc[:,:-1].values
+
+x.shape
+
+y = df.iloc[:,-1].values
+y.shape
+
+xtrain,xtest,ytrain,ytest = train_test_split(x,y,random_state = 1,test_size =0.3)
+
+
+xtrain.shape
+xtest.shape
+ytrain.shape
+ytest.shape
+from sklearn.linear_model import LogisticRegression
+classifier = LogisticRegression()
+classifier.fit(xtrain,ytrain)
+
+predictions = classifier.predict(xtest)
+predictions_probability = classifier.predict_proba(xtest)
+print(predictions_probability[0:10])
+predictions_probability_zero = classifier.predict_proba(xtest)[:,0]
+print(predictions_probability_zero[0:10])
+predictions_probability_one = classifier.predict_proba(xtest)[:,1]
+print(predictions_probability_one[0:10])
+df['class'].value_counts()
+
+from sklearn.metrics import accuracy_score,confusion_matrix
+
+accuracy_score(ytest,predictions)
+confusion_matrix(ytest,predictions)
+
+
+#LOGISTIC REGRESSION without pandas
+
+from sklearn.datasets import load_breast_cancer
+
+dataset = load_breast_cancer()
+x = dataset.data
+y = dataset.target
+
+from sklearn.model_selection import train_test_split
+xtrain,xtest,ytrain,ytest = train_test_split(x,y,random_state = 1,test_size =0.25)
+from sklearn.linear_model import LogisticRegression
+classifier = LogisticRegression()
+classifier.fit(xtrain,ytrain)
+predictions = classifier.predict(xtest)
+predictions_probability = classifier.predict_proba(xtest)
+print(predictions_probability[0:10])
+predictions_probability_zero = classifier.predict_proba(xtest)[:,0]
+print(predictions_probability_zero[0:10])
+
+predictions_probability_one = classifier.predict_proba(xtest)[:,1]
+print(predictions_probability_one[0:10])
+from sklearn.metrics import confusion_matrix,accuracy_score
+
+accuracy_score(ytest,predictions)
+confusion_matrix(ytest,predictions)
+
+Practical 2A Logistic Regression on Diabetes Dataset
+
+import pandas as pd
+
+df = pd.read_csv('diabetes.csv',header=None,names=['Pregnancies','Glucose','BloodPressure',
+                                                   'SkinThicknes','Insulin','BMI','Diabetes','Age','Class'])
+
+
+df.sample(2)
+df.shape
+
+df.info()
+
+X = df.iloc[:,:-1]
+from sklearn.preprocessing import StandardScaler
+
+sc = StandardScaler()
+Xscaled = sc.fit_transform(X)
+X.shape
+y = df.iloc[:,-1]
+y.shape
+from sklearn.model_selection import train_test_split
+xtrain,xtest,ytrain,ytest=train_test_split(X,y,test_size=0.25,random_state=1)
+xstrain,xstest,ystrain,ystest=train_test_split(Xscaled,y,test_size=0.25,random_state=1)
+xtrain.shape
+xtest.shape
+ytrain.shape
+ytest.shape
+from sklearn.linear_model import LogisticRegression
+model=LogisticRegression()
+model2=LogisticRegression()
+model.fit(xtrain,ytrain)
+model2.fit(xstrain,ystrain)
+df['Class'].value_counts()
+predictions=model.predict(xtest)
+predictions_probability = model.predict_proba(xtest)
+print(predictions_probability[0:10])
+predictions_probability_zero = model.predict_proba(xtest)[:,0]
+print(predictions_probability_zero[0:10])
+predictions_probability_one = model.predict_proba(xtest)[:,1]
+print(predictions_probability_one[0:10])
+predictions2=model2.predict(xstest)
+predictions2_probability = model2.predict_proba(xstest)
+print(predictions2_probability[0:10])
+
+predictions2_probability_zero = model2.predict_proba(xstest)[:,0]
+print(predictions2_probability_zero[0:10])
+
+predictions2_probability_one = model2.predict_proba(xstest)[:,1]
+print(predictions2_probability_one[0:10])
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
+accuracy_score(ytest,predictions)
+
+accuracy_score(ystest,predictions2)
+confusion_matrix(ytest,predictions)
+confusion_matrix(ystest,predictions2)
+
+ytest.value_counts()
+print(classification_report(ytest,predictions))
+
+
+
+
+###MULTIPLE LINER REGRESSIOM
+import pandas as pd
+import matplotlib.pyplot as plt
+data = pd.read_csv("company.csv")
+data
+data.head()
+data.shape
+data.info()
+from sklearn.linear_model import LinearRegression
+x = data.iloc[:,:-1].values
+y = data.iloc[:,-1].values
+x.shape
+
+y.shape
+from sklearn.model_selection import train_test_split
+xtrain,xtest,ytrain,ytest = train_test_split(x,y,random_state = 1,test_size =0.25)
+
+xtrain.shape
+xtest.shape
+regressor = LinearRegression()
+regressor.fit(xtrain,ytrain)
+predictions = regressor.predict(xtest)
+results = pd.DataFrame({'Actual':ytest,'Predictions':predictions})
+from sklearn.metrics import mean_absolute_error,mean_squared_error,r2_score
+mean_squared_error(ytest,predictions)
+r2_score(ytest,predictions)
+data.plot(x='TV', y = 'Sales',style = 'o')
+data.plot(x='Radio', y = 'Sales',style = 'o')
+data.plot(x='Newspaper', y = 'Sales',style = 'o')
+
+
+
+#####################                  PRAC 3 LASSOO REGRESSION######################
+
+#Aim: Hyperparameter tuning for lasso regression can be done in python without using lassoCV API
+
+import pandas as pd
+df = pd.read_csv("BostonHousing.csv")
+df.head(3)
+x = df.iloc[:,:-1]
+x.shape
+y = df.iloc[:,-1]
+y.shape
+from sklearn.linear_model import Lasso
+model = Lasso()
+from sklearn.model_selection import train_test_split
+xtrain,xtest,ytrain,ytest = train_test_split(x,y,random_state = 1,test_size =0.25)
+model.fit(xtrain,ytrain)
+from sklearn.model_selection import RepeatedKFold
+cv = RepeatedKFold(n_splits = 10,n_repeats=3,random_state=1)
+from sklearn.metrics import r2_score
+ypred = model.predict(xtest)
+r2_score(ytest,ypred)
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+x_sc = sc.fit_transform(x)
+xtrain,xtest,ytrain,ytest = train_test_split(x_sc,y,random_state = 1,test_size =0.25)
+model1 = Lasso()
+parms = {'alpha':[0.00001,0.0001,0.001,0.01]}
+from sklearn.model_selection import GridSearchCV
+search = GridSearchCV(model1,parms,cv=cv)
+result = search.fit(x_sc,y)
+result.best_params_
+model2 = Lasso(alpha=0.01)
+model2.fit(xtrain,ytrain)
+ypred2 = model2.predict(xtest)
+r2_score(ytest,ypred2)
+
+
+#Analyzing how penalty parameters impact the features in Lasso Regression
+
+import pandas as pd
+df = pd.read_csv("BostonHousing.csv")
+df.head(3)
+df.sample(3)
+x = df.iloc[:,:-1]
+x.shape
+y = df.iloc[:,-1]
+y.shape
+sc = StandardScaler()
+x_sc = sc.fit_transform(x)
+x_sc
+from sklearn.linear_model import Lasso
+names = x.columns
+def lasso(alphas):
+    df1=pd.DataFrame()
+    df1['FeatureName'] = names
+    for alpha in alphas:
+        lasso = Lasso(alpha=alpha)
+        lasso.fit(x_sc,y)
+        column_name = 'Alpha = %f' %alpha
+        df1[column_name] = lasso.coef_
+    return df1
+lasso([0.001,0.001,0.01,0.1,0.5,1,10,100])
+
+
+
+################             prac 4 KMEANS (shopping datsaset) ########################
+
+import pandas as pd
+import matplotlib.pyplot as plt
+%matplotlib inline
+from sklearn.cluster import KMeans
+data = pd.read_csv("shopping-data.csv")
+data
+df=data.iloc[:,2:5]
+df
+
+distortion =[]
+k = range(2,10)
+
+for i in range(2,10):
+    Kmeanmodel = KMeans(n_clusters=i,max_iter=25)
+    Kmeanmodel.fit(df)
+    distortion.append(Kmeanmodel.inertia_) #inertia calculates the wss
+
+plt.plot(k, distortion, 'bo-')
+plt.xlabel("no. of cluster")
+plt.ylabel("WSS")
+plt.title("Elbow method")
+Kmeanmodelfinal = KMeans(n_clusters=5, max_iter=25)
+Kmeanmodelfinal.fit(df)
+
+Kmeanmodelfinal.cluster_centers_
+
+Kmeanmodelfinal.labels_
+
+
+final_model=KMeans(n_clusters=5,max_iter=25)
+final_model.fit(df)
+final_model.cluster_centers_
+final_model.labels_
+plt.scatter(df['Annual Income (k$)'],df['Spending Score (1-100)'],df['Age'],c=final_model.labels_)
+
+
+
+
+
+
+
+######################################      PRAC 5   HIRERCHIAL CLUSTERING############################
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import scipy.cluster.hierarchy as shc
+data=pd.read_csv("shopping-data.csv")
+data.head()
+data.shape
+data=data.iloc[:,2:5]
+data.head()
+plt.figure(figsize=(10,10))
+plt.title("Shopping Data Dendrogram")
+dend = shc.dendrogram(shc.linkage(data,method='ward'))
+from sklearn.cluster import AgglomerativeClustering
+cluster_model = AgglomerativeClustering(n_clusters=5,affinity='euclidean',linkage='ward')
+cluster_model.fit(data)
+print(cluster_model.labels_)
+plt.figure(figsize=(10,7))
+plt.scatter(data['Annual Income (k$)'],data['Spending Score (1-100)'],c=cluster_model.labels_)
+
+
+
+##############            PRAC 6 SVM                          ###     #################################################
+
+
+from sklearn.datasets import load_breast_cancer
+import pandas as pd
+dataset = load_breast_cancer()
+x = dataset.data
+x
+y = dataset.target
+from sklearn.model_selection import train_test_split
+xtrain,xtest,ytrain,ytest=train_test_split(x,y,test_size=0.25,random_state=1)
+from sklearn.svm import SVC
+model = SVC()
+model.fit(xtrain,ytrain)
+predictions = model.predict(xtest)
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
+accuracy_score(ytest,predictions)
+confusion_matrix(ytest,predictions)
+print(classification_report(ytest,predictions))
+
+
+
+
+################################     PRAC 7 PCA PRincipal COMPONENT        #######################################
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+dataset = load_iris()
+df = pd.DataFrame(dataset.data,columns = dataset.feature_names)
+df.head()
+x = df.iloc[:,:] #all columns
+x.head()
+from sklearn.preprocessing import StandardScaler
+x = StandardScaler().fit_transform(x)
+pca.components_
+x = pd.DataFrame(x)
+x.head()
+from sklearn.decomposition import PCA
+pca = PCA()
+x_pca = pca.fit_transform(x)
+x_pca = pd.DataFrame(x_pca)
+x_pca.head()
+# Variance covered by each component
+print("Explained Variance:", pca.explained_variance_)
+print("Proportion of Explained Variance:", pca.explained_variance_ratio_)
+print("Cumulative Proportion of Explained Variance:", np.cumsum(pca.explained_variance_ratio_))
+
+# Add the target variable to the DataFrame
+x_pca.columns = ['PC1', 'PC2', 'PC3', 'PC4']
+
+# Display the first few rows of the DataFrame with the target variable
+print(x_pca.head())
+#pc 1 = 72 , pc1+pc2 = 96, pc1+pc2+pc3 = 99
+#pc1 and pc2 imp as they bothe cover 96%
+
+PC_values = np.arange(pca.n_components_)+1
+plt.plot(PC_values,pca.explained_variance_ratio_,'ro-')
+
+plt.title("Scree Plot")
+plt.xlabel("Principal Components")
+plt.ylabel("Proportion of Explained Variance")
+plt.show()
+
+plt.bar(PC_values,pca.explained_variance_ratio_)
+
+
+
+################################     PRAC 8 ANOMALY DETECTIONNNN      #######################################
+
+
+
+!pip install faker
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from faker import Faker
+
+fake = Faker()
+Faker.seed(4321)
+names_list = []
+for i in range(100):
+    names_list.append(fake.name())
+names_list
+
+np.random.seed(7)
+salaries = []
+for i in range(100):
+    salary = np.random.randint(1000,2500)
+    salaries.append(salary)
+salaries
+
+df = pd.DataFrame({'Person':names_list,'salary':salaries})
+df.head()
+df.at[16,'salary']=23
+df.at[65,'salary']=17
+print(df.loc[16])
+print(df.loc[65])
+
+
+df['salary'].plot(kind='box')
+
+
+df['salary'].plot(kind='hist')
+
+
+raw_salary = df['salary'].values
+raw_salary
+
+
+raw_salary = raw_salary.reshape(-1,1)
+raw_salary
+
+
+from sklearn.cluster import KMeans
+
+cm = KMeans(n_clusters=4)
+
+cm.fit(raw_salary)
+
+cm_labels=cm.labels_
+
+plt.scatter(raw_salary,np.arange(0,100),c=cm_labels)
+
+df['class']=0
+df['class']
+
+
+df.at[16,'class']=1
+df.at[65,'class']=1
+
+
+print(df.at[16,'class'])
+
+
+df['class'].values
+
+!pip install pyod
+from pyod.models.knn import KNN
+
+x=df['salary'].values.reshape(-1,1)
+
+y = df['class'].values
+
+clf = KNN(contamination = 0.02,n_neighbors = 5)
+clf.fit(x)
+
+y_train_scores = clf.decision_scores_
+y_train_scores
+
+x_test = np.array([[35.]])
+
+clf.predict(x_test)
+
+x_test2 = np.array([[1005.]])
+clf.predict(x_test2)
+
+
+
+
+################################     PRAC 9 NeuRAL NETWORK     
+#######################################
+
+from sklearn.datasets import make_classification
+from sklearn.linear_model import Perceptron
+
+X,y= make_classification(n_samples=1000, n_features=10, n_redundant=0, random_state=1)
+
+
+print(X[1])
+
+model=Perceptron()
+
+model.fit(X,y)
+
+row= [-1.31476667, -0.30227007,  1.46045354,  0.11020856,  1.00241437, -0.67328735,
+ -0.74112646, -0.49891923,  1.43489705, -1.62204078]
+
+yhat= model.predict([row])
+
+print("Pedicted Class: %d" % yhat)
 
