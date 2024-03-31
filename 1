@@ -1,545 +1,414 @@
-#####################            PRAC 1  LINEAR REGRESSION           ###################### 
+1111111111111111111111111111111111111                             Practical-1 data cleaning                         111111111111111111111111111111111111111
+
+flight = read.csv("flights.csv")
+View(flight)
+summary(flight) 
+#dimensions
+ dim(flight)
+#changing name
+ names(flight)[21] = 'type of passenger'
+ flight
+#max fare
+ max(flight$total.fare)
+#missing values in age
+ flight$age[is.na(flight$age)] = round(mean(flight$age, na.rm = TRUE))
+ flight$age
+#missing values in adult 
+flight$'type of passenger'[flight$`type of passenger`%in%c('')] = 'Adult'
+flight
+#mean fare
+mean(flight$total.fare, na.rm = TRUE)
+#deleting rows with no verification
+flight[flight$verification.details !='',]
+#to see international bookings
+fc = flight[flight$type.of.booking == 'International',]
+fc
+#transforming
+flight$gender[flight$gender == "Male"] = "M"
+flight$gender[flight$gender == "male"] = "M"
+flight$gender[flight$gender == "Female"] = "F"
+flight$gender[flight$gender == "female"] = "F"
+flight
+#replacing flight possibility % exceeding 100 with 100
+flight$flight.possibility.percentage[flight$flight.possibility.percentage > 100] = 100
+flight
 
 
 
-#AIM: Implementing Simple Linear Regression Model
+22222222222222222222222                         Practical-2 data pre-processing, exploratory analysis and visualization                222222222222222222222222222
 
-import pandas as pd
-import matplotlib.pyplot as plt
+#package
+library(caret)
+#data pre-processing
+data("iris")
+View(iris)
+#dimensions
+dim(iris)
+#type of each attribute
+sapply(iris, class)
+head(iris)
+summary(iris)
+#creating validation set
+validation = createDataPartition(iris$Species, p = 0.8, list = FALSE)
+validation20 = iris[-validation,]
 
-url = 'http://bit.ly/w-data'
+iris = iris[validation,]
+View(iris)
+#visualizing the data
+x = iris[,1:4]
+y = iris[,5]
+#univariate plots
+boxplot(x[,1], main = names(iris)[1])
+#plotting the area
+par(mfrow = c(1,4))
+for (i in 1:4){boxplot(x[i], main=names(iris)[i])}
+#multivariate plots
+#scatter
+dev.off()
+featurePlot(x=x, y=y, plot = "pairs")
 
 
-data = pd.read_csv(url)
-data
+333333333333333333333333333                           Practical-3 CLASSIFICATION                                           33333333333333333333333
 
-data.shape
+#3a on iris dataset
 
-data.info()
+data("iris")
+View(iris)
+summary(iris)
+set.seed(555)
+#partitioning the data
+ind = sample(2, nrow(iris), replace = TRUE, prob = c(0.8, 0.2))
+#storing
+train = iris[ind ==1,]
+train
+test = iris[ind ==2,]
+test
+#packages for decision tree
+library(party)
+library(rpart)
+library(rpart.plot)
+#creating decision tree for train data
+tree = rpart(Species~.,train)
+rpart.plot(tree)
+#creating decision tree for test data
+tree1 = rpart(Species~., test)
+rpart.plot(tree1)
+
+#3b using titanic dataset
+
+library(caret)
+titanic = read.csv("Titanic (1).csv")
+summary(titanic)
+#selecting only 4 columns for analysis
+titanic = titanic[,c("PClass","Age","Sex","Survived")]
+#using as.factor
+titanic$Survived = as.factor(ifelse(titanic$Survived==0,"Died","Survived"))
+titanic$PClass = as.factor(titanic$PClass)
+titanic$Sex = as.factor(titanic$Sex)
+titanic
+#datatype
+str(titanic)
+#cleaning the data
+#omitting na's
+titanic = na.omit(titanic)
+set.seed(9999)
+View(titanic)
+#partitioning the data
+train = createDataPartition(titanic[,"Survived"], p=0.8, list = FALSE)
+titanic.trn = titanic[train,]
+titanic.tst = titanic[-train,]
+#cross validation
+ctrl = trainControl(method = "cv", number = 10)
+fit.cv = train(Survived~., data= titanic.trn, method = "rpart", trControl = ctrl)
+#predicting
+pred = predict(fit.cv, titanic.tst)
+pred
+#creating a confusion matrix
+confusionMatrix(table(titanic.tst[, "Survived"],pred))
+print(fit.cv)
+#plotting
+plot(fit.cv)
+library(rpart.plot)
+rpart.plot(fit.cv$finalModel)
 
 
-data.plot(x='Hours', y = 'Scores',style = 'o')
-plt.xlabel('Hours Studies')
-plt.ylabel("Score Gained")
 
-x = data.iloc[:,:-1].values
-y = data.iloc[:,-1].values
+44444444444444444444444444444444444                            #practical-4 Naive BAYESSS                                   44444444444444444444444444444444444
+#4a using cars dataset
 
-from sklearn.model_selection import train_test_split
+data = read.csv("cars.csv")
+print(data)
+#datatype
+str(data)
+#packages
+library(e1071)
+library(caTools)
+library(caret)
+#splitting data
+sp = sample.split(data$stolen, SplitRatio = 0.8)
+train = subset(data, sp=="TRUE")
+train
+test = subset(data, sp =="FALSE")
+test
+set.seed(120)
+#fitting model
+classifier = naiveBayes(stolen~., data = train)
+classifier
+#predicting
+y_pred = predict(classifier,  newdata = test)
+#confusion matrix
+cmm = table(test$stolen, y_pred)
+cmm
 
-xtrain,xtest,ytrain,ytest = train_test_split(x,y,random_state = 1,test_size =0.2)
+#4b using flights dataset
 
-from sklearn.linear_model import LinearRegression
+data1 = read.csv("flights.csv")
+str(data1)
+#packages
+library(e1071)
+library(caret)
+library(caTools)
+#splitting the data
+sp = sample.split(data1$meal.served, SplitRatio = 0.8)
+train = subset(data1, sp=="TRUE")
+train
+test = subset(data1, sp=="FALSE")
+test
+set.seed(120)
+#fitting model
+classifier1 = naiveBayes(meal.served~., data= train)
+classifier1
+#predicting
+y_pred = predict(classifier1, newdata=test)
+#confusion matrix
+cmm = table(test$meal.served, y_pred)
+cmm
 
-regressor=LinearRegression()
 
-regressor.fit(xtrain,ytrain)
 
-print(regressor.coef_)
+5555555 5555555555555555555                           #Pratical- 5 DBSCAN                        55555555555555555555555555555555
 
-print(regressor.intercept_)
+data("iris")
+str(iris)
+#storing last variable
+new = iris[,-5]
+new
+#packages
+library(fpc)
+library(dbscan)
+#knn
+kNNdistplot(new, k=3)
+abline(h=0.5)
+#clustering
+set.seed(123)
+f = fpc::dbscan(new, eps = 0.5, MinPts = 4)
+f
+#or
+d = dbscan::dbscan(new,0.5,4)
+d
+#plotting
+library(factoextra)
+fviz_cluster(f,new, geom = "point")
 
-line = regressor.coef_ * x + regressor.intercept_
-plt.scatter(x,y)
-plt.plot(x,line)
-ypred = regressor.predict(xtest)
-ypred
-xtest
-df = pd.DataFrame({'Actual':ytest,'Predicted':ypred})
+
+
+6666666666666666666666666                            #practical-6 HIERARCHIAL clustering                                   66666666666666666666666666
+
+df = read.csv("agespend.csv", header = TRUE)
 df
-from sklearn.metrics import mean_absolute_error
-
-print(mean_absolute_error(ytest,ypred))
-
-
-
-#####################            PRAC 2 LOGISTIC REGRESSION           ###################### 
-
-
-#LOGISTIC REGRESSION with pandas
-
-from sklearn.datasets import load_breast_cancer
-import pandas as pd
-
-dataset = load_breast_cancer()
-
-df = pd.DataFrame(dataset.data, columns = dataset.feature_names)
-
-df.shape
-
-df.sample(2)
-df['class']=dataset.target
-
-df.shape
-
-df.sample(2)
-from sklearn.model_selection import train_test_split
-
-x = df.iloc[:,:-1].values
-
-x.shape
-
-y = df.iloc[:,-1].values
-y.shape
-
-xtrain,xtest,ytrain,ytest = train_test_split(x,y,random_state = 1,test_size =0.3)
-
-
-xtrain.shape
-xtest.shape
-ytrain.shape
-ytest.shape
-from sklearn.linear_model import LogisticRegression
-classifier = LogisticRegression()
-classifier.fit(xtrain,ytrain)
-
-predictions = classifier.predict(xtest)
-predictions_probability = classifier.predict_proba(xtest)
-print(predictions_probability[0:10])
-predictions_probability_zero = classifier.predict_proba(xtest)[:,0]
-print(predictions_probability_zero[0:10])
-predictions_probability_one = classifier.predict_proba(xtest)[:,1]
-print(predictions_probability_one[0:10])
-df['class'].value_counts()
-
-from sklearn.metrics import accuracy_score,confusion_matrix
-
-accuracy_score(ytest,predictions)
-confusion_matrix(ytest,predictions)
-
-
-#LOGISTIC REGRESSION without pandas
-
-from sklearn.datasets import load_breast_cancer
-
-dataset = load_breast_cancer()
-x = dataset.data
-y = dataset.target
-
-from sklearn.model_selection import train_test_split
-xtrain,xtest,ytrain,ytest = train_test_split(x,y,random_state = 1,test_size =0.25)
-from sklearn.linear_model import LogisticRegression
-classifier = LogisticRegression()
-classifier.fit(xtrain,ytrain)
-predictions = classifier.predict(xtest)
-predictions_probability = classifier.predict_proba(xtest)
-print(predictions_probability[0:10])
-predictions_probability_zero = classifier.predict_proba(xtest)[:,0]
-print(predictions_probability_zero[0:10])
-
-predictions_probability_one = classifier.predict_proba(xtest)[:,1]
-print(predictions_probability_one[0:10])
-from sklearn.metrics import confusion_matrix,accuracy_score
-
-accuracy_score(ytest,predictions)
-confusion_matrix(ytest,predictions)
-
-Practical 2A Logistic Regression on Diabetes Dataset
-
-import pandas as pd
-
-df = pd.read_csv('diabetes.csv',header=None,names=['Pregnancies','Glucose','BloodPressure',
-                                                   'SkinThicknes','Insulin','BMI','Diabetes','Age','Class'])
-
-
-df.sample(2)
-df.shape
-
-df.info()
-
-X = df.iloc[:,:-1]
-from sklearn.preprocessing import StandardScaler
-
-sc = StandardScaler()
-Xscaled = sc.fit_transform(X)
-X.shape
-y = df.iloc[:,-1]
-y.shape
-from sklearn.model_selection import train_test_split
-xtrain,xtest,ytrain,ytest=train_test_split(X,y,test_size=0.25,random_state=1)
-xstrain,xstest,ystrain,ystest=train_test_split(Xscaled,y,test_size=0.25,random_state=1)
-xtrain.shape
-xtest.shape
-ytrain.shape
-ytest.shape
-from sklearn.linear_model import LogisticRegression
-model=LogisticRegression()
-model2=LogisticRegression()
-model.fit(xtrain,ytrain)
-model2.fit(xstrain,ystrain)
-df['Class'].value_counts()
-predictions=model.predict(xtest)
-predictions_probability = model.predict_proba(xtest)
-print(predictions_probability[0:10])
-predictions_probability_zero = model.predict_proba(xtest)[:,0]
-print(predictions_probability_zero[0:10])
-predictions_probability_one = model.predict_proba(xtest)[:,1]
-print(predictions_probability_one[0:10])
-predictions2=model2.predict(xstest)
-predictions2_probability = model2.predict_proba(xstest)
-print(predictions2_probability[0:10])
-
-predictions2_probability_zero = model2.predict_proba(xstest)[:,0]
-print(predictions2_probability_zero[0:10])
-
-predictions2_probability_one = model2.predict_proba(xstest)[:,1]
-print(predictions2_probability_one[0:10])
-from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
-accuracy_score(ytest,predictions)
-
-accuracy_score(ystest,predictions2)
-confusion_matrix(ytest,predictions)
-confusion_matrix(ystest,predictions2)
-
-ytest.value_counts()
-print(classification_report(ytest,predictions))
+df$age
+#packages
+library(factoextra)
+library(cluster)
+#distance of age
+res.dist = dist(df$age, method = "euclidean")
+res.dist
+#matrix format
+as.matrix(res.dist)
+#hierarchical cluster and dendrogram
+res.hc = hclust(res.dist, method = "complete")
+res.hc
+plot(res.hc)
+#clustering
+kcl = cutree(res.hc, k=4)
+kcl
+table(kcl)
+#adding colors
+fviz_dend(res.hc, k=4, cex = 0.8, k_colors = c("#1B9E77", "#D95F02", "#7570B3", "#E7298A"),
+          color_labels_by_k = TRUE, rect = TRUE)
+#forming cluster wrt height
+height.cl = cutree(res.hc, h=20)
+height.cl
+table(height.cl)
+fviz_dend(res.hc, k=2, cex = 0.8, k_colors = c( "#7570B3", "#E7298A"),
+          color_labels_by_k = TRUE, rect = TRUE)
 
 
 
+7777777777777777777777777777                      #Practical-7                   777777777777777777777777777777777777777777
 
-###MULTIPLE LINER REGRESSIOM
-import pandas as pd
-import matplotlib.pyplot as plt
-data = pd.read_csv("company.csv")
-data
-data.head()
-data.shape
-data.info()
-from sklearn.linear_model import LinearRegression
-x = data.iloc[:,:-1].values
-y = data.iloc[:,-1].values
-x.shape
+#########################                      assesing cluster tendency                               ###########################
 
-y.shape
-from sklearn.model_selection import train_test_split
-xtrain,xtest,ytrain,ytest = train_test_split(x,y,random_state = 1,test_size =0.25)
-
-xtrain.shape
-xtest.shape
-regressor = LinearRegression()
-regressor.fit(xtrain,ytrain)
-predictions = regressor.predict(xtest)
-results = pd.DataFrame({'Actual':ytest,'Predictions':predictions})
-from sklearn.metrics import mean_absolute_error,mean_squared_error,r2_score
-mean_squared_error(ytest,predictions)
-r2_score(ytest,predictions)
-data.plot(x='TV', y = 'Sales',style = 'o')
-data.plot(x='Radio', y = 'Sales',style = 'o')
-data.plot(x='Newspaper', y = 'Sales',style = 'o')
-
-
-
-#####################                  PRAC 3 LASSOO REGRESSION######################
-
-#Aim: Hyperparameter tuning for lasso regression can be done in python without using lassoCV API
-
-import pandas as pd
-df = pd.read_csv("BostonHousing.csv")
-df.head(3)
-x = df.iloc[:,:-1]
-x.shape
-y = df.iloc[:,-1]
-y.shape
-from sklearn.linear_model import Lasso
-model = Lasso()
-from sklearn.model_selection import train_test_split
-xtrain,xtest,ytrain,ytest = train_test_split(x,y,random_state = 1,test_size =0.25)
-model.fit(xtrain,ytrain)
-from sklearn.model_selection import RepeatedKFold
-cv = RepeatedKFold(n_splits = 10,n_repeats=3,random_state=1)
-from sklearn.metrics import r2_score
-ypred = model.predict(xtest)
-r2_score(ytest,ypred)
-from sklearn.preprocessing import StandardScaler
-sc = StandardScaler()
-x_sc = sc.fit_transform(x)
-xtrain,xtest,ytrain,ytest = train_test_split(x_sc,y,random_state = 1,test_size =0.25)
-model1 = Lasso()
-parms = {'alpha':[0.00001,0.0001,0.001,0.01]}
-from sklearn.model_selection import GridSearchCV
-search = GridSearchCV(model1,parms,cv=cv)
-result = search.fit(x_sc,y)
-result.best_params_
-model2 = Lasso(alpha=0.01)
-model2.fit(xtrain,ytrain)
-ypred2 = model2.predict(xtest)
-r2_score(ytest,ypred2)
-
-
-#Analyzing how penalty parameters impact the features in Lasso Regression
-
-import pandas as pd
-df = pd.read_csv("BostonHousing.csv")
-df.head(3)
-df.sample(3)
-x = df.iloc[:,:-1]
-x.shape
-y = df.iloc[:,-1]
-y.shape
-sc = StandardScaler()
-x_sc = sc.fit_transform(x)
-x_sc
-from sklearn.linear_model import Lasso
-names = x.columns
-def lasso(alphas):
-    df1=pd.DataFrame()
-    df1['FeatureName'] = names
-    for alpha in alphas:
-        lasso = Lasso(alpha=alpha)
-        lasso.fit(x_sc,y)
-        column_name = 'Alpha = %f' %alpha
-        df1[column_name] = lasso.coef_
-    return df1
-lasso([0.001,0.001,0.01,0.1,0.5,1,10,100])
-
-
-
-################             prac 4 KMEANS (shopping datsaset) ########################
-
-import pandas as pd
-import matplotlib.pyplot as plt
-%matplotlib inline
-from sklearn.cluster import KMeans
-data = pd.read_csv("shopping-data.csv")
-data
-df=data.iloc[:,2:5]
+df = data("iris")
 df
-
-distortion =[]
-k = range(2,10)
-
-for i in range(2,10):
-    Kmeanmodel = KMeans(n_clusters=i,max_iter=25)
-    Kmeanmodel.fit(df)
-    distortion.append(Kmeanmodel.inertia_) #inertia calculates the wss
-
-plt.plot(k, distortion, 'bo-')
-plt.xlabel("no. of cluster")
-plt.ylabel("WSS")
-plt.title("Elbow method")
-Kmeanmodelfinal = KMeans(n_clusters=5, max_iter=25)
-Kmeanmodelfinal.fit(df)
-
-Kmeanmodelfinal.cluster_centers_
-
-Kmeanmodelfinal.labels_
-
-
-final_model=KMeans(n_clusters=5,max_iter=25)
-final_model.fit(df)
-final_model.cluster_centers_
-final_model.labels_
-plt.scatter(df['Annual Income (k$)'],df['Spending Score (1-100)'],df['Age'],c=final_model.labels_)
-
-
-
-
-
-
-
-######################################      PRAC 5   HIRERCHIAL CLUSTERING############################
-
-import pandas as pd
-import matplotlib.pyplot as plt
-import scipy.cluster.hierarchy as shc
-data=pd.read_csv("shopping-data.csv")
-data.head()
-data.shape
-data=data.iloc[:,2:5]
-data.head()
-plt.figure(figsize=(10,10))
-plt.title("Shopping Data Dendrogram")
-dend = shc.dendrogram(shc.linkage(data,method='ward'))
-from sklearn.cluster import AgglomerativeClustering
-cluster_model = AgglomerativeClustering(n_clusters=5,affinity='euclidean',linkage='ward')
-cluster_model.fit(data)
-print(cluster_model.labels_)
-plt.figure(figsize=(10,7))
-plt.scatter(data['Annual Income (k$)'],data['Spending Score (1-100)'],c=cluster_model.labels_)
-
-
-
-##############            PRAC 6 SVM                          ###     #################################################
-
-
-from sklearn.datasets import load_breast_cancer
-import pandas as pd
-dataset = load_breast_cancer()
-x = dataset.data
-x
-y = dataset.target
-from sklearn.model_selection import train_test_split
-xtrain,xtest,ytrain,ytest=train_test_split(x,y,test_size=0.25,random_state=1)
-from sklearn.svm import SVC
-model = SVC()
-model.fit(xtrain,ytrain)
-predictions = model.predict(xtest)
-from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
-accuracy_score(ytest,predictions)
-confusion_matrix(ytest,predictions)
-print(classification_report(ytest,predictions))
-
-
-
-
-################################     PRAC 7 PCA PRincipal COMPONENT        #######################################
-
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.datasets import load_iris
-dataset = load_iris()
-df = pd.DataFrame(dataset.data,columns = dataset.feature_names)
-df.head()
-x = df.iloc[:,:] #all columns
-x.head()
-from sklearn.preprocessing import StandardScaler
-x = StandardScaler().fit_transform(x)
-pca.components_
-x = pd.DataFrame(x)
-x.head()
-from sklearn.decomposition import PCA
-pca = PCA()
-x_pca = pca.fit_transform(x)
-x_pca = pd.DataFrame(x_pca)
-x_pca.head()
-# Variance covered by each component
-print("Explained Variance:", pca.explained_variance_)
-print("Proportion of Explained Variance:", pca.explained_variance_ratio_)
-print("Cumulative Proportion of Explained Variance:", np.cumsum(pca.explained_variance_ratio_))
-
-# Add the target variable to the DataFrame
-x_pca.columns = ['PC1', 'PC2', 'PC3', 'PC4']
-
-# Display the first few rows of the DataFrame with the target variable
-print(x_pca.head())
-#pc 1 = 72 , pc1+pc2 = 96, pc1+pc2+pc3 = 99
-#pc1 and pc2 imp as they bothe cover 96%
-
-PC_values = np.arange(pca.n_components_)+1
-plt.plot(PC_values,pca.explained_variance_ratio_,'ro-')
-
-plt.title("Scree Plot")
-plt.xlabel("Principal Components")
-plt.ylabel("Proportion of Explained Variance")
-plt.show()
-
-plt.bar(PC_values,pca.explained_variance_ratio_)
-
-
-
-################################     PRAC 8 ANOMALY DETECTIONNNN      #######################################
-
-
-
-!pip install faker
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from faker import Faker
-
-fake = Faker()
-Faker.seed(4321)
-names_list = []
-for i in range(100):
-    names_list.append(fake.name())
-names_list
-
-np.random.seed(7)
-salaries = []
-for i in range(100):
-    salary = np.random.randint(1000,2500)
-    salaries.append(salary)
-salaries
-
-df = pd.DataFrame({'Person':names_list,'salary':salaries})
-df.head()
-df.at[16,'salary']=23
-df.at[65,'salary']=17
-print(df.loc[16])
-print(df.loc[65])
-
-
-df['salary'].plot(kind='box')
-
-
-df['salary'].plot(kind='hist')
-
-
-raw_salary = df['salary'].values
-raw_salary
-
-
-raw_salary = raw_salary.reshape(-1,1)
-raw_salary
-
-
-from sklearn.cluster import KMeans
-
-cm = KMeans(n_clusters=4)
-
-cm.fit(raw_salary)
-
-cm_labels=cm.labels_
-
-plt.scatter(raw_salary,np.arange(0,100),c=cm_labels)
-
-df['class']=0
-df['class']
-
-
-df.at[16,'class']=1
-df.at[65,'class']=1
-
-
-print(df.at[16,'class'])
-
-
-df['class'].values
-
-!pip install pyod
-from pyod.models.knn import KNN
-
-x=df['salary'].values.reshape(-1,1)
-
-y = df['class'].values
-
-clf = KNN(contamination = 0.02,n_neighbors = 5)
-clf.fit(x)
-
-y_train_scores = clf.decision_scores_
-y_train_scores
-
-x_test = np.array([[35.]])
-
-clf.predict(x_test)
-
-x_test2 = np.array([[1005.]])
-clf.predict(x_test2)
-
-
-
-
-################################     PRAC 9 NeuRAL NETWORK     
-#######################################
-
-from sklearn.datasets import make_classification
-from sklearn.linear_model import Perceptron
-
-X,y= make_classification(n_samples=1000, n_features=10, n_redundant=0, random_state=1)
-
-
-print(X[1])
-
-model=Perceptron()
-
-model.fit(X,y)
-
-row= [-1.31476667, -0.30227007,  1.46045354,  0.11020856,  1.00241437, -0.67328735,
- -0.74112646, -0.49891923,  1.43489705, -1.62204078]
-
-yhat= model.predict([row])
-
-print("Pedicted Class: %d" % yhat)
-
+library(clustertend)
+head(iris, 3)
+df = iris[,-5]
+df
+#random dataset
+random_df = apply(df,2, function(x){runif(length(x),min(x),max(x))})
+random_df
+#standardizing data
+random_df = scale(random_df)
+random_df
+#plotting actual df
+fviz_pca_ind(prcomp(df), title="PCA of iris", habillage = iris$Species,
+             palette = "jco",geom = "point", ggtheme= theme_classic(), legend="bottom")
+#plottin random df
+fviz_pca_ind(prcomp(random_df), title="PCA of iris", habillage = iris$Species,
+             palette = "jco",geom = "point", ggtheme= theme_classic(), legend="bottom")
+#applying kmeans for acutal df
+km.res = kmeans(df,3)
+fviz_cluster(list(data=df, cluster=km.res$cluster),ellipse.type = "norm",
+             geom="point", stand = FALSE, palette="jco",ggtheme = theme_classic())
+#applying kmeans for random df
+km.res = kmeans(random_df,3)
+fviz_cluster(list(data=random_df, cluster=km.res$cluster),ellipse.type = "norm",
+             geom="point", stand = FALSE, palette="jco",ggtheme = theme_classic())
+#applying hopkins stats for actual df
+library(hopkins)
+hopkins(df, nrow(df)-1)
+
+hopkins(random_df,nrow(random_df)-1)
+
+########################                              assesing cluster library                       #########################################
+
+data("USArrests")
+head(USArrests,5)
+#scaling
+df = scale(USArrests)
+df
+#applying various methods to find optimal no of clusters
+#1. elbow method
+fviz_nbclust(df,kmeans,method = "wss")
+#2. silhoutte method
+fviz_nbclust(df,kmeans, method = "silhouette",nboot = 50)
+#3. gap stat method
+fviz_nbclust(df,kmeans, nstart=25, method = "gap_stat",nboot = 50)
+#4. kmeans
+library(NbClust)
+nb =NbClust(df, distance = "euclidean",min.nc = 2,max.nc = 10, method = "kmeans")
+
+
+ 
+88888888888888888888                              Practical - 8 ASSOCIATION RULESS                         888888888888888888888888888888888888
+
+library(Matrix)
+library(arules)
+library(RColorBrewer)
+data("Groceries")
+View(Groceries@itemInfo)
+rules = apriori(Groceries)
+rules = apriori(Groceries, parameter = list(supp=0.01, conf= 0.2))
+print(rules)
+inspect(rules[221:232])
+#visulalizing
+arules::itemFrequencyPlot(Groceries, topN= 20, col = brewer.pal(8, 'Pastel2'),
+                          main='Relative Item Frequency Plot', type = 'relative',
+                          ylab='Item frequency (Relative)')
+#association using eclat
+frequentItems = eclat(Groceries, parameter = list(supp=0.07, maxlen=15))
+print(frequentItems)
+inspect(frequentItems)
+#performing analysis
+#sorting by confidence
+rules_conf = sort(rules, by="confidence",decreasing = TRUE)
+inspect(rules_conf)
+#sorting by lift
+rules_lift = sort(rules, by='lift', decreasing = TRUE)
+inspect(rules_lift)
+#viewing items bought along milk
+rules = apriori(data = Groceries, parameter= list(supp=0.01, conf=0.08),
+                appearance = list(default='lhs',rhs='whole milk'),control=list(verbose=F))
+inspect(rules[0:10])
+
+
+
+99999999999999999                               #practical - 9  SPATIAL data analysis                                            999999999999999999999999999
+
+library(tidyverse)
+library(sp)
+library(sf)
+library(mapview)
+fishdata = read_csv("fishdat.csv")
+str(fishdata)
+statloc = read_csv("statloc.csv")
+str(statloc)
+sgdat = st_read("sgdat.shp")
+head(sgdat)
+methods(class = "sf")
+#performing leftjoin
+alldata = left_join(fishdata,statloc, by="Reference")
+str(alldata)
+#plotting
+alldata = st_as_sf(alldata, coords = c("Longitude","Latitude"),crs = 4326)
+plot(alldata, max.plot= 12)
+#filtering data wrt particular year
+filt_data = alldata%>%filter(yr==2016)
+filt_data
+#plotting
+plot(filt_data$geometry)
+sgdata = st_read("sgdat.shx")
+#transforming crs to other value
+alldata = alldata%>%st_transform(crs = "WGS84")
+plot(alldata$geometry)
+#cordinates
+alldata = st_set_crs(alldata, 4326)
+sgdata = st_set_crs(sgdata, 4326)
+#visulalization
+mapview(sgdata, col.regions = 'green')+ mapview(alldata, zcol='Gear')
+
+
+10 10 10 10 10 10 10 10                       #Practical-10 NEURAL networks                  10 10 10 10 10 10 10 10 10 10
+
+data = read.csv("cereals.csv", header = TRUE)
+nrow(data)
+#making sample size for training
+samplesize = 0.60 * nrow(data)
+samplesize
+#picking 45 sample records
+index = sample(seq_len(nrow(data)), size = samplesize)
+index
+
+datatrain = data[index,]
+datatest = data[-index,]
+max = apply(data, 2, max)
+max
+min = apply(data, 2, min)
+min
+#scaling data
+scaled = as.data.frame(scale(data, center = min, scale=max-min))
+scaled
+library(neuralnet)
+#training
+traiNN = scaled[index,]
+traiNN
+testNN = scaled[-index,]
+testNN
+#fitting neural network
+NN = neuralnet(rating ~ calories+protein+fat+sodium+fiber,
+               traiNN, hidden = 3, linear.output = T)
+plot(NN)
+#predicting using nn
+predict_testNN = compute(NN, testNN[,c(1:5)])
+predict_testNN = (predict_testNN$net.result * (max(data$rating)-
+                                                 min(data$rating)))+min(data$rating)
+predict_testNN
+#plotting
+plot(datatest$rating, predict_testNN, col='blue',pch=16,
+     ylab='Predicted rating NN', xlab="Real rating")
+abline(0,1)
+#calculation rmse
+RMSE.NN = (sum((datatest$rating - predict_testNN)^2)/nrow(datatest))^0.5
+RMSE.NN
+                                      
